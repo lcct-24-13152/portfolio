@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<!-- GitHub Pages static version. PHP/MySQL remains in index.php for Laragon. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of Cher Micole P. Lirio, BS Information Technology student.">
+    <title>Cher Micole P. Lirio | Portfolio</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+
+    <style>
+        /* =====================================================
+           RESUME PREVIEW MODAL AND ONE-PAGE PDF PRINTING
+           Added without removing the user's existing design.
+           ===================================================== */
+
+        .resume-pdf-modal {
+            position: fixed;
+            z-index: 99999;
+            inset: 0;
+            display: grid;
+            padding: 20px;
+            place-items: center;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+
+        .resume-pdf-modal.open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .resume-pdf-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(2, 8, 15, 0.86);
+            backdrop-filter: blur(12px);
+        }
+
+        .resume-pdf-dialog {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            width: min(1180px, 100%);
+            max-height: calc(100vh - 40px);
+            overflow: hidden;
+            border: 1px solid var(--border, rgba(165, 193, 224, 0.15));
+            border-radius: 24px;
+            background: var(--background-two, #0d192a);
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.42);
+            grid-template-rows: auto 1fr;
+        }
+
+        .resume-pdf-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding: 20px 22px;
+            border-bottom: 1px solid var(--border, rgba(165, 193, 224, 0.15));
+            background: var(--card, #111f33);
+        }
+
+        .resume-pdf-toolbar h2 {
+            margin: 4px 0 0;
+            font-size: 1.35rem;
+            letter-spacing: -0.03em;
+        }
+
+        .resume-pdf-toolbar-description {
+            display: block;
+            margin-top: 5px;
+            color: var(--muted, #92a1b5);
+            font-size: 0.78rem;
+        }
+
+        .resume-pdf-actions {
+            display: flex;
+            flex: 0 0 auto;
+            gap: 10px;
+        }
+
+        .resume-pdf-actions .button {
+            width: auto;
+        }
+
+        .resume-pdf-scroll {
+            overflow: auto;
+            padding: 30px;
+            background:
+                linear-gradient(rgba(20, 32, 48, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(20, 32, 48, 0.06) 1px, transparent 1px),
+                #cfd4db;
+            background-size: 22px 22px;
+        }
+
+        .resume-pdf-paper {
+            width: min(100%, 210mm);
+            min-height: 297mm;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 25px 75px rgba(0, 0, 0, 0.27);
+        }
+
+        /* Styled A4 resume inside the modal */
+        .resume-pdf-paper .resume-template {
+            width: 100%;
+            min-height: 297mm;
+            overflow: hidden;
+            border: 0;
+            border-radius: 0;
+            background: #ffffff;
+            color: #172033;
+            box-shadow: none;
+        }
+
+        .resume-pdf-paper .resume-template,
+        .resume-pdf-paper .resume-template * {
+            box-sizing: border-box;
+        }
+
+        .resume-pdf-paper .resume-top {
+            background:
+                linear-gradient(110deg, rgba(19, 132, 95, 0.11), transparent 62%),
+                #ffffff;
+        }
+
+        .resume-pdf-paper .resume-top h3,
+        .resume-pdf-paper .resume-item h5 {
+            color: #172033;
+        }
+
+        .resume-pdf-paper .resume-top p,
+        .resume-pdf-paper .resume-block p,
+        .resume-pdf-paper .resume-block li {
+            color: #526176;
+        }
+
+        .resume-pdf-paper .resume-top span,
+        .resume-pdf-paper .resume-block h4 {
+            color: #117755;
+        }
+
+        .resume-pdf-paper .resume-label {
+            color: #356ed2 !important;
+        }
+
+        .resume-pdf-paper .resume-columns > aside {
+            background: #eef4f1;
+        }
+
+        .resume-pdf-paper .resume-photo {
+            border-color: #15966c;
+        }
+
+        @media (max-width: 760px) {
+            .resume-pdf-modal {
+                padding: 10px;
+            }
+
+            .resume-pdf-dialog {
+                max-height: calc(100vh - 20px);
+                border-radius: 17px;
+            }
+
+            .resume-pdf-toolbar {
+                align-items: stretch;
+                flex-direction: column;
+                padding: 17px;
+            }
+
+            .resume-pdf-actions {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+
+            .resume-pdf-actions .button {
+                width: 100%;
+            }
+
+            .resume-pdf-scroll {
+                padding: 12px;
+            }
+
+            .resume-pdf-paper {
+                width: 210mm;
+                transform: scale(0.55);
+                transform-origin: top left;
+                margin-bottom: calc(-297mm * 0.45);
+            }
+        }
+
+        /* Chrome/Edge PDF page setup */
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+
+        @media print {
+            html,
+            body {
+                width: 210mm !important;
+                height: 297mm !important;
+                min-height: 297mm !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: hidden !important;
+                background: #ffffff !important;
+            }
+
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            /*
+             * display:none removes the website from the print layout.
+             * This prevents the previous 9 blank pages.
+             */
+            body > *:not(#resumePdfModal) {
+                display: none !important;
+            }
+
+            #resumePdfModal,
+            #resumePdfModal * {
+                visibility: visible !important;
+            }
+
+            #resumePdfModal {
+                position: static !important;
+                display: block !important;
+                width: 210mm !important;
+                height: 297mm !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                pointer-events: auto !important;
+                background: #ffffff !important;
+            }
+
+            .resume-pdf-backdrop,
+            .resume-pdf-toolbar {
+                display: none !important;
+            }
+
+            .resume-pdf-dialog,
+            .resume-pdf-scroll,
+            .resume-pdf-paper {
+                position: static !important;
+                display: block !important;
+                width: 210mm !important;
+                min-width: 210mm !important;
+                max-width: 210mm !important;
+                height: 297mm !important;
+                min-height: 297mm !important;
+                max-height: 297mm !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: hidden !important;
+                border: 0 !important;
+                border-radius: 0 !important;
+                background: #ffffff !important;
+                box-shadow: none !important;
+                transform: none !important;
+            }
+
+            #resumePdfPaper .resume-template {
+                display: block !important;
+                width: 210mm !important;
+                height: 297mm !important;
+                min-height: 297mm !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: hidden !important;
+                border: 0 !important;
+                border-radius: 0 !important;
+                background: #ffffff !important;
+                color: #172033 !important;
+                box-shadow: none !important;
+                page-break-after: avoid !important;
+                page-break-before: avoid !important;
+                page-break-inside: avoid !important;
+                break-after: avoid-page !important;
+                break-before: avoid-page !important;
+                break-inside: avoid-page !important;
+            }
+
+            #resumePdfPaper .resume-top {
+                min-height: 54mm !important;
+                gap: 7mm !important;
+                padding: 6mm 8mm !important;
+                border-bottom: 1px solid #d9e0e7 !important;
+                background:
+                    linear-gradient(110deg, rgba(19, 132, 95, 0.11), transparent 62%),
+                    #ffffff !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid-page !important;
+            }
+
+            #resumePdfPaper .resume-photo {
+                width: 2in !important;
+                height: 2in !important;
+                min-width: 2in !important;
+                min-height: 2in !important;
+                max-width: 2in !important;
+                max-height: 2in !important;
+                overflow: hidden !important;
+                border: 2px solid #15966c !important;
+                border-radius: 4mm !important;
+                box-shadow: none !important;
+            }
+
+            #resumePdfPaper .resume-photo img {
+                display: block !important;
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+                object-position: center !important;
+            }
+
+            #resumePdfPaper .resume-top h3 {
+                margin: 0 !important;
+                color: #172033 !important;
+                font-size: 17pt !important;
+                line-height: 1.05 !important;
+            }
+
+            #resumePdfPaper .resume-top p {
+                margin-top: 1.5mm !important;
+                color: #526176 !important;
+                font-size: 9pt !important;
+                line-height: 1.25 !important;
+            }
+
+            #resumePdfPaper .resume-top span {
+                margin-top: 1.5mm !important;
+                color: #117755 !important;
+                font-size: 7.5pt !important;
+            }
+
+            #resumePdfPaper .resume-columns {
+                display: grid !important;
+                height: 243mm !important;
+                grid-template-columns: 34% 66% !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid-page !important;
+            }
+
+            #resumePdfPaper .resume-columns > aside,
+            #resumePdfPaper .resume-main {
+                height: 243mm !important;
+                padding: 5.5mm !important;
+                overflow: hidden !important;
+            }
+
+            #resumePdfPaper .resume-columns > aside {
+                border-right: 1px solid #d9e0e7 !important;
+                background: #eef4f1 !important;
+            }
+
+            #resumePdfPaper .resume-block {
+                margin: 0 !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid-page !important;
+            }
+
+            #resumePdfPaper .resume-block + .resume-block {
+                margin-top: 4.2mm !important;
+            }
+
+            #resumePdfPaper .resume-block h4 {
+                margin: 0 0 2mm !important;
+                color: #117755 !important;
+                font-size: 7.4pt !important;
+                line-height: 1.1 !important;
+                letter-spacing: 0.10em !important;
+            }
+
+            #resumePdfPaper .resume-block p,
+            #resumePdfPaper .resume-block li {
+                color: #526176 !important;
+                font-size: 7.4pt !important;
+                line-height: 1.28 !important;
+            }
+
+            #resumePdfPaper .resume-block ul {
+                margin: 0 !important;
+                padding-left: 4mm !important;
+            }
+
+            #resumePdfPaper .resume-block li + li {
+                margin-top: 0.7mm !important;
+            }
+
+            #resumePdfPaper .resume-item {
+                margin: 0 !important;
+                padding-left: 3.5mm !important;
+                border-left: 1.5px solid #cfd7df !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid-page !important;
+            }
+
+            #resumePdfPaper .resume-item + .resume-item {
+                margin-top: 2.7mm !important;
+            }
+
+            #resumePdfPaper .resume-label {
+                margin: 0 !important;
+                color: #356ed2 !important;
+                font-size: 6.6pt !important;
+                font-weight: 900 !important;
+                line-height: 1.15 !important;
+            }
+
+            #resumePdfPaper .resume-item h5 {
+                margin: 0.7mm 0 0 !important;
+                color: #172033 !important;
+                font-size: 8.3pt !important;
+                line-height: 1.2 !important;
+            }
+
+            #resumePdfPaper .resume-item h5 + p {
+                margin-top: 0.7mm !important;
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="#home" class="logo">PORTFOLIO</a>
+
+            <button class="menu-button" id="menuButton" type="button" aria-label="Open menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-links" id="navLinks">
+                <a href="#home" class="active">HOME</a>
+                <a href="#game">GAME</a>
+                <a href="#about">ABOUT</a>
+                <a href="#skills">SKILLS</a>
+                <a href="#projects">PROJECTS</a>
+                <a href="#resume">RESUME</a>
+                <a href="#contact">CONTACT</a>
+
+                <button class="theme-button" id="themeButton" type="button" aria-label="Change theme">
+                    ◐
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero section" id="home">
+            <div class="container hero-grid">
+                <div class="hero-content reveal">
+                    <p class="small-label">PERSONAL PORTFOLIO</p>
+
+                    <h1>CHER<br> MICOLE P.<br> LIRIO</h1>
+
+                    <p class="hero-title">BS INFORMATION TECHNOLOGY STUDENT</p>
+
+                    <p class="hero-description">
+                        I create clean, responsive, and functional websites using
+                        HTML, CSS, JavaScript, PHP, and MySQL.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="#game" class="button primary-button">PLAY GAME</a>
+                        <a href="#resume" class="button outline-button">VIEW RESUME</a>
+                    </div>
+                </div>
+
+                <div class="profile-card reveal">
+                    <div class="profile-card-top">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <div class="profile-card-body">
+                        <div class="profile-photo-frame">
+                            <img
+                                src="profile-photo-2x2.jpg"
+                                alt="Cher Micole P. Lirio"
+                                class="profile-photo">
+                        </div>
+
+                        <div class="profile-card-info">
+                            <p class="profile-name">CHER MICOLE P. LIRIO</p>
+                            <p>BS Information Technology Student</p>
+                            <p>Aspiring Web and System Developer</p>
+
+                            <div class="profile-tags">
+                                <span>WEB DEVELOPMENT</span>
+                                <span>PHP &amp; MYSQL</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section game-section" id="game">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="small-label">INTERACTIVE NAVIGATION</p>
+                    <h2>SNAKE GAME</h2>
+                    <p class="section-description">
+                        Move the snake using the arrow keys or WASD. Enter a category
+                        box to open that section.
+                    </p>
+                </div>
+
+                <div class="game-box reveal">
+                    <div class="game-top">
+                        <div class="score-box">
+                            SCORE:
+                            <strong id="score">0</strong>
+                        </div>
+
+                        <div id="gameMessage">PRESS ARROW KEYS OR WASD</div>
+
+                        <div class="game-actions">
+                            <button id="pauseButton" type="button">PAUSE</button>
+                            <button id="restartButton" type="button">RESTART</button>
+                        </div>
+                    </div>
+
+                    <div class="canvas-holder">
+                        <canvas id="snakeCanvas" width="960" height="520"></canvas>
+                    </div>
+
+                    <div class="mobile-controls">
+                        <button data-direction="up" type="button">▲</button>
+
+                        <div>
+                            <button data-direction="left" type="button">◀</button>
+                            <button id="mobilePause" type="button">●</button>
+                            <button data-direction="right" type="button">▶</button>
+                        </div>
+
+                        <button data-direction="down" type="button">▼</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="about">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="small-label">GET TO KNOW ME</p>
+                    <h2>ABOUT ME</h2>
+                </div>
+
+                <div class="about-layout">
+                    <article class="about-card reveal">
+                        <h3>Hello, I’m Cher.</h3>
+
+                        <p>
+                            I am a Bachelor of Science in Information Technology student
+                            at La Consolacion College Tanauan. I am interested in web
+                            development, system design, and creating simple solutions for
+                            real-life tasks.
+                        </p>
+
+                        <p>
+                            I enjoy learning new technologies and improving my skills in
+                            both front-end and back-end development.
+                        </p>
+                    </article>
+
+                    <div class="about-grid reveal">
+                        <article class="info-card">
+                            <strong>BSIT</strong>
+                            <span>COURSE</span>
+                        </article>
+
+                        <article class="info-card">
+                            <strong>WEB</strong>
+                            <span>FOCUS</span>
+                        </article>
+
+                        <article class="info-card">
+                            <strong>UI</strong>
+                            <span>DESIGN</span>
+                        </article>
+
+                        <article class="info-card">
+                            <strong>DEV</strong>
+                            <span>DEVELOPMENT</span>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section alternate-section" id="skills">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="small-label">WHAT I USE</p>
+                    <h2>SKILLS</h2>
+                </div>
+
+                <div class="skills-grid">
+                    <article class="skill-card reveal">
+                        <div class="skill-number">01</div>
+                        <h3>HTML & CSS</h3>
+                        <p>
+                            Creating organized page structures, responsive layouts,
+                            animations, and clean user interfaces.
+                        </p>
+                    </article>
+
+                    <article class="skill-card reveal">
+                        <div class="skill-number">02</div>
+                        <h3>JavaScript</h3>
+                        <p>
+                            Adding interactions, navigation, validation, games,
+                            and dynamic website functions.
+                        </p>
+                    </article>
+
+                    <article class="skill-card reveal">
+                        <div class="skill-number">03</div>
+                        <h3>PHP & MySQL</h3>
+                        <p>
+                            Building forms, CRUD functions, login systems,
+                            databases, and basic web applications.
+                        </p>
+                    </article>
+
+                    <article class="skill-card reveal">
+                        <div class="skill-number">04</div>
+                        <h3>UI Design</h3>
+                        <p>
+                            Designing simple, readable, and responsive interfaces
+                            for desktop and mobile devices.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="projects">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="small-label">SELECTED WORKS</p>
+                    <h2>PROJECTS</h2>
+                </div>
+
+                <div class="project-filters reveal">
+                    <button class="filter active" data-filter="all" type="button">ALL</button>
+                    <button class="filter" data-filter="one" type="button">PORTFOLIO</button>
+                    <button class="filter" data-filter="two" type="button">RESERVATION</button>
+                    <button class="filter" data-filter="three" type="button">MANAGEMENT</button>
+                </div>
+
+                <div class="project-grid">
+                    <article class="project-card reveal" data-category="one">
+                        <div class="project-image project-one">
+                            <span>01</span>
+                        </div>
+
+                        <div class="project-body">
+                            <p class="project-type">PERSONAL WEBSITE</p>
+                            <h3>Interactive Portfolio</h3>
+                            <p>
+                                A responsive portfolio with smooth transitions,
+                                resume sections, dark mode, and a Snake navigation game.
+                            </p>
+
+                            <div class="project-tools">
+                                <span>HTML</span>
+                                <span>CSS</span>
+                                <span>JAVASCRIPT</span>
+                            </div>
+
+                            <button class="project-open" data-project="1" type="button">
+                                VIEW DETAILS
+                            </button>
+                        </div>
+                    </article>
+
+                    <article class="project-card reveal" data-category="two">
+                        <div class="project-image project-two">
+                            <span>02</span>
+                        </div>
+
+                        <div class="project-body">
+                            <p class="project-type">WEB SYSTEM</p>
+                            <h3>Reservation System</h3>
+                            <p>
+                                A system concept for managing customer reservations,
+                                availability, schedules, and payment records.
+                            </p>
+
+                            <div class="project-tools">
+                                <span>PHP</span>
+                                <span>MYSQL</span>
+                                <span>JAVASCRIPT</span>
+                            </div>
+
+                            <button class="project-open" data-project="2" type="button">
+                                VIEW DETAILS
+                            </button>
+                        </div>
+                    </article>
+
+                    <article class="project-card reveal" data-category="three">
+                        <div class="project-image project-three">
+                            <span>03</span>
+                        </div>
+
+                        <div class="project-body">
+                            <p class="project-type">MANAGEMENT SYSTEM</p>
+                            <h3>Laundry Management</h3>
+                            <p>
+                                A system concept for customer transactions,
+                                services, inventory, receipts, and reports.
+                            </p>
+
+                            <div class="project-tools">
+                                <span>PHP</span>
+                                <span>MYSQL</span>
+                                <span>CRUD</span>
+                            </div>
+
+                            <button class="project-open" data-project="3" type="button">
+                                VIEW DETAILS
+                            </button>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section alternate-section" id="resume">
+            <div class="container">
+                <div class="resume-heading reveal">
+                    <div class="section-heading">
+                        <p class="small-label">MY BACKGROUND</p>
+                        <h2>RESUME</h2>
+                    </div>
+
+                    <button class="button primary-button" id="printResume" type="button">
+                        PRINT / SAVE PDF
+                    </button>
+                </div>
+
+                <article class="resume-template reveal" id="resumeTemplate">
+                    <div class="resume-top">
+                        <div class="resume-photo">
+                            <img
+                                src="profile-photo-2x2.jpg"
+                                alt="Cher Micole P. Lirio">
+                        </div>
+
+                        <div>
+                            <h3>CHER MICOLE P. LIRIO</h3>
+                            <p>BS Information Technology Student</p>
+                            <span>Philippines</span>
+                        </div>
+                    </div>
+
+                    <div class="resume-columns">
+                        <aside>
+                            <div class="resume-block">
+                                <h4>CONTACT</h4>
+                                <p>liriocher25@gmail.com</p>
+                                <p>09764332931</p>
+                                <p>Philippines</p>
+                            </div>
+
+                            <div class="resume-block">
+                                <h4>TECHNICAL SKILLS</h4>
+                                <ul>
+                                    <li>HTML and CSS</li>
+                                    <li>JavaScript</li>
+                                    <li>PHP and MySQL</li>
+                                    <li>Responsive Web Design</li>
+                                    <li>CRUD Operations</li>
+                                </ul>
+                            </div>
+
+                            <div class="resume-block">
+                                <h4>TOOLS</h4>
+                                <ul>
+                                    <li>Visual Studio Code</li>
+                                    <li>Laragon</li>
+                                    <li>phpMyAdmin</li>
+                                    <li>GitHub</li>
+                                    <li>Canva</li>
+                                    <li>Figma</li>
+                                </ul>
+                            </div>
+                        </aside>
+
+                        <div class="resume-main">
+                            <div class="resume-block">
+                                <h4>PROFILE</h4>
+                                <p>
+                                    BS Information Technology student interested in
+                                    web development, database systems, and responsive
+                                    interface design. Willing to learn and improve through
+                                    academic and personal projects.
+                                </p>
+                            </div>
+
+                            <div class="resume-block">
+                                <h4>EDUCATION</h4>
+
+                                <div class="resume-item">
+                                    <p class="resume-label">PRIMARY EDUCATION</p>
+                                    <h5>Lilyrose School</h5>
+                                    <p>Primary Level</p>
+                                </div>
+
+                                <div class="resume-item">
+                                    <p class="resume-label">SECONDARY EDUCATION</p>
+                                    <h5>La Consolacion College Tanauan</h5>
+                                    <p>Secondary Level</p>
+                                </div>
+
+                                <div class="resume-item">
+                                    <p class="resume-label">TERTIARY</p>
+                                    <h5>Bachelor of Science in Information Technology</h5>
+                                    <p>La Consolacion College Tanauan</p>
+                                </div>
+
+                                
+                            </div>
+
+                            <div class="resume-block">
+                                <h4>PROJECT EXPERIENCE</h4>
+
+                                <div class="resume-item">
+                                    <p class="resume-label">WEB DEVELOPMENT</p>
+                                    <h5>Interactive Portfolio Website</h5>
+                                    <p>
+                                        Designed a responsive portfolio with sections,
+                                        animations, dark mode, and an interactive game.
+                                    </p>
+                                </div>
+
+                                <div class="resume-item">
+                                    <p class="resume-label">SYSTEM DEVELOPMENT</p>
+                                    <h5>Resort and Reservation Management Systems</h5>
+                                    <p>
+                                        Practiced creating forms, databases,
+                                        reports, and responsive admin interfaces.
+                                    </p>
+                                </div>
+
+                                <div class="resume-item">
+                                    <p class="resume-label">SYSTEM DEVELOPMENT</p>
+                                    <h5>Laundry Management System</h5>
+                                    <p>
+                                        Developed a Laundry Management System that manages
+                                        customer information, laundry transactions, services,
+                                        inventory, payments, receipts, and sales reports. The
+                                        system also generates a QR code that customers can scan
+                                        to track the current status of their laundry.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="contact">
+            <div class="container contact-layout">
+                <div class="contact-information reveal">
+                    <p class="small-label">GET IN TOUCH</p>
+                    <h2>CONTACT</h2>
+
+                    <p>
+                        Feel free to contact me for collaborations, website projects, system development, or other opportunities. 
+                        You may send a message through the form, and I will respond as soon as possible.
+                    </p>
+
+                    <div class="contact-details">
+                        <div>
+                            <span>EMAIL</span>
+                            <strong>liriocher25@gmail.com</strong>
+                        </div>
+
+                        <div>
+                            <span>LOCATION</span>
+                            <strong>Tanauan City, Batangas, Philippines</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <form
+                    class="contact-form reveal"
+                    id="contactForm"
+                    method="post"
+                    action="#contact">
+
+                    <input
+                        type="hidden"
+                        name="action"
+                        value="save_contact_message">
+
+                    <div
+                        aria-hidden="true"
+                        style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+                        <label>
+                            WEBSITE
+                            <input
+                                type="text"
+                                name="website"
+                                tabindex="-1"
+                                autocomplete="off">
+                        </label>
+                    </div>
+
+                    <div class="form-row">
+                        <label>
+                            NAME
+                            <input
+                                type="text"
+                                id="contactName"
+                                name="name"
+                                maxlength="120"
+                                autocomplete="name"
+                                required>
+                        </label>
+
+                        <label>
+                            EMAIL
+                            <input
+                                type="email"
+                                id="contactEmail"
+                                name="email"
+                                maxlength="190"
+                                autocomplete="email"
+                                required>
+                        </label>
+                    </div>
+
+                    <label>
+                        SUBJECT
+                        <input
+                            type="text"
+                            id="contactSubject"
+                            name="subject"
+                            maxlength="190"
+                            required>
+                    </label>
+
+                    <label>
+                        MESSAGE
+                        <textarea
+                            id="contactMessage"
+                            name="message"
+                            rows="6"
+                            maxlength="5000"
+                            required></textarea>
+                    </label>
+
+                    <button
+                        class="button primary-button"
+                        id="contactSubmitButton"
+                        type="submit">
+                        SEND MESSAGE
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <span>CHER MICOLE P. LIRIO</span>
+            <span>PORTFOLIO</span>
+            <a href="#home">↑</a>
+        </div>
+    </footer>
+
+
+    <div class="resume-pdf-modal" id="resumePdfModal" aria-hidden="true">
+        <div class="resume-pdf-backdrop" data-close-resume-pdf></div>
+
+        <section class="resume-pdf-dialog"
+                 role="dialog"
+                 aria-modal="true"
+                 aria-labelledby="resumePdfTitle">
+
+            <div class="resume-pdf-toolbar">
+                <div>
+                    <p class="small-label">RESUME PREVIEW</p>
+                    <h2 id="resumePdfTitle">CHER MICOLE P. LIRIO</h2>
+                    <span class="resume-pdf-toolbar-description">
+                        Review your styled A4 resume before printing or saving it as PDF.
+                    </span>
+                </div>
+
+                <div class="resume-pdf-actions">
+                    <button class="button primary-button"
+                            id="confirmResumePdf"
+                            type="button">
+                        PRINT / SAVE PDF
+                    </button>
+
+                    <button class="button outline-button"
+                            data-close-resume-pdf
+                            type="button">
+                        CLOSE
+                    </button>
+                </div>
+            </div>
+
+            <div class="resume-pdf-scroll">
+                <div class="resume-pdf-paper" id="resumePdfPaper"></div>
+            </div>
+        </section>
+    </div>
+
+    <div class="modal" id="projectModal" aria-hidden="true">
+        <div class="modal-background" data-close-modal></div>
+
+        <article class="modal-card">
+            <button class="modal-close" data-close-modal type="button">×</button>
+
+            <p class="small-label" id="modalLabel">PROJECT</p>
+            <h2 id="modalTitle">PROJECT TITLE</h2>
+            <p id="modalDescription"></p>
+
+            <div class="modal-tools" id="modalTools"></div>
+        </article>
+    </div>
+
+    <div class="toast" id="toast">READY</div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const originalPrintButton = document.getElementById("printResume");
+            const resumeSource = document.getElementById("resumeTemplate");
+            const resumeModal = document.getElementById("resumePdfModal");
+            const resumePaper = document.getElementById("resumePdfPaper");
+            const confirmPrintButton = document.getElementById("confirmResumePdf");
+            const closeButtons = document.querySelectorAll("[data-close-resume-pdf]");
+
+            if (!originalPrintButton || !resumeSource ||
+                !resumeModal || !resumePaper || !confirmPrintButton) {
+                return;
+            }
+
+            function buildResumePreview() {
+                const clone = resumeSource.cloneNode(true);
+
+                clone.removeAttribute("id");
+                clone.classList.remove("reveal");
+                clone.classList.add("resume-print-document");
+
+                resumePaper.innerHTML = "";
+                resumePaper.appendChild(clone);
+            }
+
+            function openResumeModal() {
+                buildResumePreview();
+
+                resumeModal.classList.add("open");
+                resumeModal.setAttribute("aria-hidden", "false");
+                document.body.classList.add("modal-open");
+
+                window.setTimeout(function () {
+                    confirmPrintButton.focus();
+                }, 50);
+            }
+
+            function closeResumeModal() {
+                resumeModal.classList.remove("open");
+                resumeModal.setAttribute("aria-hidden", "true");
+                document.body.classList.remove("modal-open");
+            }
+
+            /*
+             * Capture mode runs before the old script.js click handler.
+             * It prevents window.print() from opening before the modal.
+             */
+            originalPrintButton.addEventListener(
+                "click",
+                function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    openResumeModal();
+                },
+                true
+            );
+
+            confirmPrintButton.addEventListener("click", function () {
+                buildResumePreview();
+
+                window.requestAnimationFrame(function () {
+                    window.print();
+                });
+            });
+
+            closeButtons.forEach(function (button) {
+                button.addEventListener("click", closeResumeModal);
+            });
+
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape" &&
+                    resumeModal.classList.contains("open")) {
+                    closeResumeModal();
+                }
+            });
+
+            window.addEventListener("beforeprint", buildResumePreview);
+
+            window.addEventListener("afterprint", function () {
+                /*
+                 * Keep the modal open so the user can review again
+                 * or save another PDF copy.
+                 */
+            });
+        });
+    </script>
+
+</body>
+</html>
