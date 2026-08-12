@@ -299,11 +299,12 @@ if (canvas) {
                 { x: 21, y: 13 }
             ],
             portals: [
-                { id: "about", label: "ABOUT", x: 2, y: 2, width: 8, height: 5, color: "#6ff0bf" },
-                { id: "skills", label: "SKILLS", x: 20, y: 2, width: 8, height: 5, color: "#77a4ff" },
-                { id: "projects", label: "PROJECTS", x: 37, y: 2, width: 9, height: 5, color: "#c38dff" },
+                { id: "about", label: "ABOUT", x: 1, y: 2, width: 7, height: 5, color: "#6ff0bf" },
+                { id: "skills", label: "SKILLS", x: 11, y: 2, width: 7, height: 5, color: "#77a4ff" },
+                { id: "projects", label: "PROJECTS", x: 21, y: 2, width: 8, height: 5, color: "#c38dff" },
+                { id: "certificates", label: "CERTS", x: 32, y: 2, width: 8, height: 5, color: "#5fd9ff" },
                 { id: "resume", label: "RESUME", x: 7, y: 19, width: 9, height: 5, color: "#ffca6a" },
-                { id: "contact", label: "CONTACT", x: 33, y: 19, width: 10, height: 5, color: "#ff7f8d" }
+                { id: "contact", label: "CONTACT", x: 32, y: 19, width: 10, height: 5, color: "#ff7f8d" }
             ]
         },
         tablet: {
@@ -320,6 +321,7 @@ if (canvas) {
                 { id: "about", label: "ABOUT", x: 1, y: 1, width: 8, height: 5, color: "#6ff0bf" },
                 { id: "skills", label: "SKILLS", x: 12, y: 1, width: 8, height: 5, color: "#77a4ff" },
                 { id: "projects", label: "PROJECTS", x: 23, y: 1, width: 8, height: 5, color: "#c38dff" },
+                { id: "certificates", label: "CERTS", x: 10, y: 8, width: 12, height: 4, color: "#5fd9ff" },
                 { id: "resume", label: "RESUME", x: 4, y: 21, width: 9, height: 5, color: "#ffca6a" },
                 { id: "contact", label: "CONTACT", x: 18, y: 21, width: 11, height: 5, color: "#ff7f8d" }
             ]
@@ -327,19 +329,20 @@ if (canvas) {
         mobile: {
             name: "mobile",
             columns: 18,
-            rows: 28,
+            rows: 30,
             startSnake: [
-                { x: 10, y: 15 },
-                { x: 9, y: 15 },
-                { x: 8, y: 15 },
-                { x: 7, y: 15 }
+                { x: 10, y: 25 },
+                { x: 9, y: 25 },
+                { x: 8, y: 25 },
+                { x: 7, y: 25 }
             ],
             portals: [
                 { id: "about", label: "ABOUT", x: 1, y: 1, width: 7, height: 4, color: "#6ff0bf" },
                 { id: "skills", label: "SKILLS", x: 10, y: 1, width: 7, height: 4, color: "#77a4ff" },
-                { id: "projects", label: "PROJECTS", x: 1, y: 8, width: 8, height: 4, color: "#c38dff" },
-                { id: "resume", label: "RESUME", x: 9, y: 8, width: 8, height: 4, color: "#ffca6a" },
-                { id: "contact", label: "CONTACT", x: 4, y: 21, width: 10, height: 4, color: "#ff7f8d" }
+                { id: "projects", label: "PROJECTS", x: 1, y: 7, width: 8, height: 4, color: "#c38dff" },
+                { id: "certificates", label: "CERTS", x: 9, y: 7, width: 8, height: 4, color: "#5fd9ff" },
+                { id: "resume", label: "RESUME", x: 1, y: 14, width: 8, height: 4, color: "#ffca6a" },
+                { id: "contact", label: "CONTACT", x: 9, y: 14, width: 8, height: 4, color: "#ff7f8d" }
             ]
         }
     };
