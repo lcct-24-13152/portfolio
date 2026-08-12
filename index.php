@@ -203,7 +203,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                     <p class="small-label">INTERACTIVE NAVIGATION</p>
                     <h2>SNAKE GAME</h2>
                     <p class="section-description">
-                        Move the snake using the arrow keys or WASD. Enter a category
+                        Move the snake using the arrow keys or WASD. On phones and tablets,
+                        use the touch controls or swipe on the game board. Enter a category
                         box to open that section.
                     </p>
                 </div>
@@ -224,19 +225,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                     </div>
 
                     <div class="canvas-holder">
-                        <canvas id="snakeCanvas" width="960" height="520"></canvas>
+                        <canvas id="snakeCanvas" width="960" height="520" aria-label="Responsive snake navigation game"></canvas>
                     </div>
 
                     <div class="mobile-controls">
-                        <button data-direction="up" type="button">▲</button>
+                        <button data-direction="up" type="button" aria-label="Move snake up">▲</button>
 
                         <div>
-                            <button data-direction="left" type="button">◀</button>
-                            <button id="mobilePause" type="button">●</button>
-                            <button data-direction="right" type="button">▶</button>
+                            <button data-direction="left" type="button" aria-label="Move snake left">◀</button>
+                            <button id="mobilePause" type="button" aria-label="Pause or continue game">●</button>
+                            <button data-direction="right" type="button" aria-label="Move snake right">▶</button>
                         </div>
 
-                        <button data-direction="down" type="button">▼</button>
+                        <button data-direction="down" type="button" aria-label="Move snake down">▼</button>
                     </div>
                 </div>
             </div>

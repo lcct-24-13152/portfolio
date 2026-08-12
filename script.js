@@ -238,545 +238,659 @@ contactForm?.addEventListener("submit", async (event) => {
 });
 
 /* ======================================================
-   SNAKE CATEGORY GAME
+   RESPONSIVE SNAKE CATEGORY GAME
+   Desktop: wide board
+   Tablet: compact board
+   Mobile/iPhone portrait: portrait board + touch/swipe
    ====================================================== */
 
 const canvas = $("#snakeCanvas");
-const context = canvas.getContext("2d");
 
-const scoreText = $("#score");
-const gameMessage = $("#gameMessage");
-const pauseButton = $("#pauseButton");
-const restartButton = $("#restartButton");
-const mobilePause = $("#mobilePause");
+if (canvas) {
+    const context = canvas.getContext("2d");
 
-const CELL = 20;
-const COLUMNS = canvas.width / CELL;
-const ROWS = canvas.height / CELL;
-const SPEED = 115;
+    const scoreText = $("#score");
+    const gameMessage = $("#gameMessage");
+    const pauseButton = $("#pauseButton");
+    const restartButton = $("#restartButton");
+    const mobilePause = $("#mobilePause");
+    const gameBox = canvas.closest(".game-box");
 
-const portals = [
-    {
-        id: "about",
-        label: "ABOUT",
-        x: 2,
-        y: 2,
-        width: 8,
-        height: 5,
-        color: "#6ff0bf"
-    },
-    {
-        id: "skills",
-        label: "SKILLS",
-        x: 20,
-        y: 2,
-        width: 8,
-        height: 5,
-        color: "#77a4ff"
-    },
-    {
-        id: "projects",
-        label: "PROJECTS",
-        x: 37,
-        y: 2,
-        width: 9,
-        height: 5,
-        color: "#c38dff"
-    },
-    {
-        id: "resume",
-        label: "RESUME",
-        x: 7,
-        y: 19,
-        width: 9,
-        height: 5,
-        color: "#ffca6a"
-    },
-    {
-        id: "contact",
-        label: "CONTACT",
-        x: 33,
-        y: 19,
-        width: 10,
-        height: 5,
-        color: "#ff7f8d"
-    }
-];
+    const CELL = 20;
+    const SPEED = 115;
 
-let snake = [];
-let direction = { x: 0, y: 0 };
-let nextDirection = { x: 0, y: 0 };
-let chip = { x: 14, y: 12 };
-let score = 0;
-let started = false;
-let paused = false;
-let movingToSection = false;
-let gameLoop;
-
-function resetGame() {
-    snake = [
-        { x: 24, y: 13 },
-        { x: 23, y: 13 },
-        { x: 22, y: 13 },
-        { x: 21, y: 13 }
-    ];
-
-    direction = { x: 0, y: 0 };
-    nextDirection = { x: 0, y: 0 };
-    score = 0;
-    started = false;
-    paused = false;
-    movingToSection = false;
-
-    scoreText.textContent = "0";
-    gameMessage.textContent = "PRESS ARROW KEYS OR WASD";
-    pauseButton.textContent = "PAUSE";
-
-    clearInterval(gameLoop);
-    gameLoop = setInterval(updateGame, SPEED);
-
-    placeChip();
-    drawGame();
-}
-
-function pointInsidePortal(x, y) {
-    return portals.some((portal) => {
-        return (
-            x >= portal.x &&
-            x < portal.x + portal.width &&
-            y >= portal.y &&
-            y < portal.y + portal.height
-        );
-    });
-}
-
-function pointOnSnake(x, y) {
-    return snake.some((part) => part.x === x && part.y === y);
-}
-
-function placeChip() {
-    let valid = false;
-
-    while (!valid) {
-        chip = {
-            x: Math.floor(Math.random() * COLUMNS),
-            y: Math.floor(Math.random() * ROWS)
-        };
-
-        valid =
-            !pointInsidePortal(chip.x, chip.y) &&
-            !pointOnSnake(chip.x, chip.y);
-    }
-}
-
-function setDirection(newDirection) {
-    if (movingToSection) return;
-
-    const opposite =
-        direction.x + newDirection.x === 0 &&
-        direction.y + newDirection.y === 0 &&
-        (direction.x !== 0 || direction.y !== 0);
-
-    if (opposite) return;
-
-    nextDirection = newDirection;
-    started = true;
-    paused = false;
-    gameMessage.textContent = "ENTER A CATEGORY";
-    pauseButton.textContent = "PAUSE";
-}
-
-function updateGame() {
-    if (!started || paused || movingToSection) {
-        drawGame();
-        return;
-    }
-
-    direction = nextDirection;
-
-    const newHead = {
-        x: snake[0].x + direction.x,
-        y: snake[0].y + direction.y
+    const GAME_LAYOUTS = {
+        desktop: {
+            name: "desktop",
+            columns: 48,
+            rows: 26,
+            startSnake: [
+                { x: 24, y: 13 },
+                { x: 23, y: 13 },
+                { x: 22, y: 13 },
+                { x: 21, y: 13 }
+            ],
+            portals: [
+                { id: "about", label: "ABOUT", x: 2, y: 2, width: 8, height: 5, color: "#6ff0bf" },
+                { id: "skills", label: "SKILLS", x: 20, y: 2, width: 8, height: 5, color: "#77a4ff" },
+                { id: "projects", label: "PROJECTS", x: 37, y: 2, width: 9, height: 5, color: "#c38dff" },
+                { id: "resume", label: "RESUME", x: 7, y: 19, width: 9, height: 5, color: "#ffca6a" },
+                { id: "contact", label: "CONTACT", x: 33, y: 19, width: 10, height: 5, color: "#ff7f8d" }
+            ]
+        },
+        tablet: {
+            name: "tablet",
+            columns: 32,
+            rows: 28,
+            startSnake: [
+                { x: 17, y: 14 },
+                { x: 16, y: 14 },
+                { x: 15, y: 14 },
+                { x: 14, y: 14 }
+            ],
+            portals: [
+                { id: "about", label: "ABOUT", x: 1, y: 1, width: 8, height: 5, color: "#6ff0bf" },
+                { id: "skills", label: "SKILLS", x: 12, y: 1, width: 8, height: 5, color: "#77a4ff" },
+                { id: "projects", label: "PROJECTS", x: 23, y: 1, width: 8, height: 5, color: "#c38dff" },
+                { id: "resume", label: "RESUME", x: 4, y: 21, width: 9, height: 5, color: "#ffca6a" },
+                { id: "contact", label: "CONTACT", x: 18, y: 21, width: 11, height: 5, color: "#ff7f8d" }
+            ]
+        },
+        mobile: {
+            name: "mobile",
+            columns: 18,
+            rows: 28,
+            startSnake: [
+                { x: 10, y: 15 },
+                { x: 9, y: 15 },
+                { x: 8, y: 15 },
+                { x: 7, y: 15 }
+            ],
+            portals: [
+                { id: "about", label: "ABOUT", x: 1, y: 1, width: 7, height: 4, color: "#6ff0bf" },
+                { id: "skills", label: "SKILLS", x: 10, y: 1, width: 7, height: 4, color: "#77a4ff" },
+                { id: "projects", label: "PROJECTS", x: 1, y: 8, width: 8, height: 4, color: "#c38dff" },
+                { id: "resume", label: "RESUME", x: 9, y: 8, width: 8, height: 4, color: "#ffca6a" },
+                { id: "contact", label: "CONTACT", x: 4, y: 21, width: 10, height: 4, color: "#ff7f8d" }
+            ]
+        }
     };
 
-    const hitWall =
-        newHead.x < 0 ||
-        newHead.x >= COLUMNS ||
-        newHead.y < 0 ||
-        newHead.y >= ROWS;
+    let currentLayout = null;
+    let COLUMNS = 48;
+    let ROWS = 26;
+    let portals = [];
 
-    const hitSnake = snake.some((part, index) => {
+    let snake = [];
+    let direction = { x: 0, y: 0 };
+    let nextDirection = { x: 0, y: 0 };
+    let chip = { x: 14, y: 12 };
+    let score = 0;
+    let started = false;
+    let paused = false;
+    let movingToSection = false;
+    let gameLoop;
+    let resizeTimer;
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    function isTouchDevice() {
         return (
-            index > 0 &&
-            part.x === newHead.x &&
-            part.y === newHead.y
+            window.matchMedia("(pointer: coarse)").matches ||
+            "ontouchstart" in window ||
+            navigator.maxTouchPoints > 0
         );
-    });
-
-    if (hitWall || hitSnake) {
-        gameOver();
-        return;
     }
 
-    snake.unshift(newHead);
+    function getLayoutForScreen() {
+        const viewportWidth = window.innerWidth;
 
-    if (newHead.x === chip.x && newHead.y === chip.y) {
-        score += 10;
-        scoreText.textContent = String(score);
-        placeChip();
-    } else {
-        snake.pop();
+        if (viewportWidth <= 600) {
+            return GAME_LAYOUTS.mobile;
+        }
+
+        if (viewportWidth <= 1100) {
+            return GAME_LAYOUTS.tablet;
+        }
+
+        return GAME_LAYOUTS.desktop;
     }
 
-    const portal = portals.find((item) => {
-        return (
-            newHead.x >= item.x &&
-            newHead.x < item.x + item.width &&
-            newHead.y >= item.y &&
-            newHead.y < item.y + item.height
-        );
-    });
+    function defaultInstruction() {
+        if (currentLayout?.name === "mobile" || isTouchDevice()) {
+            return "USE TOUCH CONTROLS OR SWIPE";
+        }
 
-    if (portal) {
-        openSection(portal);
+        return "PRESS ARROW KEYS OR WASD";
     }
 
-    drawGame();
-}
+    function applyGameLayout(forceReset = false) {
+        const nextLayout = getLayoutForScreen();
+        const layoutChanged = currentLayout?.name !== nextLayout.name;
 
-function gameOver() {
-    paused = true;
-    started = false;
-    direction = { x: 0, y: 0 };
-    nextDirection = { x: 0, y: 0 };
-    gameMessage.textContent = "GAME OVER";
-    pauseButton.textContent = "CONTINUE";
-    drawGame(true);
-}
+        currentLayout = nextLayout;
+        COLUMNS = currentLayout.columns;
+        ROWS = currentLayout.rows;
+        portals = currentLayout.portals.map((portal) => ({ ...portal }));
 
-function openSection(portal) {
-    movingToSection = true;
-    paused = true;
-    gameMessage.textContent = `OPENING ${portal.label}`;
+        canvas.width = COLUMNS * CELL;
+        canvas.height = ROWS * CELL;
+        canvas.dataset.layout = currentLayout.name;
 
-    setTimeout(() => {
-        document.getElementById(portal.id).scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
+        if (gameBox) {
+            gameBox.dataset.gameLayout = currentLayout.name;
+        }
 
-        movingToSection = false;
-        gameMessage.textContent = `${portal.label} OPENED`;
-        pauseButton.textContent = "CONTINUE";
-    }, 450);
-}
-
-function togglePause() {
-    if (!started) {
-        started = true;
-
-        if (nextDirection.x === 0 && nextDirection.y === 0) {
-            nextDirection = { x: 1, y: 0 };
+        if (layoutChanged || forceReset || snake.length === 0) {
+            resetGame();
+        } else {
+            drawGame();
         }
     }
 
-    paused = !paused;
-    pauseButton.textContent = paused ? "CONTINUE" : "PAUSE";
-    gameMessage.textContent = paused ? "PAUSED" : "ENTER A CATEGORY";
-}
+    function resetGame() {
+        snake = currentLayout.startSnake.map((part) => ({ ...part }));
 
-function roundedRectangle(x, y, width, height, radius) {
-    context.beginPath();
-    context.moveTo(x + radius, y);
-    context.arcTo(x + width, y, x + width, y + height, radius);
-    context.arcTo(x + width, y + height, x, y + height, radius);
-    context.arcTo(x, y + height, x, y, radius);
-    context.arcTo(x, y, x + width, y, radius);
-    context.closePath();
-}
+        direction = { x: 0, y: 0 };
+        nextDirection = { x: 0, y: 0 };
+        score = 0;
+        started = false;
+        paused = false;
+        movingToSection = false;
 
-function drawGrid() {
-    context.strokeStyle = "rgba(111, 240, 191, 0.035)";
-    context.lineWidth = 1;
+        if (scoreText) scoreText.textContent = "0";
+        if (gameMessage) gameMessage.textContent = defaultInstruction();
+        if (pauseButton) pauseButton.textContent = "PAUSE";
 
-    for (let x = 0; x <= canvas.width; x += CELL) {
-        context.beginPath();
-        context.moveTo(x, 0);
-        context.lineTo(x, canvas.height);
-        context.stroke();
+        clearInterval(gameLoop);
+        gameLoop = setInterval(updateGame, SPEED);
+
+        placeChip();
+        drawGame();
     }
 
-    for (let y = 0; y <= canvas.height; y += CELL) {
-        context.beginPath();
-        context.moveTo(0, y);
-        context.lineTo(canvas.width, y);
-        context.stroke();
+    function pointInsidePortal(x, y) {
+        return portals.some((portal) => {
+            return (
+                x >= portal.x &&
+                x < portal.x + portal.width &&
+                y >= portal.y &&
+                y < portal.y + portal.height
+            );
+        });
     }
-}
 
-function drawPortal(portal) {
-    const x = portal.x * CELL;
-    const y = portal.y * CELL;
-    const width = portal.width * CELL;
-    const height = portal.height * CELL;
+    function pointOnSnake(x, y) {
+        return snake.some((part) => part.x === x && part.y === y);
+    }
 
-    context.save();
+    function placeChip() {
+        let valid = false;
+        let attempts = 0;
 
-    context.globalAlpha = 0.13;
-    context.fillStyle = portal.color;
-    roundedRectangle(x + 5, y + 5, width - 10, height - 10, 14);
-    context.fill();
+        while (!valid && attempts < 2000) {
+            chip = {
+                x: Math.floor(Math.random() * COLUMNS),
+                y: Math.floor(Math.random() * ROWS)
+            };
 
-    context.globalAlpha = 0.8;
-    context.strokeStyle = portal.color;
-    context.lineWidth = 2;
-    context.setLineDash([7, 7]);
-    roundedRectangle(x + 5, y + 5, width - 10, height - 10, 14);
-    context.stroke();
+            valid =
+                !pointInsidePortal(chip.x, chip.y) &&
+                !pointOnSnake(chip.x, chip.y);
 
-    context.globalAlpha = 1;
-    context.setLineDash([]);
-    context.fillStyle = portal.color;
-    context.font = "bold 15px Arial";
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-    context.fillText(
-        portal.label,
-        x + width / 2,
-        y + height / 2
-    );
+            attempts += 1;
+        }
+    }
 
-    context.restore();
-}
+    function setDirection(newDirection) {
+        if (movingToSection || !newDirection) return;
 
-function drawChip() {
-    context.save();
-    context.translate(
-        chip.x * CELL + CELL / 2,
-        chip.y * CELL + CELL / 2
-    );
-    context.rotate(Math.PI / 4);
-    context.fillStyle = "#6ff0bf";
-    context.shadowColor = "#6ff0bf";
-    context.shadowBlur = 15;
-    context.fillRect(-5, -5, 10, 10);
-    context.restore();
-}
+        const opposite =
+            direction.x + newDirection.x === 0 &&
+            direction.y + newDirection.y === 0 &&
+            (direction.x !== 0 || direction.y !== 0);
 
-function drawSnake() {
-    snake.forEach((part, index) => {
-        const x = part.x * CELL + 2;
-        const y = part.y * CELL + 2;
-        const size = CELL - 4;
+        if (opposite) return;
+
+        nextDirection = newDirection;
+        started = true;
+        paused = false;
+
+        if (gameMessage) gameMessage.textContent = "ENTER A CATEGORY";
+        if (pauseButton) pauseButton.textContent = "PAUSE";
+    }
+
+    function updateGame() {
+        if (!started || paused || movingToSection) {
+            drawGame();
+            return;
+        }
+
+        direction = nextDirection;
+
+        const newHead = {
+            x: snake[0].x + direction.x,
+            y: snake[0].y + direction.y
+        };
+
+        const hitWall =
+            newHead.x < 0 ||
+            newHead.x >= COLUMNS ||
+            newHead.y < 0 ||
+            newHead.y >= ROWS;
+
+        const hitSnake = snake.some((part, index) => {
+            return (
+                index > 0 &&
+                part.x === newHead.x &&
+                part.y === newHead.y
+            );
+        });
+
+        if (hitWall || hitSnake) {
+            gameOver();
+            return;
+        }
+
+        snake.unshift(newHead);
+
+        if (newHead.x === chip.x && newHead.y === chip.y) {
+            score += 10;
+            if (scoreText) scoreText.textContent = String(score);
+            placeChip();
+        } else {
+            snake.pop();
+        }
+
+        const portal = portals.find((item) => {
+            return (
+                newHead.x >= item.x &&
+                newHead.x < item.x + item.width &&
+                newHead.y >= item.y &&
+                newHead.y < item.y + item.height
+            );
+        });
+
+        if (portal) {
+            openSection(portal);
+        }
+
+        drawGame();
+    }
+
+    function gameOver() {
+        paused = true;
+        started = false;
+        direction = { x: 0, y: 0 };
+        nextDirection = { x: 0, y: 0 };
+
+        if (gameMessage) gameMessage.textContent = "GAME OVER";
+        if (pauseButton) pauseButton.textContent = "CONTINUE";
+
+        drawGame(true);
+    }
+
+    function openSection(portal) {
+        movingToSection = true;
+        paused = true;
+
+        if (gameMessage) gameMessage.textContent = `OPENING ${portal.label}`;
+
+        setTimeout(() => {
+            const target = document.getElementById(portal.id);
+
+            if (target) {
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }
+
+            movingToSection = false;
+
+            if (gameMessage) gameMessage.textContent = `${portal.label} OPENED`;
+            if (pauseButton) pauseButton.textContent = "CONTINUE";
+        }, 450);
+    }
+
+    function togglePause() {
+        if (!started) {
+            started = true;
+
+            if (nextDirection.x === 0 && nextDirection.y === 0) {
+                nextDirection = { x: 1, y: 0 };
+            }
+        }
+
+        paused = !paused;
+
+        if (pauseButton) {
+            pauseButton.textContent = paused ? "CONTINUE" : "PAUSE";
+        }
+
+        if (gameMessage) {
+            gameMessage.textContent = paused ? "PAUSED" : "ENTER A CATEGORY";
+        }
+    }
+
+    function roundedRectangle(x, y, width, height, radius) {
+        const safeRadius = Math.max(0, Math.min(radius, width / 2, height / 2));
+
+        context.beginPath();
+        context.moveTo(x + safeRadius, y);
+        context.arcTo(x + width, y, x + width, y + height, safeRadius);
+        context.arcTo(x + width, y + height, x, y + height, safeRadius);
+        context.arcTo(x, y + height, x, y, safeRadius);
+        context.arcTo(x, y, x + width, y, safeRadius);
+        context.closePath();
+    }
+
+    function drawGrid() {
+        context.strokeStyle = "rgba(111, 240, 191, 0.035)";
+        context.lineWidth = 1;
+
+        for (let x = 0; x <= canvas.width; x += CELL) {
+            context.beginPath();
+            context.moveTo(x, 0);
+            context.lineTo(x, canvas.height);
+            context.stroke();
+        }
+
+        for (let y = 0; y <= canvas.height; y += CELL) {
+            context.beginPath();
+            context.moveTo(0, y);
+            context.lineTo(canvas.width, y);
+            context.stroke();
+        }
+    }
+
+    function drawPortal(portal) {
+        const x = portal.x * CELL;
+        const y = portal.y * CELL;
+        const width = portal.width * CELL;
+        const height = portal.height * CELL;
+        const inset = currentLayout.name === "mobile" ? 3 : 5;
+        const portalFont =
+            currentLayout.name === "mobile"
+                ? 12
+                : currentLayout.name === "tablet"
+                    ? 13
+                    : 15;
 
         context.save();
 
-        context.fillStyle =
-            index === 0
-                ? "#a0ffdc"
-                : `rgba(111, 240, 191, ${Math.max(0.35, 0.92 - index * 0.05)})`;
-
-        if (index === 0) {
-            context.shadowColor = "#6ff0bf";
-            context.shadowBlur = 14;
-        }
-
-        roundedRectangle(x, y, size, size, index === 0 ? 7 : 5);
+        context.globalAlpha = 0.13;
+        context.fillStyle = portal.color;
+        roundedRectangle(
+            x + inset,
+            y + inset,
+            width - inset * 2,
+            height - inset * 2,
+            currentLayout.name === "mobile" ? 10 : 14
+        );
         context.fill();
 
+        context.globalAlpha = 0.8;
+        context.strokeStyle = portal.color;
+        context.lineWidth = currentLayout.name === "mobile" ? 1.5 : 2;
+        context.setLineDash(currentLayout.name === "mobile" ? [5, 5] : [7, 7]);
+        roundedRectangle(
+            x + inset,
+            y + inset,
+            width - inset * 2,
+            height - inset * 2,
+            currentLayout.name === "mobile" ? 10 : 14
+        );
+        context.stroke();
+
+        context.globalAlpha = 1;
+        context.setLineDash([]);
+        context.fillStyle = portal.color;
+        context.font = `bold ${portalFont}px Arial`;
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.fillText(
+            portal.label,
+            x + width / 2,
+            y + height / 2
+        );
+
         context.restore();
-    });
-}
-
-function drawOverlay(title, subtitle) {
-    context.fillStyle = "rgba(4, 10, 18, 0.62)";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    context.fillStyle = "#ffffff";
-    context.font = "bold 31px Arial";
-    context.textAlign = "center";
-    context.fillText(title, canvas.width / 2, canvas.height / 2);
-
-    context.fillStyle = "#9eafc4";
-    context.font = "13px Arial";
-    context.fillText(
-        subtitle,
-        canvas.width / 2,
-        canvas.height / 2 + 28
-    );
-}
-
-function drawGame(gameOverScreen = false) {
-    const gradient = context.createLinearGradient(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-    gradient.addColorStop(0, "#081423");
-    gradient.addColorStop(1, "#0a1a2c");
-
-    context.fillStyle = gradient;
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    drawGrid();
-    portals.forEach(drawPortal);
-    drawChip();
-    drawSnake();
-
-    if (paused && started && !movingToSection) {
-        drawOverlay("PAUSED", "PRESS SPACE OR CONTINUE");
     }
 
-    if (gameOverScreen) {
-        drawOverlay("GAME OVER", "PRESS RESTART");
-    }
-}
+    function drawChip() {
+        const chipSize = currentLayout.name === "mobile" ? 8 : 10;
 
-function handleKeyboard(event) {
-    const activeTag = document.activeElement.tagName.toLowerCase();
-
-    if (
-        activeTag === "input" ||
-        activeTag === "textarea"
-    ) {
-        return;
-    }
-
-    const directions = {
-        ArrowUp: { x: 0, y: -1 },
-        w: { x: 0, y: -1 },
-        W: { x: 0, y: -1 },
-        ArrowDown: { x: 0, y: 1 },
-        s: { x: 0, y: 1 },
-        S: { x: 0, y: 1 },
-        ArrowLeft: { x: -1, y: 0 },
-        a: { x: -1, y: 0 },
-        A: { x: -1, y: 0 },
-        ArrowRight: { x: 1, y: 0 },
-        d: { x: 1, y: 0 },
-        D: { x: 1, y: 0 }
-    };
-
-    if (directions[event.key]) {
-        event.preventDefault();
-        setDirection(directions[event.key]);
+        context.save();
+        context.translate(
+            chip.x * CELL + CELL / 2,
+            chip.y * CELL + CELL / 2
+        );
+        context.rotate(Math.PI / 4);
+        context.fillStyle = "#6ff0bf";
+        context.shadowColor = "#6ff0bf";
+        context.shadowBlur = currentLayout.name === "mobile" ? 10 : 15;
+        context.fillRect(-chipSize / 2, -chipSize / 2, chipSize, chipSize);
+        context.restore();
     }
 
-    if (event.code === "Space") {
-        event.preventDefault();
-        togglePause();
+    function drawSnake() {
+        snake.forEach((part, index) => {
+            const x = part.x * CELL + 2;
+            const y = part.y * CELL + 2;
+            const size = CELL - 4;
+
+            context.save();
+
+            context.fillStyle =
+                index === 0
+                    ? "#a0ffdc"
+                    : `rgba(111, 240, 191, ${Math.max(0.35, 0.92 - index * 0.05)})`;
+
+            if (index === 0) {
+                context.shadowColor = "#6ff0bf";
+                context.shadowBlur = currentLayout.name === "mobile" ? 9 : 14;
+            }
+
+            roundedRectangle(x, y, size, size, index === 0 ? 7 : 5);
+            context.fill();
+
+            context.restore();
+        });
     }
-}
 
-document.addEventListener("keydown", handleKeyboard);
+    function drawOverlay(title, subtitle) {
+        const titleSize =
+            currentLayout.name === "mobile"
+                ? 24
+                : currentLayout.name === "tablet"
+                    ? 28
+                    : 31;
 
-pauseButton.addEventListener("click", togglePause);
-mobilePause.addEventListener("click", togglePause);
-restartButton.addEventListener("click", resetGame);
+        context.fillStyle = "rgba(4, 10, 18, 0.66)";
+        context.fillRect(0, 0, canvas.width, canvas.height);
 
-$$("[data-direction]").forEach((button) => {
-    button.addEventListener("click", () => {
+        context.fillStyle = "#ffffff";
+        context.font = `bold ${titleSize}px Arial`;
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.fillText(title, canvas.width / 2, canvas.height / 2 - 8);
+
+        context.fillStyle = "#9eafc4";
+        context.font = `${currentLayout.name === "mobile" ? 12 : 13}px Arial`;
+        context.fillText(
+            subtitle,
+            canvas.width / 2,
+            canvas.height / 2 + 24
+        );
+    }
+
+    function drawGame(gameOverScreen = false) {
+        const gradient = context.createLinearGradient(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        gradient.addColorStop(0, "#081423");
+        gradient.addColorStop(1, "#0a1a2c");
+
+        context.fillStyle = gradient;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        drawGrid();
+        portals.forEach(drawPortal);
+        drawChip();
+        drawSnake();
+
+        if (paused && started && !movingToSection) {
+            drawOverlay(
+                "PAUSED",
+                currentLayout.name === "mobile"
+                    ? "TAP CONTINUE TO PLAY"
+                    : "PRESS SPACE OR CONTINUE"
+            );
+        }
+
+        if (gameOverScreen) {
+            drawOverlay("GAME OVER", "PRESS RESTART");
+        }
+    }
+
+    function handleKeyboard(event) {
+        const activeElement = document.activeElement;
+        const activeTag = activeElement?.tagName?.toLowerCase() || "";
+
+        if (activeTag === "input" || activeTag === "textarea") {
+            return;
+        }
+
         const directions = {
-            up: { x: 0, y: -1 },
-            down: { x: 0, y: 1 },
-            left: { x: -1, y: 0 },
-            right: { x: 1, y: 0 }
+            ArrowUp: { x: 0, y: -1 },
+            w: { x: 0, y: -1 },
+            W: { x: 0, y: -1 },
+            ArrowDown: { x: 0, y: 1 },
+            s: { x: 0, y: 1 },
+            S: { x: 0, y: 1 },
+            ArrowLeft: { x: -1, y: 0 },
+            a: { x: -1, y: 0 },
+            A: { x: -1, y: 0 },
+            ArrowRight: { x: 1, y: 0 },
+            d: { x: 1, y: 0 },
+            D: { x: 1, y: 0 }
         };
 
-        setDirection(directions[button.dataset.direction]);
-    });
-});
-
-resetGame();
-
-/* ======================================================
-   RESUME PDF PREVIEW / PRINT
-   Moved from index.php to keep JavaScript in one file.
-   ====================================================== */
-document.addEventListener("DOMContentLoaded", function () {
-    const originalPrintButton = document.getElementById("printResume");
-    const resumeSource = document.getElementById("resumeTemplate");
-    const resumeModal = document.getElementById("resumePdfModal");
-    const resumePaper = document.getElementById("resumePdfPaper");
-    const confirmPrintButton = document.getElementById("confirmResumePdf");
-    const closeButtons = document.querySelectorAll("[data-close-resume-pdf]");
-
-    if (!originalPrintButton || !resumeSource ||
-        !resumeModal || !resumePaper || !confirmPrintButton) {
-        return;
-    }
-
-    function buildResumePreview() {
-        const clone = resumeSource.cloneNode(true);
-
-        clone.removeAttribute("id");
-        clone.classList.remove("reveal");
-        clone.classList.add("resume-print-document");
-
-        resumePaper.innerHTML = "";
-        resumePaper.appendChild(clone);
-    }
-
-    function openResumeModal() {
-        buildResumePreview();
-
-        resumeModal.classList.add("open");
-        resumeModal.setAttribute("aria-hidden", "false");
-        document.body.classList.add("modal-open");
-
-        window.setTimeout(function () {
-            confirmPrintButton.focus();
-        }, 50);
-    }
-
-    function closeResumeModal() {
-        resumeModal.classList.remove("open");
-        resumeModal.setAttribute("aria-hidden", "true");
-        document.body.classList.remove("modal-open");
-    }
-
-    /*
-     * Capture mode runs before the old script.js click handler.
-     * It prevents window.print() from opening before the modal.
-     */
-    originalPrintButton.addEventListener(
-        "click",
-        function (event) {
+        if (directions[event.key]) {
             event.preventDefault();
-            event.stopPropagation();
-            event.stopImmediatePropagation();
-            openResumeModal();
-        },
-        true
-    );
+            setDirection(directions[event.key]);
+        }
 
-    confirmPrintButton.addEventListener("click", function () {
-        buildResumePreview();
+        if (event.code === "Space") {
+            event.preventDefault();
+            togglePause();
+        }
+    }
 
-        window.requestAnimationFrame(function () {
-            window.print();
+    function handleSwipe(startX, startY, endX, endY) {
+        const deltaX = endX - startX;
+        const deltaY = endY - startY;
+        const minimumSwipe = 24;
+
+        if (
+            Math.abs(deltaX) < minimumSwipe &&
+            Math.abs(deltaY) < minimumSwipe
+        ) {
+            return;
+        }
+
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            setDirection(
+                deltaX > 0
+                    ? { x: 1, y: 0 }
+                    : { x: -1, y: 0 }
+            );
+        } else {
+            setDirection(
+                deltaY > 0
+                    ? { x: 0, y: 1 }
+                    : { x: 0, y: -1 }
+            );
+        }
+    }
+
+    document.addEventListener("keydown", handleKeyboard);
+
+    pauseButton?.addEventListener("click", togglePause);
+    mobilePause?.addEventListener("click", togglePause);
+    restartButton?.addEventListener("click", resetGame);
+
+    $$('[data-direction]').forEach((button) => {
+        button.addEventListener("click", () => {
+            const directions = {
+                up: { x: 0, y: -1 },
+                down: { x: 0, y: 1 },
+                left: { x: -1, y: 0 },
+                right: { x: 1, y: 0 }
+            };
+
+            setDirection(directions[button.dataset.direction]);
         });
     });
 
-    closeButtons.forEach(function (button) {
-        button.addEventListener("click", closeResumeModal);
+    canvas.addEventListener(
+        "touchstart",
+        (event) => {
+            const touch = event.changedTouches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+        },
+        { passive: true }
+    );
+
+    canvas.addEventListener(
+        "touchmove",
+        (event) => {
+            event.preventDefault();
+        },
+        { passive: false }
+    );
+
+    canvas.addEventListener(
+        "touchend",
+        (event) => {
+            const touch = event.changedTouches[0];
+
+            handleSwipe(
+                touchStartX,
+                touchStartY,
+                touch.clientX,
+                touch.clientY
+            );
+        },
+        { passive: true }
+    );
+
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+
+        resizeTimer = setTimeout(() => {
+            const nextLayout = getLayoutForScreen();
+
+            if (currentLayout?.name !== nextLayout.name) {
+                applyGameLayout(true);
+            } else {
+                drawGame();
+            }
+        }, 160);
     });
 
-    document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape" &&
-            resumeModal.classList.contains("open")) {
-            closeResumeModal();
-        }
+    window.addEventListener("orientationchange", () => {
+        setTimeout(() => {
+            applyGameLayout(true);
+        }, 250);
     });
 
-    window.addEventListener("beforeprint", buildResumePreview);
+    applyGameLayout(true);
+}
 
-    window.addEventListener("afterprint", function () {
-        /*
-         * Keep the modal open so the user can review again
-         * or save another PDF copy.
-         */
-    });
-});

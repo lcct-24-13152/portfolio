@@ -1693,3 +1693,187 @@ canvas {
         margin-top: 0.7mm !important;
     }
 }
+
+/* ======================================================
+   RESPONSIVE SNAKE GAME - PHONE / TABLET / DESKTOP
+   ====================================================== */
+.game-box {
+    width: 100%;
+}
+
+.canvas-holder {
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(8px, 2vw, 16px);
+}
+
+#snakeCanvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-width: 0 !important;
+    max-width: 960px;
+    border-radius: 15px;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.game-box[data-game-layout="desktop"] #snakeCanvas {
+    max-width: 960px;
+}
+
+.game-box[data-game-layout="tablet"] #snakeCanvas {
+    max-width: 640px;
+}
+
+.game-box[data-game-layout="mobile"] #snakeCanvas {
+    max-width: 360px;
+}
+
+.mobile-controls button {
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+@media (max-width: 900px), (pointer: coarse) {
+    .game-top {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 14px;
+        text-align: center;
+    }
+
+    .score-box {
+        text-align: center;
+    }
+
+    #gameMessage {
+        min-height: 1.5em;
+        white-space: normal;
+    }
+
+    .game-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .game-actions button {
+        min-width: 108px;
+        min-height: 44px;
+    }
+
+    .mobile-controls {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 18px 12px 20px;
+    }
+
+    .mobile-controls > button {
+        width: 64px;
+        height: 56px;
+        margin: 0;
+        font-size: 1.05rem;
+    }
+
+    .mobile-controls > div {
+        display: grid;
+        grid-template-columns: repeat(3, 64px);
+        gap: 8px;
+    }
+
+    .mobile-controls > div button {
+        width: 64px;
+        height: 56px;
+        margin: 0;
+        font-size: 1.05rem;
+    }
+
+    #mobilePause {
+        color: var(--primary);
+    }
+}
+
+@media (max-width: 600px) {
+    .game-section .container {
+        width: min(calc(100% - 20px), var(--container));
+    }
+
+    .game-box {
+        border-radius: 18px;
+    }
+
+    .canvas-holder {
+        padding: 10px;
+    }
+
+    #snakeCanvas {
+        max-width: 360px;
+        border-radius: 12px;
+    }
+
+    .game-top {
+        padding: 12px 10px;
+    }
+
+    .game-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+        gap: 8px;
+    }
+
+    .game-actions button {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .mobile-controls {
+        padding: 14px 8px 18px;
+    }
+
+    .mobile-controls > button,
+    .mobile-controls > div button {
+        width: 58px;
+        height: 54px;
+        border-radius: 13px;
+    }
+
+    .mobile-controls > div {
+        grid-template-columns: repeat(3, 58px);
+        gap: 7px;
+    }
+}
+
+@media (max-width: 380px) {
+    .game-section .container {
+        width: min(calc(100% - 14px), var(--container));
+    }
+
+    .canvas-holder {
+        padding: 7px;
+    }
+
+    .mobile-controls > button,
+    .mobile-controls > div button {
+        width: 52px;
+        height: 50px;
+    }
+
+    .mobile-controls > div {
+        grid-template-columns: repeat(3, 52px);
+        gap: 6px;
+    }
+
+    #gameMessage {
+        font-size: 0.7rem;
+    }
+}
