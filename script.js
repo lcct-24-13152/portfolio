@@ -106,21 +106,27 @@ const projectInformation = {
         title: "Interactive Portfolio",
         description:
             "A responsive personal portfolio with dark mode, animated sections, project filtering, a printable resume, and a Snake category navigation game.",
-        tools: ["HTML", "CSS", "JavaScript"]
+        tools: ["HTML", "CSS", "JavaScript"],
+        url: "https://lcct-24-13152.github.io/portfolio/",
+        linkText: "OPEN LIVE PORTFOLIO ↗"
     },
     2: {
         label: "WEB SYSTEM",
         title: "Reservation System",
         description:
             "A reservation system concept that manages schedules, availability, customer details, bookings, payments, and reports.",
-        tools: ["PHP", "MySQL", "JavaScript"]
+        tools: ["PHP", "MySQL", "JavaScript"],
+        url: "",
+        linkText: ""
     },
     3: {
         label: "MANAGEMENT SYSTEM",
         title: "Laundry Management",
         description:
-            "A management system concept for recording customers, laundry services, transactions, inventory, receipts, and reports.",
-        tools: ["PHP", "MySQL", "CRUD"]
+            "A management system for recording customers, laundry services, transactions, inventory, payments, receipts, reports, and QR-based laundry status tracking.",
+        tools: ["PHP", "MySQL", "CRUD"],
+        url: "https://disabled-sprint-depends-lighter.trycloudflare.com/laundry-system/auth/login.php",
+        linkText: "OPEN LIVE SYSTEM ↗"
     }
 };
 
@@ -129,6 +135,7 @@ const modalLabel = $("#modalLabel");
 const modalTitle = $("#modalTitle");
 const modalDescription = $("#modalDescription");
 const modalTools = $("#modalTools");
+const modalProjectLink = $("#modalProjectLink");
 
 function openProjectModal(projectNumber) {
     const project = projectInformation[projectNumber];
@@ -140,6 +147,15 @@ function openProjectModal(projectNumber) {
     modalTools.innerHTML = project.tools
         .map((tool) => `<span>${tool}</span>`)
         .join("");
+
+    if (project.url) {
+        modalProjectLink.href = project.url;
+        modalProjectLink.textContent = project.linkText || "OPEN PROJECT ↗";
+        modalProjectLink.classList.add("show");
+    } else {
+        modalProjectLink.removeAttribute("href");
+        modalProjectLink.classList.remove("show");
+    }
 
     projectModal.classList.add("open");
     projectModal.setAttribute("aria-hidden", "false");

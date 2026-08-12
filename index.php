@@ -457,7 +457,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                         <div>
                             <h3>CHER MICOLE P. LIRIO</h3>
                             <p>BS Information Technology Student</p>
-                            <span>Tanauan CIty, Batangas, Philippines</span>
+                            <span>Philippines</span>
                         </div>
                     </div>
 
@@ -467,7 +467,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                                 <h4>CONTACT</h4>
                                 <p>liriocher25@gmail.com</p>
                                 <p>09764332931</p>
-                                <p>Tanauan City, Batangas, Philippines</p>
+                                <p>Philippines</p>
                             </div>
 
                             <div class="resume-block">
@@ -612,8 +612,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                                         system also generates a QR code that customers can scan
                                         to track the current status of their laundry.
                                     </p>
-                                    <a class="resume-project-link" href="#project-laundry">
-                                        VIEW PROJECT ↗
+                                    <a class="resume-project-link"
+                                       href="https://disabled-sprint-depends-lighter.trycloudflare.com/laundry-system/auth/login.php"
+                                       target="_blank"
+                                       rel="noopener noreferrer">
+                                        OPEN LIVE SYSTEM ↗
                                     </a>
                                 </div>
                             </div>
@@ -904,6 +907,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
             <p id="modalDescription"></p>
 
             <div class="modal-tools" id="modalTools"></div>
+
+            <a
+                class="modal-project-link"
+                id="modalProjectLink"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer">
+                OPEN LIVE SYSTEM ↗
+            </a>
         </article>
     </div>
 
