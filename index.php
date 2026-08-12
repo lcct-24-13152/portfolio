@@ -355,7 +355,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                 </div>
 
                 <div class="project-grid">
-                    <article class="project-card reveal" data-category="one">
+                    <article class="project-card reveal" id="project-portfolio" data-category="one">
                         <div class="project-image project-one">
                             <span>01</span>
                         </div>
@@ -380,7 +380,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                         </div>
                     </article>
 
-                    <article class="project-card reveal" data-category="two">
+                    <article class="project-card reveal" id="project-reservation" data-category="two">
                         <div class="project-image project-two">
                             <span>02</span>
                         </div>
@@ -405,7 +405,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                         </div>
                     </article>
 
-                    <article class="project-card reveal" data-category="three">
+                    <article class="project-card reveal" id="project-laundry" data-category="three">
                         <div class="project-image project-three">
                             <span>03</span>
                         </div>
@@ -457,7 +457,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                         <div>
                             <h3>CHER MICOLE P. LIRIO</h3>
                             <p>BS Information Technology Student</p>
-                            <span>Philippines</span>
+                            <span>Tanauan CIty, Batangas, Philippines</span>
                         </div>
                     </div>
 
@@ -467,7 +467,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                                 <h4>CONTACT</h4>
                                 <p>liriocher25@gmail.com</p>
                                 <p>09764332931</p>
-                                <p>Philippines</p>
+                                <p>Tanauan City, Batangas, Philippines</p>
                             </div>
 
                             <div class="resume-block">
@@ -585,6 +585,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                                         Designed a responsive portfolio with sections,
                                         animations, dark mode, and an interactive game.
                                     </p>
+                                    <a class="resume-project-link" href="#project-portfolio">
+                                        VIEW PROJECT ↗
+                                    </a>
                                 </div>
 
                                 <div class="resume-item">
@@ -594,6 +597,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                                         Practiced creating forms, databases,
                                         reports, and responsive admin interfaces.
                                     </p>
+                                    <a class="resume-project-link" href="#project-reservation">
+                                        VIEW PROJECT ↗
+                                    </a>
                                 </div>
 
                                 <div class="resume-item">
@@ -606,6 +612,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                                         system also generates a QR code that customers can scan
                                         to track the current status of their laundry.
                                     </p>
+                                    <a class="resume-project-link" href="#project-laundry">
+                                        VIEW PROJECT ↗
+                                    </a>
                                 </div>
                             </div>
                         </div>
