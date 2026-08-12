@@ -150,6 +150,34 @@
             color: #356ed2 !important;
         }
 
+        .resume-pdf-paper .resume-certifications {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 5px;
+        }
+
+        .resume-pdf-paper .resume-cert-item {
+            padding: 5px 6px;
+            border: 1px solid #d9e0e7;
+            border-radius: 6px;
+            background: #f8fafc;
+        }
+
+        .resume-pdf-paper .resume-cert-item strong {
+            display: block;
+            color: #172033;
+            font-size: 0.66rem;
+            line-height: 1.18;
+        }
+
+        .resume-pdf-paper .resume-cert-item span {
+            display: block;
+            margin-top: 2px;
+            color: #526176;
+            font-size: 0.57rem;
+            line-height: 1.18;
+        }
+
         .resume-pdf-paper .resume-columns > aside {
             background: #eef4f1;
         }
@@ -427,6 +455,36 @@
 
             #resumePdfPaper .resume-item h5 + p {
                 margin-top: 0.7mm !important;
+            }
+
+            #resumePdfPaper .resume-certifications {
+                display: grid !important;
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 1.4mm !important;
+            }
+
+            #resumePdfPaper .resume-cert-item {
+                padding: 1.3mm 1.5mm !important;
+                border: 1px solid #d9e0e7 !important;
+                border-radius: 1.8mm !important;
+                background: #f8fafc !important;
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
+            #resumePdfPaper .resume-cert-item strong {
+                display: block !important;
+                color: #172033 !important;
+                font-size: 6.45pt !important;
+                line-height: 1.18 !important;
+            }
+
+            #resumePdfPaper .resume-cert-item span {
+                display: block !important;
+                margin-top: 0.45mm !important;
+                color: #526176 !important;
+                font-size: 5.7pt !important;
+                line-height: 1.15 !important;
             }
         }
     </style>
@@ -840,6 +898,52 @@
                                 </div>
 
                                 
+                            </div>
+
+                            <div class="resume-block resume-certifications-block">
+                                <h4>CERTIFICATIONS &amp; ACHIEVEMENTS</h4>
+
+                                <div class="resume-certifications">
+                                    <div class="resume-cert-item">
+                                        <strong>Network Technician Career Path Exam</strong>
+                                        <span>Cisco Networking Academy · Apr 22, 2026</span>
+                                    </div>
+
+                                    <div class="resume-cert-item">
+                                        <strong>Network Addressing and Basic Troubleshooting</strong>
+                                        <span>Cisco Networking Academy · Apr 14, 2026</span>
+                                    </div>
+
+                                    <div class="resume-cert-item">
+                                        <strong>Network Support and Security</strong>
+                                        <span>Cisco Networking Academy · Apr 14, 2026</span>
+                                    </div>
+
+                                    <div class="resume-cert-item">
+                                        <strong>Networking Devices and Initial Configuration</strong>
+                                        <span>Cisco Networking Academy · Apr 8, 2026</span>
+                                    </div>
+
+                                    <div class="resume-cert-item">
+                                        <strong>Networking Basics</strong>
+                                        <span>Cisco Networking Academy · Apr 6, 2026</span>
+                                    </div>
+
+                                    <div class="resume-cert-item">
+                                        <strong>HTML Essentials</strong>
+                                        <span>DICT-ITU DTC Initiative / Cisco Networking Academy · Aug 11, 2026</span>
+                                    </div>
+
+                                    <div class="resume-cert-item">
+                                        <strong>HTML Essentials — Statement of Achievement</strong>
+                                        <span>Cisco Networking Academy &amp; JS Institute · Aug 11, 2026</span>
+                                    </div>
+
+                                    <div class="resume-cert-item">
+                                        <strong>BSIT Educational Exposure Trip — Certificate of Participation</strong>
+                                        <span>La Consolacion College Tanauan · Mar 23, 2026</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="resume-block">

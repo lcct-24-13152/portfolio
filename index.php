@@ -529,6 +529,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                                 
                             </div>
 
+                            <div class="resume-block resume-certifications-block">
+                                <h4>CERTIFICATIONS &amp; ACHIEVEMENTS</h4>
+
+                                <div class="resume-certifications">
+                                    <div class="resume-cert-item">
+                                        <strong>Network Technician Career Path Exam</strong>
+                                        <span>Cisco Networking Academy · Apr 22, 2026</span>
+                                    </div>
+
+                                    <div class="resume-cert-item">
+                                        <strong>Network Addressing and Basic Troubleshooting</strong>
+                                        <span>Cisco Networking Academy · Apr 14, 2026</span>
+                                    </div>
+
+                                    <div class="resume-cert-item">
+                                        <strong>Network Support and Security</strong>
+                                        <span>Cisco Networking Academy · Apr 14, 2026</span>
+                                    </div>
+
+                                    <div class="resume-cert-item">
+                                        <strong>Networking Devices and Initial Configuration</strong>
+                                        <span>Cisco Networking Academy · Apr 8, 2026</span>
+                                    </div>
+
+                                    <div class="resume-cert-item">
+                                        <strong>Networking Basics</strong>
+                                        <span>Cisco Networking Academy · Apr 6, 2026</span>
+                                    </div>
+
+                                    <div class="resume-cert-item">
+                                        <strong>HTML Essentials</strong>
+                                        <span>DICT-ITU DTC Initiative / Cisco Networking Academy · Aug 11, 2026</span>
+                                    </div>
+
+                                    <div class="resume-cert-item">
+                                        <strong>HTML Essentials — Statement of Achievement</strong>
+                                        <span>Cisco Networking Academy &amp; JS Institute · Aug 11, 2026</span>
+                                    </div>
+
+                                    <div class="resume-cert-item">
+                                        <strong>BSIT Educational Exposure Trip — Certificate of Participation</strong>
+                                        <span>La Consolacion College Tanauan · Mar 23, 2026</span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="resume-block">
                                 <h4>PROJECT EXPERIENCE</h4>
 
