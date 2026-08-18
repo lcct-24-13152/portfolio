@@ -7,14 +7,14 @@
             title: "Bridging Business and Technology for the Next Generation",
             issuer: "La Consolacion College Tanauan · IT Week 2026",
             date: "March 21, 2026",
-            image: () => `data:image/jpeg;base64,${window.__CERT1 || ""}`
+            image: "assets/certificates/bridging-business-technology-2026.jpg"
         },
         {
             id: "robotics-experience-2026",
             title: "Design, Build, Innovate: The Robotics Experience",
             issuer: "First Eduspec Inc. / LCCT · ICT Week 2026",
             date: "March 19, 2026",
-            image: () => `data:image/jpeg;base64,${window.__CERT2 || ""}`
+            image: "assets/certificates/robotics-experience-2026.jpg"
         }
     ];
 
@@ -36,22 +36,20 @@
 
         CERTIFICATES.forEach((certificate) => {
             if (grid.querySelector(`[data-added-certificate="${certificate.id}"]`)) return;
-            const image = certificate.image();
-            if (!image || image.endsWith(",")) return;
 
             const article = document.createElement("article");
             article.className = "certificate-card reveal visible";
             article.dataset.addedCertificate = certificate.id;
             article.innerHTML = `
-                <a class="certificate-preview" href="${image}" target="_blank" rel="noopener noreferrer" aria-label="View ${certificate.title} certificate">
-                    <img src="${image}" alt="${certificate.title} certificate" loading="lazy">
+                <a class="certificate-preview" href="${certificate.image}" target="_blank" rel="noopener noreferrer" aria-label="View ${certificate.title} certificate">
+                    <img src="${certificate.image}" alt="${certificate.title} certificate" loading="lazy">
                     <span>VIEW</span>
                 </a>
                 <div class="certificate-body">
                     <p class="certificate-type">CERTIFICATE OF PARTICIPATION</p>
                     <h3>${certificate.title}</h3>
                     <p class="certificate-date">${certificate.issuer} · ${certificate.date}</p>
-                    <a class="certificate-button" href="${image}" target="_blank" rel="noopener noreferrer">VIEW CERTIFICATE</a>
+                    <a class="certificate-button" href="${certificate.image}" target="_blank" rel="noopener noreferrer">VIEW CERTIFICATE</a>
                 </div>`;
             grid.appendChild(article);
         });
@@ -77,8 +75,8 @@
     }
 
     function autoStartAfterCountdown() {
-        window.clearTimeout(window.__snakeAutoStartTimer);
-        window.__snakeAutoStartTimer = window.setTimeout(() => {
+        clearTimeout(window.__snakeAutoStartTimer);
+        window.__snakeAutoStartTimer = setTimeout(() => {
             if (window.portfolioRouter?.getMode?.() !== "game") return;
             document.dispatchEvent(new KeyboardEvent("keydown", {
                 key: "ArrowRight",
@@ -104,9 +102,9 @@
     function installSnakeAutoStart() {
         document.querySelector("#restartButton")?.addEventListener("click", autoStartAfterCountdown, true);
         let attempts = 0;
-        const timer = window.setInterval(() => {
+        const timer = setInterval(() => {
             attempts += 1;
-            if (patchSnakeRestart() || attempts > 120) window.clearInterval(timer);
+            if (patchSnakeRestart() || attempts > 120) clearInterval(timer);
         }, 50);
     }
 
