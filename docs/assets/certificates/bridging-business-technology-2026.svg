@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1414" role="img" aria-labelledby="title desc">
+  <title id="title">Certificate of Participation - Bridging Business and Technology for the Next Generation</title>
+  <desc id="desc">Certificate awarded to Lirio, Cher Micole on March 21, 2026 at La Consolacion College Tanauan.</desc>
+
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b57a12"/>
+      <stop offset="0.45" stop-color="#ffd35f"/>
+      <stop offset="1" stop-color="#c58a17"/>
+    </linearGradient>
+    <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#12004d"/>
+      <stop offset="1" stop-color="#15157f"/>
+    </linearGradient>
+    <radialGradient id="seal" cx="45%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#fff2a8"/>
+      <stop offset="0.32" stop-color="#e3b847"/>
+      <stop offset="0.68" stop-color="#9b6814"/>
+      <stop offset="1" stop-color="#f4d56d"/>
+    </radialGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000" flood-opacity=".13"/>
+    </filter>
+  </defs>
+
+  <rect width="2000" height="1414" fill="#fff"/>
+
+  <!-- navy/gold sweeping accents -->
+  <path d="M650 0H2000V445C1810 278 1615 188 1384 133C1155 78 914 97 650 0Z" fill="url(#navy)"/>
+  <path d="M662 0C885 102 1106 88 1336 106C1594 127 1782 211 2000 392V350C1814 181 1608 87 1360 65C1116 44 884 58 720 0Z" fill="#ffc22e"/>
+  <path d="M742 0C1014 115 1236 90 1450 130C1684 174 1848 252 2000 397V364C1840 220 1660 143 1442 104C1230 66 994 89 790 0Z" fill="#ffe28a"/>
+
+  <path d="M0 869C194 1074 390 1190 652 1264C927 1342 1183 1304 1394 1414H0Z" fill="url(#navy)"/>
+  <path d="M0 905C180 1095 394 1219 650 1287C910 1355 1164 1325 1322 1414H1251C1089 1362 876 1395 632 1331C367 1261 158 1137 0 962Z" fill="#ffc22e"/>
+  <path d="M0 974C153 1139 345 1256 604 1327C849 1394 1036 1365 1133 1414H1054C923 1390 813 1410 584 1352C337 1289 145 1179 0 1016Z" fill="#ffe28a"/>
+
+  <!-- corner line ornaments -->
+  <g fill="none" stroke="url(#gold)" stroke-width="5">
+    <path d="M32 30H595"/><path d="M32 30V580"/>
+    <path d="M60 58H535"/><path d="M60 58V528"/>
+    <path d="M88 86H478"/><path d="M88 86V468"/>
+    <path d="M1968 1382H1440"/><path d="M1968 1382V836"/>
+    <path d="M1940 1354H1495"/><path d="M1940 1354V892"/>
+    <path d="M1912 1326H1547"/><path d="M1912 1326V945"/>
+  </g>
+
+  <!-- stylized INTEL emblem -->
+  <g transform="translate(70 68)" filter="url(#softShadow)">
+    <polygon points="74,0 148,42 148,128 74,170 0,128 0,42" fill="#f7f7f7" stroke="#4a4a4a" stroke-width="8"/>
+    <polygon points="74,17 130,50 130,119 74,151 18,119 18,50" fill="none" stroke="#55a8bb" stroke-width="8"/>
+    <rect x="-8" y="65" width="164" height="42" fill="#565656" stroke="#2c2c2c" stroke-width="4"/>
+    <text x="74" y="94" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" fill="#fff" font-weight="700" letter-spacing="4">INTEL</text>
+    <rect x="48" y="35" width="12" height="27" fill="#58aabd"/><rect x="68" y="27" width="12" height="35" fill="#58aabd"/><rect x="88" y="38" width="12" height="24" fill="#58aabd"/>
+  </g>
+
+  <!-- stylized LCCT seal -->
+  <g transform="translate(1797 55)" filter="url(#softShadow)">
+    <circle cx="72" cy="72" r="69" fill="#fff" stroke="#0b3d87" stroke-width="6"/>
+    <circle cx="72" cy="72" r="53" fill="#e8f2ff" stroke="#0b3d87" stroke-width="3"/>
+    <circle cx="72" cy="72" r="31" fill="#174f9b"/>
+    <circle cx="61" cy="67" r="13" fill="#e3394d"/><circle cx="78" cy="67" r="13" fill="#f6c134"/>
+    <path d="M52 88Q72 73 92 88" fill="none" stroke="#fff" stroke-width="5"/>
+    <text x="72" y="18" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#0b3d87" font-weight="700">LA CONSOLACION COLLEGE</text>
+    <text x="72" y="139" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#0b3d87" font-weight="700">TANAUAN</text>
+  </g>
+
+  <text x="1000" y="306" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="112" fill="#050505" letter-spacing="3">CERTIFICATE</text>
+  <text x="1000" y="382" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="54" fill="#111" letter-spacing="2">OF PARTICIPATION</text>
+  <text x="1000" y="470" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="34" fill="#222">is given to</text>
+
+  <text x="1000" y="700" text-anchor="middle" font-family="'Brush Script MT', 'Segoe Script', cursive" font-style="italic" font-size="108" fill="#111">Lirio, Cher Micole</text>
+  <line x1="365" y1="740" x2="1635" y2="740" stroke="#333" stroke-width="2"/>
+
+  <text x="1000" y="808" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="36" fill="#202020">for his active participation in the seminar on “Bridging Business and Technology for</text>
+  <text x="1000" y="858" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="36" fill="#202020">the Next Generation,” held in celebration of IT Week 2026.</text>
+
+  <text x="1000" y="962" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="34" fill="#202020">Given this 21st day of March, 2026. at La Consolacion College Tanauan.</text>
+
+  <!-- signatures rendered as crisp script text -->
+  <g fill="#111" text-anchor="middle">
+    <text x="590" y="1077" font-family="'Segoe Script', 'Brush Script MT', cursive" font-size="44" font-style="italic">Salem M. Laylo</text>
+    <line x1="425" y1="1092" x2="755" y2="1092" stroke="#222" stroke-width="2"/>
+    <text x="590" y="1140" font-family="Georgia, 'Times New Roman', serif" font-size="32" font-weight="700">Dr. Salem M. Laylo</text>
+    <text x="590" y="1184" font-family="Georgia, 'Times New Roman', serif" font-size="29">Program Chair, BSIT</text>
+
+    <text x="1410" y="1077" font-family="'Segoe Script', 'Brush Script MT', cursive" font-size="44" font-style="italic">Juan L. Matanguihan</text>
+    <line x1="1245" y1="1092" x2="1575" y2="1092" stroke="#222" stroke-width="2"/>
+    <text x="1410" y="1140" font-family="Georgia, 'Times New Roman', serif" font-size="32" font-weight="700">Dr. Juan L. Matanguihan</text>
+    <text x="1410" y="1184" font-family="Georgia, 'Times New Roman', serif" font-size="29">College Dean</text>
+  </g>
+
+  <!-- gold medal -->
+  <g transform="translate(1000 1095)" filter="url(#softShadow)">
+    <polygon points="-48,78 -18,152 0,120 20,152 47,79" fill="#f2cf6c"/>
+    <polygon points="48,78 18,152 0,120 -20,152 -47,79" fill="#e9c25c" opacity=".75"/>
+    <circle r="86" fill="#d7aa35"/>
+    <circle r="72" fill="url(#seal)" stroke="#f6dc87" stroke-width="6"/>
+    <circle r="53" fill="none" stroke="#9c6813" stroke-width="3" opacity=".65"/>
+  </g>
+</svg>
