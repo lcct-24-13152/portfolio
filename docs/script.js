@@ -225,11 +225,6 @@ contactForm?.addEventListener("submit", async (event) => {
     const isGitHubPages = window.location.hostname.endsWith("github.io");
     const isStaticFile = window.location.protocol === "file:";
 
-    /*
-     * GitHub Pages cannot execute PHP/MySQL.
-     * On GitHub Pages, prepare the message in the visitor's email app.
-     * On Laragon/localhost, continue saving the message into MySQL through index.php.
-     */
     if (isGitHubPages || isStaticFile) {
         const emailSubject = encodeURIComponent(subject);
         const emailBody = encodeURIComponent(
@@ -282,10 +277,9 @@ contactForm?.addEventListener("submit", async (event) => {
 });
 
 /* ======================================================
-   RESPONSIVE SNAKE CATEGORY GAME
-   Desktop: wide board
-   Tablet: compact board
-   Mobile/iPhone portrait: portrait board + touch/swipe
+   RESPONSIVE SNAKE PORTFOLIO NAVIGATION
+   Only these destinations are allowed:
+   About, Skills, Projects, Resume, Certificates, Contact
    ====================================================== */
 
 const canvas = $("#snakeCanvas");
@@ -299,9 +293,21 @@ if (canvas) {
     const restartButton = $("#restartButton");
     const mobilePause = $("#mobilePause");
     const gameBox = canvas.closest(".game-box");
+    const gameSection = $("#game");
+    const directionButtons = $$('[data-direction]');
 
     const CELL = 20;
     const SPEED = 115;
+    const COUNTDOWN_STEP = 700;
+
+    const ALLOWED_SECTIONS = new Set([
+        "about",
+        "skills",
+        "projects",
+        "resume",
+        "certificates",
+        "contact"
+    ]);
 
     const GAME_LAYOUTS = {
         desktop: {
@@ -318,7 +324,7 @@ if (canvas) {
                 { id: "about", label: "ABOUT", x: 1, y: 2, width: 7, height: 5, color: "#6ff0bf" },
                 { id: "skills", label: "SKILLS", x: 11, y: 2, width: 7, height: 5, color: "#77a4ff" },
                 { id: "projects", label: "PROJECTS", x: 21, y: 2, width: 8, height: 5, color: "#c38dff" },
-                { id: "certificates", label: "CERTS", x: 32, y: 2, width: 8, height: 5, color: "#5fd9ff" },
+                { id: "certificates", label: "CERTIFICATES", x: 32, y: 2, width: 10, height: 5, color: "#5fd9ff" },
                 { id: "resume", label: "RESUME", x: 7, y: 19, width: 9, height: 5, color: "#ffca6a" },
                 { id: "contact", label: "CONTACT", x: 32, y: 19, width: 10, height: 5, color: "#ff7f8d" }
             ]
@@ -337,7 +343,7 @@ if (canvas) {
                 { id: "about", label: "ABOUT", x: 1, y: 1, width: 8, height: 5, color: "#6ff0bf" },
                 { id: "skills", label: "SKILLS", x: 12, y: 1, width: 8, height: 5, color: "#77a4ff" },
                 { id: "projects", label: "PROJECTS", x: 23, y: 1, width: 8, height: 5, color: "#c38dff" },
-                { id: "certificates", label: "CERTS", x: 10, y: 8, width: 12, height: 4, color: "#5fd9ff" },
+                { id: "certificates", label: "CERTIFICATES", x: 9, y: 8, width: 14, height: 4, color: "#5fd9ff" },
                 { id: "resume", label: "RESUME", x: 4, y: 21, width: 9, height: 5, color: "#ffca6a" },
                 { id: "contact", label: "CONTACT", x: 18, y: 21, width: 11, height: 5, color: "#ff7f8d" }
             ]
@@ -356,7 +362,7 @@ if (canvas) {
                 { id: "about", label: "ABOUT", x: 1, y: 1, width: 7, height: 4, color: "#6ff0bf" },
                 { id: "skills", label: "SKILLS", x: 10, y: 1, width: 7, height: 4, color: "#77a4ff" },
                 { id: "projects", label: "PROJECTS", x: 1, y: 7, width: 8, height: 4, color: "#c38dff" },
-                { id: "certificates", label: "CERTS", x: 9, y: 7, width: 8, height: 4, color: "#5fd9ff" },
+                { id: "certificates", label: "CERTIFICATES", x: 9, y: 7, width: 8, height: 4, color: "#5fd9ff" },
                 { id: "resume", label: "RESUME", x: 1, y: 14, width: 8, height: 4, color: "#ffca6a" },
                 { id: "contact", label: "CONTACT", x: 9, y: 14, width: 8, height: 4, color: "#ff7f8d" }
             ]
@@ -371,13 +377,24 @@ if (canvas) {
     let snake = [];
     let direction = { x: 0, y: 0 };
     let nextDirection = { x: 0, y: 0 };
-    let chip = { x: 14, y: 12 };
+
     let score = 0;
     let started = false;
     let paused = false;
     let movingToSection = false;
+    let gameEnded = false;
+
+    let controlsEnabled = false;
+    let countdownActive = false;
+    let countdownDisplay = "";
+    let gameIsVisible = false;
+    let firstCountdownStarted = false;
+    let lastPortalId = null;
+
     let gameLoop;
     let resizeTimer;
+    let countdownTimers = [];
+
     let touchStartX = 0;
     let touchStartY = 0;
 
@@ -392,128 +409,192 @@ if (canvas) {
     function getLayoutForScreen() {
         const viewportWidth = window.innerWidth;
 
-        if (viewportWidth <= 600) {
-            return GAME_LAYOUTS.mobile;
-        }
-
-        if (viewportWidth <= 1100) {
-            return GAME_LAYOUTS.tablet;
-        }
-
+        if (viewportWidth <= 600) return GAME_LAYOUTS.mobile;
+        if (viewportWidth <= 1100) return GAME_LAYOUTS.tablet;
         return GAME_LAYOUTS.desktop;
     }
 
     function defaultInstruction() {
         if (currentLayout?.name === "mobile" || isTouchDevice()) {
-            return "USE TOUCH CONTROLS OR SWIPE";
+            return "SWIPE OR USE THE ARROW BUTTONS";
         }
 
         return "PRESS ARROW KEYS OR WASD";
     }
 
-    function applyGameLayout(forceReset = false) {
+    function clearCountdownTimers() {
+        countdownTimers.forEach((timer) => clearTimeout(timer));
+        countdownTimers = [];
+    }
+
+    function setControlsEnabled(enabled) {
+        controlsEnabled = enabled;
+
+        directionButtons.forEach((button) => {
+            button.disabled = !enabled;
+            button.setAttribute("aria-disabled", String(!enabled));
+        });
+
+        if (pauseButton) {
+            pauseButton.disabled = !enabled || gameEnded;
+            pauseButton.setAttribute("aria-disabled", String(!enabled || gameEnded));
+        }
+
+        if (mobilePause) {
+            mobilePause.disabled = !enabled || gameEnded;
+            mobilePause.setAttribute("aria-disabled", String(!enabled || gameEnded));
+        }
+
+        canvas.setAttribute("aria-disabled", String(!enabled));
+    }
+
+    function applyGameLayout(forceReset = false, restartCountdown = false) {
         const nextLayout = getLayoutForScreen();
         const layoutChanged = currentLayout?.name !== nextLayout.name;
 
         currentLayout = nextLayout;
         COLUMNS = currentLayout.columns;
         ROWS = currentLayout.rows;
-        portals = currentLayout.portals.map((portal) => ({ ...portal }));
+        portals = currentLayout.portals
+            .filter((portal) => ALLOWED_SECTIONS.has(portal.id))
+            .map((portal) => ({ ...portal }));
 
         canvas.width = COLUMNS * CELL;
         canvas.height = ROWS * CELL;
         canvas.dataset.layout = currentLayout.name;
 
-        if (gameBox) {
-            gameBox.dataset.gameLayout = currentLayout.name;
-        }
+        if (gameBox) gameBox.dataset.gameLayout = currentLayout.name;
 
         if (layoutChanged || forceReset || snake.length === 0) {
-            resetGame();
+            resetGame({ countdown: restartCountdown });
         } else {
             drawGame();
         }
     }
 
-    function resetGame() {
-        snake = currentLayout.startSnake.map((part) => ({ ...part }));
+    function resetGame({ countdown = false } = {}) {
+        clearCountdownTimers();
 
+        snake = currentLayout.startSnake.map((part) => ({ ...part }));
         direction = { x: 0, y: 0 };
         nextDirection = { x: 0, y: 0 };
+
         score = 0;
         started = false;
         paused = false;
         movingToSection = false;
+        gameEnded = false;
+        countdownActive = false;
+        countdownDisplay = "";
+        lastPortalId = null;
 
         if (scoreText) scoreText.textContent = "0";
-        if (gameMessage) gameMessage.textContent = defaultInstruction();
         if (pauseButton) pauseButton.textContent = "PAUSE";
+        if (mobilePause) mobilePause.textContent = "PAUSE";
+
+        setControlsEnabled(false);
 
         clearInterval(gameLoop);
         gameLoop = setInterval(updateGame, SPEED);
 
-        placeChip();
-        drawGame();
-    }
-
-    function pointInsidePortal(x, y) {
-        return portals.some((portal) => {
-            return (
-                x >= portal.x &&
-                x < portal.x + portal.width &&
-                y >= portal.y &&
-                y < portal.y + portal.height
-            );
-        });
-    }
-
-    function pointOnSnake(x, y) {
-        return snake.some((part) => part.x === x && part.y === y);
-    }
-
-    function placeChip() {
-        let valid = false;
-        let attempts = 0;
-
-        while (!valid && attempts < 2000) {
-            chip = {
-                x: Math.floor(Math.random() * COLUMNS),
-                y: Math.floor(Math.random() * ROWS)
-            };
-
-            valid =
-                !pointInsidePortal(chip.x, chip.y) &&
-                !pointOnSnake(chip.x, chip.y);
-
-            attempts += 1;
+        if (gameMessage) {
+            gameMessage.textContent = countdown ? "GET READY" : "GAME READY";
         }
+
+        drawGame();
+
+        if (countdown) beginCountdown();
+    }
+
+    function beginCountdown() {
+        if (!currentLayout || countdownActive || movingToSection) return;
+
+        clearCountdownTimers();
+        started = false;
+        paused = false;
+        gameEnded = false;
+        direction = { x: 0, y: 0 };
+        nextDirection = { x: 0, y: 0 };
+        countdownActive = true;
+        setControlsEnabled(false);
+
+        const sequence = ["3", "2", "1", "START!"];
+
+        sequence.forEach((value, index) => {
+            const timer = setTimeout(() => {
+                countdownDisplay = value;
+
+                if (gameMessage) {
+                    gameMessage.textContent = value === "START!" ? "START!" : `GET READY • ${value}`;
+                }
+
+                drawGame();
+            }, index * COUNTDOWN_STEP);
+
+            countdownTimers.push(timer);
+        });
+
+        const finishTimer = setTimeout(() => {
+            countdownActive = false;
+            countdownDisplay = "";
+            setControlsEnabled(true);
+
+            if (gameMessage) {
+                gameMessage.textContent = `${defaultInstruction()} • CHOOSE A DIRECTION`;
+            }
+
+            drawGame();
+        }, sequence.length * COUNTDOWN_STEP);
+
+        countdownTimers.push(finishTimer);
     }
 
     function setDirection(newDirection) {
-        if (movingToSection || !newDirection) return;
+        if (!controlsEnabled || countdownActive || movingToSection || gameEnded || !newDirection) {
+            return;
+        }
+
+        const activeDirection =
+            nextDirection.x !== 0 || nextDirection.y !== 0
+                ? nextDirection
+                : direction;
 
         const opposite =
-            direction.x + newDirection.x === 0 &&
-            direction.y + newDirection.y === 0 &&
-            (direction.x !== 0 || direction.y !== 0);
+            activeDirection.x + newDirection.x === 0 &&
+            activeDirection.y + newDirection.y === 0 &&
+            (activeDirection.x !== 0 || activeDirection.y !== 0);
 
         if (opposite) return;
 
         nextDirection = newDirection;
-        started = true;
-        paused = false;
 
-        if (gameMessage) gameMessage.textContent = "ENTER A CATEGORY";
-        if (pauseButton) pauseButton.textContent = "PAUSE";
+        if (!started) {
+            started = true;
+            paused = false;
+
+            if (gameMessage) gameMessage.textContent = "NAVIGATE TO A SECTION";
+            if (pauseButton) pauseButton.textContent = "PAUSE";
+            if (mobilePause) mobilePause.textContent = "PAUSE";
+            return;
+        }
+
+        if (paused && gameMessage) {
+            gameMessage.textContent = "PAUSED • PRESS CONTINUE";
+        }
     }
 
     function updateGame() {
-        if (!started || paused || movingToSection) {
+        if (countdownActive || !started || paused || movingToSection || gameEnded) {
             drawGame();
             return;
         }
 
         direction = nextDirection;
+
+        if (direction.x === 0 && direction.y === 0) {
+            drawGame();
+            return;
+        }
 
         const newHead = {
             x: snake[0].x + direction.x,
@@ -527,11 +608,7 @@ if (canvas) {
             newHead.y >= ROWS;
 
         const hitSnake = snake.some((part, index) => {
-            return (
-                index > 0 &&
-                part.x === newHead.x &&
-                part.y === newHead.y
-            );
+            return index > 0 && part.x === newHead.x && part.y === newHead.y;
         });
 
         if (hitWall || hitSnake) {
@@ -540,14 +617,7 @@ if (canvas) {
         }
 
         snake.unshift(newHead);
-
-        if (newHead.x === chip.x && newHead.y === chip.y) {
-            score += 10;
-            if (scoreText) scoreText.textContent = String(score);
-            placeChip();
-        } else {
-            snake.pop();
-        }
+        snake.pop();
 
         const portal = portals.find((item) => {
             return (
@@ -558,7 +628,12 @@ if (canvas) {
             );
         });
 
-        if (portal) {
+        if (!portal) {
+            lastPortalId = null;
+        } else if (portal.id !== lastPortalId) {
+            lastPortalId = portal.id;
+            score += 1;
+            if (scoreText) scoreText.textContent = String(score);
             openSection(portal);
         }
 
@@ -566,58 +641,71 @@ if (canvas) {
     }
 
     function gameOver() {
+        gameEnded = true;
         paused = true;
         started = false;
         direction = { x: 0, y: 0 };
         nextDirection = { x: 0, y: 0 };
+        setControlsEnabled(false);
 
-        if (gameMessage) gameMessage.textContent = "GAME OVER";
-        if (pauseButton) pauseButton.textContent = "CONTINUE";
+        if (gameMessage) gameMessage.textContent = "GAME OVER • PRESS RESTART";
+        if (pauseButton) pauseButton.textContent = "PAUSE";
+        if (mobilePause) mobilePause.textContent = "PAUSE";
 
         drawGame(true);
     }
 
     function openSection(portal) {
+        if (!portal || !ALLOWED_SECTIONS.has(portal.id)) return;
+
+        const target = document.getElementById(portal.id);
+        if (!target) return;
+
         movingToSection = true;
         paused = true;
+        setControlsEnabled(false);
 
         if (gameMessage) gameMessage.textContent = `OPENING ${portal.label}`;
+        if (pauseButton) pauseButton.textContent = "CONTINUE";
+        if (mobilePause) mobilePause.textContent = "CONTINUE";
 
-        setTimeout(() => {
-            const target = document.getElementById(portal.id);
+        drawGame();
 
-            if (target) {
-                target.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
+        const scrollTimer = setTimeout(() => {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 250);
+
+        const finishTimer = setTimeout(() => {
+            movingToSection = false;
+            setControlsEnabled(true);
+
+            if (gameMessage) {
+                gameMessage.textContent = `${portal.label} OPENED • RETURN TO GAME TO CONTINUE`;
             }
 
-            movingToSection = false;
+            drawGame();
+        }, 850);
 
-            if (gameMessage) gameMessage.textContent = `${portal.label} OPENED`;
-            if (pauseButton) pauseButton.textContent = "CONTINUE";
-        }, 450);
+        countdownTimers.push(scrollTimer, finishTimer);
     }
 
     function togglePause() {
-        if (!started) {
-            started = true;
+        if (!controlsEnabled || countdownActive || movingToSection || gameEnded) return;
 
-            if (nextDirection.x === 0 && nextDirection.y === 0) {
-                nextDirection = { x: 1, y: 0 };
+        if (!started) {
+            if (gameMessage) {
+                gameMessage.textContent = `${defaultInstruction()} • CHOOSE A DIRECTION`;
             }
+            return;
         }
 
         paused = !paused;
 
-        if (pauseButton) {
-            pauseButton.textContent = paused ? "CONTINUE" : "PAUSE";
-        }
+        if (pauseButton) pauseButton.textContent = paused ? "CONTINUE" : "PAUSE";
+        if (mobilePause) mobilePause.textContent = paused ? "CONTINUE" : "PAUSE";
+        if (gameMessage) gameMessage.textContent = paused ? "PAUSED" : "NAVIGATE TO A SECTION";
 
-        if (gameMessage) {
-            gameMessage.textContent = paused ? "PAUSED" : "ENTER A CATEGORY";
-        }
+        drawGame();
     }
 
     function roundedRectangle(x, y, width, height, radius) {
@@ -659,15 +747,15 @@ if (canvas) {
         const inset = currentLayout.name === "mobile" ? 3 : 5;
         const portalFont =
             currentLayout.name === "mobile"
-                ? 12
+                ? portal.id === "certificates" ? 10 : 12
                 : currentLayout.name === "tablet"
-                    ? 13
-                    : 15;
+                    ? portal.id === "certificates" ? 11 : 13
+                    : portal.id === "certificates" ? 12 : 15;
 
         context.save();
-
         context.globalAlpha = 0.13;
         context.fillStyle = portal.color;
+
         roundedRectangle(
             x + inset,
             y + inset,
@@ -681,6 +769,7 @@ if (canvas) {
         context.strokeStyle = portal.color;
         context.lineWidth = currentLayout.name === "mobile" ? 1.5 : 2;
         context.setLineDash(currentLayout.name === "mobile" ? [5, 5] : [7, 7]);
+
         roundedRectangle(
             x + inset,
             y + inset,
@@ -696,28 +785,7 @@ if (canvas) {
         context.font = `bold ${portalFont}px Arial`;
         context.textAlign = "center";
         context.textBaseline = "middle";
-        context.fillText(
-            portal.label,
-            x + width / 2,
-            y + height / 2
-        );
-
-        context.restore();
-    }
-
-    function drawChip() {
-        const chipSize = currentLayout.name === "mobile" ? 8 : 10;
-
-        context.save();
-        context.translate(
-            chip.x * CELL + CELL / 2,
-            chip.y * CELL + CELL / 2
-        );
-        context.rotate(Math.PI / 4);
-        context.fillStyle = "#6ff0bf";
-        context.shadowColor = "#6ff0bf";
-        context.shadowBlur = currentLayout.name === "mobile" ? 10 : 15;
-        context.fillRect(-chipSize / 2, -chipSize / 2, chipSize, chipSize);
+        context.fillText(portal.label, x + width / 2, y + height / 2);
         context.restore();
     }
 
@@ -728,7 +796,6 @@ if (canvas) {
             const size = CELL - 4;
 
             context.save();
-
             context.fillStyle =
                 index === 0
                     ? "#a0ffdc"
@@ -741,7 +808,6 @@ if (canvas) {
 
             roundedRectangle(x, y, size, size, index === 0 ? 7 : 5);
             context.fill();
-
             context.restore();
         });
     }
@@ -754,7 +820,7 @@ if (canvas) {
                     ? 28
                     : 31;
 
-        context.fillStyle = "rgba(4, 10, 18, 0.66)";
+        context.fillStyle = "rgba(4, 10, 18, 0.70)";
         context.fillRect(0, 0, canvas.width, canvas.height);
 
         context.fillStyle = "#ffffff";
@@ -765,21 +831,13 @@ if (canvas) {
 
         context.fillStyle = "#9eafc4";
         context.font = `${currentLayout.name === "mobile" ? 12 : 13}px Arial`;
-        context.fillText(
-            subtitle,
-            canvas.width / 2,
-            canvas.height / 2 + 24
-        );
+        context.fillText(subtitle, canvas.width / 2, canvas.height / 2 + 24);
     }
 
     function drawGame(gameOverScreen = false) {
-        const gradient = context.createLinearGradient(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
+        if (!currentLayout) return;
 
+        const gradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
         gradient.addColorStop(0, "#081423");
         gradient.addColorStop(1, "#0a1a2c");
 
@@ -788,8 +846,29 @@ if (canvas) {
 
         drawGrid();
         portals.forEach(drawPortal);
-        drawChip();
         drawSnake();
+
+        if (countdownActive) {
+            drawOverlay(
+                countdownDisplay || "3",
+                countdownDisplay === "START!" ? "CONTROLS ARE NOW UNLOCKING" : "CONTROLS LOCKED"
+            );
+            return;
+        }
+
+        if (!firstCountdownStarted && !controlsEnabled) {
+            drawOverlay("READY", "COUNTDOWN STARTS WHEN THE GAME IS IN VIEW");
+            return;
+        }
+
+        if (!started && controlsEnabled && !gameEnded) {
+            drawOverlay(
+                "READY",
+                currentLayout.name === "mobile" || isTouchDevice()
+                    ? "SWIPE OR TAP AN ARROW TO MOVE"
+                    : "PRESS ARROWS OR WASD TO MOVE"
+            );
+        }
 
         if (paused && started && !movingToSection) {
             drawOverlay(
@@ -800,7 +879,7 @@ if (canvas) {
             );
         }
 
-        if (gameOverScreen) {
+        if (gameOverScreen || gameEnded) {
             drawOverlay("GAME OVER", "PRESS RESTART");
         }
     }
@@ -809,9 +888,8 @@ if (canvas) {
         const activeElement = document.activeElement;
         const activeTag = activeElement?.tagName?.toLowerCase() || "";
 
-        if (activeTag === "input" || activeTag === "textarea") {
-            return;
-        }
+        if (activeTag === "input" || activeTag === "textarea" || activeTag === "select") return;
+        if (!gameIsVisible) return;
 
         const directions = {
             ArrowUp: { x: 0, y: -1 },
@@ -829,65 +907,69 @@ if (canvas) {
         };
 
         if (directions[event.key]) {
+            if (!controlsEnabled) return;
             event.preventDefault();
             setDirection(directions[event.key]);
+            return;
         }
 
         if (event.code === "Space") {
+            if (!controlsEnabled) return;
             event.preventDefault();
             togglePause();
         }
     }
 
     function handleSwipe(startX, startY, endX, endY) {
+        if (!controlsEnabled || countdownActive || movingToSection || gameEnded) return;
+
         const deltaX = endX - startX;
         const deltaY = endY - startY;
-        const minimumSwipe = 24;
+        const minimumSwipe = currentLayout.name === "mobile" ? 18 : 24;
 
-        if (
-            Math.abs(deltaX) < minimumSwipe &&
-            Math.abs(deltaY) < minimumSwipe
-        ) {
+        if (Math.abs(deltaX) < minimumSwipe && Math.abs(deltaY) < minimumSwipe) {
             return;
         }
 
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            setDirection(
-                deltaX > 0
-                    ? { x: 1, y: 0 }
-                    : { x: -1, y: 0 }
-            );
+            setDirection(deltaX > 0 ? { x: 1, y: 0 } : { x: -1, y: 0 });
         } else {
-            setDirection(
-                deltaY > 0
-                    ? { x: 0, y: 1 }
-                    : { x: 0, y: -1 }
-            );
+            setDirection(deltaY > 0 ? { x: 0, y: 1 } : { x: 0, y: -1 });
         }
     }
 
     document.addEventListener("keydown", handleKeyboard);
-
     pauseButton?.addEventListener("click", togglePause);
     mobilePause?.addEventListener("click", togglePause);
-    restartButton?.addEventListener("click", resetGame);
 
-    $$('[data-direction]').forEach((button) => {
-        button.addEventListener("click", () => {
-            const directions = {
-                up: { x: 0, y: -1 },
-                down: { x: 0, y: 1 },
-                left: { x: -1, y: 0 },
-                right: { x: 1, y: 0 }
-            };
+    restartButton?.addEventListener("click", () => {
+        firstCountdownStarted = true;
+        resetGame({ countdown: true });
+    });
 
-            setDirection(directions[button.dataset.direction]);
+    const directionMap = {
+        up: { x: 0, y: -1 },
+        down: { x: 0, y: 1 },
+        left: { x: -1, y: 0 },
+        right: { x: 1, y: 0 }
+    };
+
+    directionButtons.forEach((button) => {
+        button.addEventListener("pointerdown", (event) => {
+            if (!controlsEnabled) return;
+            event.preventDefault();
+            setDirection(directionMap[button.dataset.direction]);
         });
+    });
+
+    canvas.addEventListener("pointerdown", () => {
+        canvas.focus({ preventScroll: true });
     });
 
     canvas.addEventListener(
         "touchstart",
         (event) => {
+            if (!controlsEnabled) return;
             const touch = event.changedTouches[0];
             touchStartX = touch.clientX;
             touchStartY = touch.clientY;
@@ -898,6 +980,7 @@ if (canvas) {
     canvas.addEventListener(
         "touchmove",
         (event) => {
+            if (!controlsEnabled) return;
             event.preventDefault();
         },
         { passive: false }
@@ -906,17 +989,34 @@ if (canvas) {
     canvas.addEventListener(
         "touchend",
         (event) => {
+            if (!controlsEnabled) return;
             const touch = event.changedTouches[0];
-
-            handleSwipe(
-                touchStartX,
-                touchStartY,
-                touch.clientX,
-                touch.clientY
-            );
+            handleSwipe(touchStartX, touchStartY, touch.clientX, touch.clientY);
         },
         { passive: true }
     );
+
+    if (!canvas.hasAttribute("tabindex")) {
+        canvas.setAttribute("tabindex", "0");
+    }
+
+    if (gameSection) {
+        const gameVisibilityObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    gameIsVisible = entry.isIntersecting && entry.intersectionRatio >= 0.2;
+
+                    if (gameIsVisible && !firstCountdownStarted) {
+                        firstCountdownStarted = true;
+                        beginCountdown();
+                    }
+                });
+            },
+            { threshold: [0, 0.2, 0.45, 0.7] }
+        );
+
+        gameVisibilityObserver.observe(gameSection);
+    }
 
     window.addEventListener("resize", () => {
         clearTimeout(resizeTimer);
@@ -925,7 +1025,7 @@ if (canvas) {
             const nextLayout = getLayoutForScreen();
 
             if (currentLayout?.name !== nextLayout.name) {
-                applyGameLayout(true);
+                applyGameLayout(true, firstCountdownStarted && gameIsVisible);
             } else {
                 drawGame();
             }
@@ -934,10 +1034,21 @@ if (canvas) {
 
     window.addEventListener("orientationchange", () => {
         setTimeout(() => {
-            applyGameLayout(true);
+            applyGameLayout(true, firstCountdownStarted && gameIsVisible);
         }, 250);
     });
 
-    applyGameLayout(true);
-}
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden && started && !paused && !countdownActive && !movingToSection) {
+            paused = true;
 
+            if (pauseButton) pauseButton.textContent = "CONTINUE";
+            if (mobilePause) mobilePause.textContent = "CONTINUE";
+            if (gameMessage) gameMessage.textContent = "PAUSED";
+
+            drawGame();
+        }
+    });
+
+    applyGameLayout(true, false);
+}
