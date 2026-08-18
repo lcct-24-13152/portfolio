@@ -1,20 +1,24 @@
 "use strict";
 
 (() => {
+    const sharpImage = (value, fallback) => value
+        ? `data:image/webp;base64,${value}`
+        : fallback;
+
     const CERTIFICATES = [
         {
             id: "business-tech-2026",
             title: "Bridging Business and Technology for the Next Generation",
             issuer: "La Consolacion College Tanauan · IT Week 2026",
             date: "March 21, 2026",
-            image: "assets/certificates/bridging-business-technology-2026.jpg"
+            image: sharpImage(window.__CERT_HQ1, "assets/certificates/bridging-business-technology-2026.jpg")
         },
         {
             id: "robotics-experience-2026",
             title: "Design, Build, Innovate: The Robotics Experience",
             issuer: "First Eduspec Inc. / LCCT · ICT Week 2026",
             date: "March 19, 2026",
-            image: "assets/certificates/robotics-experience-2026.jpg"
+            image: sharpImage(window.__CERT_HQ2, "assets/certificates/robotics-experience-2026.jpg")
         }
     ];
 
@@ -42,7 +46,7 @@
             article.dataset.addedCertificate = certificate.id;
             article.innerHTML = `
                 <a class="certificate-preview" href="${certificate.image}" target="_blank" rel="noopener noreferrer" aria-label="View ${certificate.title} certificate">
-                    <img src="${certificate.image}" alt="${certificate.title} certificate" loading="lazy">
+                    <img src="${certificate.image}" alt="${certificate.title} certificate" loading="lazy" decoding="async">
                     <span>VIEW</span>
                 </a>
                 <div class="certificate-body">
@@ -74,42 +78,7 @@
         });
     }
 
-    function autoStartAfterCountdown() {
-        clearTimeout(window.__snakeAutoStartTimer);
-        window.__snakeAutoStartTimer = setTimeout(() => {
-            if (window.portfolioRouter?.getMode?.() !== "game") return;
-            document.dispatchEvent(new KeyboardEvent("keydown", {
-                key: "ArrowRight",
-                code: "ArrowRight",
-                bubbles: true,
-                cancelable: true
-            }));
-        }, 3050);
-    }
-
-    function patchSnakeRestart() {
-        const snakeGame = window.portfolioSnakeGame;
-        if (!snakeGame || snakeGame.__autoStartPatched) return false;
-        const originalRestart = snakeGame.restart.bind(snakeGame);
-        snakeGame.restart = () => {
-            originalRestart();
-            autoStartAfterCountdown();
-        };
-        snakeGame.__autoStartPatched = true;
-        return true;
-    }
-
-    function installSnakeAutoStart() {
-        document.querySelector("#restartButton")?.addEventListener("click", autoStartAfterCountdown, true);
-        let attempts = 0;
-        const timer = setInterval(() => {
-            attempts += 1;
-            if (patchSnakeRestart() || attempts > 120) clearInterval(timer);
-        }, 50);
-    }
-
     patchResumeLocation();
     addCertificateCards();
     addResumeCertificates();
-    installSnakeAutoStart();
 })();
