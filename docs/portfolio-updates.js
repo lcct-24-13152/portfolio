@@ -1,7 +1,7 @@
 "use strict";
 
 (() => {
-    const VERSION = "20260818-1725";
+    const VERSION = "20260818-1755";
 
     const CERTIFICATES = [
         {
@@ -9,7 +9,7 @@
             title: "Bridging Business and Technology for the Next Generation",
             issuer: "La Consolacion College Tanauan · IT Week 2026",
             date: "March 21, 2026",
-            image: "assets/certificates/bridging-business-technology-2026.jpg"
+            image: "assets/certificates/bridging-business-technology-2026.svg"
         },
         {
             id: "robotics-experience-2026",
