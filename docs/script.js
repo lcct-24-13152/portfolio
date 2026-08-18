@@ -1,540 +1,398 @@
 "use strict";
 
 (() => {
-    const $ = (selector, parent = document) => parent.querySelector(selector);
-    const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
+    const style = document.createElement("style");
+    style.id = "responsivePortfolioFix";
+    style.textContent = `
+        /* =====================================================
+           RESPONSIVE FIX - HOME / NAV / GAME
+           ===================================================== */
 
-    const PORTFOLIO_PAGES = ["about", "skills", "projects", "resume", "certificates", "contact"];
-    const PORTFOLIO_PAGE_SET = new Set(PORTFOLIO_PAGES);
-    const TRANSITION_MS = 380;
-
-    let mode = "home";
-    let activeGamePage = null;
-    let transitionBusy = false;
-    let toastTimer = null;
-
-    const header = $("#header");
-    const menuButton = $("#menuButton");
-    const navLinks = $("#navLinks");
-    const themeButton = $("#themeButton");
-
-    window.addEventListener("scroll", () => {
-        header?.classList.toggle("scrolled", window.scrollY > 15);
-    });
-
-    menuButton?.addEventListener("click", () => {
-        const opened = navLinks?.classList.toggle("open");
-        menuButton.classList.toggle("active", Boolean(opened));
-        document.body.classList.toggle("menu-open", Boolean(opened));
-    });
-
-    function closeMobileMenu() {
-        navLinks?.classList.remove("open");
-        menuButton?.classList.remove("active");
-        document.body.classList.remove("menu-open");
-    }
-
-    const savedTheme = localStorage.getItem("cherPortfolioTheme");
-    if (savedTheme === "light") document.body.classList.add("light-mode");
-
-    themeButton?.addEventListener("click", () => {
-        const isLight = document.body.classList.toggle("light-mode");
-        localStorage.setItem("cherPortfolioTheme", isLight ? "light" : "dark");
-    });
-
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add("visible");
-            revealObserver.unobserve(entry.target);
-        });
-    }, { threshold: 0.10 });
-
-    $$(".reveal").forEach((element) => revealObserver.observe(element));
-
-    const projectInformation = {
-        1: {
-            label: "PERSONAL WEBSITE",
-            title: "Interactive Portfolio",
-            description: "A responsive personal portfolio with dark mode, animated sections, project filtering, a printable resume, and an interactive Snake navigation game.",
-            tools: ["HTML", "CSS", "JavaScript"],
-            url: "https://lcct-24-13152.github.io/portfolio/",
-            linkText: "OPEN LIVE PORTFOLIO ↗"
-        },
-        2: {
-            label: "WEB SYSTEM",
-            title: "Reservation System",
-            description: "A reservation system concept that manages schedules, availability, customer details, bookings, payments, and reports.",
-            tools: ["PHP", "MySQL", "JavaScript"],
-            url: "",
-            linkText: ""
-        },
-        3: {
-            label: "MANAGEMENT SYSTEM",
-            title: "Laundry Management",
-            description: "A management system for recording customers, laundry services, transactions, inventory, payments, receipts, reports, and QR-based laundry status tracking.",
-            tools: ["PHP", "MySQL", "CRUD"],
-            url: "https://disabled-sprint-depends-lighter.trycloudflare.com/laundry-system/auth/login.php",
-            linkText: "OPEN LIVE SYSTEM ↗"
+        #home .hero-buttons > .button {
+            display: inline-flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
-    };
 
-    $$(".filter").forEach((button) => {
-        button.addEventListener("click", () => {
-            const selected = button.dataset.filter;
-            $$(".filter").forEach((item) => item.classList.remove("active"));
-            button.classList.add("active");
-            $$(".project-card").forEach((card) => {
-                const visible = selected === "all" || card.dataset.category === selected;
-                card.classList.toggle("hide", !visible);
-            });
-        });
-    });
+        body.portfolio-router:not(.browse-mode) #home.route-active {
+            padding-top: var(--header-height) !important;
+            padding-bottom: 0 !important;
+            align-items: center !important;
+            overflow: hidden !important;
+        }
 
-    const projectModal = $("#projectModal");
+        body.portfolio-router:not(.browse-mode) #home.route-active .hero-grid {
+            width: min(calc(100% - 40px), var(--container)) !important;
+            min-height: calc(100svh - var(--header-height)) !important;
+            max-height: calc(100svh - var(--header-height)) !important;
+            padding-block: clamp(12px, 2vh, 28px) !important;
+            grid-template-columns: minmax(0, 1.08fr) minmax(300px, .78fr) !important;
+            align-items: center !important;
+            align-content: center !important;
+            gap: clamp(24px, 4vw, 64px) !important;
+        }
 
-    function openProjectModal(number) {
-        const project = projectInformation[number];
-        if (!project || !projectModal) return;
+        body.portfolio-router:not(.browse-mode) #home .hero-content,
+        body.portfolio-router:not(.browse-mode) #home .profile-card {
+            min-width: 0 !important;
+        }
 
-        const modalLabel = $("#modalLabel");
-        const modalTitle = $("#modalTitle");
-        const modalDescription = $("#modalDescription");
-        const modalTools = $("#modalTools");
-        const modalProjectLink = $("#modalProjectLink");
+        body.portfolio-router:not(.browse-mode) #home h1 {
+            margin-top: clamp(8px, 1.2vh, 15px) !important;
+            font-size: clamp(3.25rem, min(6.8vw, 10.5vh), 7.2rem) !important;
+            line-height: .84 !important;
+        }
 
-        if (modalLabel) modalLabel.textContent = project.label;
-        if (modalTitle) modalTitle.textContent = project.title;
-        if (modalDescription) modalDescription.textContent = project.description;
-        if (modalTools) modalTools.innerHTML = project.tools.map((tool) => `<span>${tool}</span>`).join("");
+        body.portfolio-router:not(.browse-mode) #home .hero-title {
+            margin-top: clamp(12px, 2vh, 24px) !important;
+            font-size: clamp(.7rem, 1vw, .9rem) !important;
+        }
 
-        if (modalProjectLink) {
-            if (project.url) {
-                modalProjectLink.href = project.url;
-                modalProjectLink.textContent = project.linkText || "OPEN PROJECT ↗";
-                modalProjectLink.classList.add("show");
-            } else {
-                modalProjectLink.removeAttribute("href");
-                modalProjectLink.classList.remove("show");
+        body.portfolio-router:not(.browse-mode) #home .hero-description {
+            margin-top: clamp(10px, 1.6vh, 18px) !important;
+            font-size: clamp(.78rem, 1vw, .96rem) !important;
+            line-height: 1.42 !important;
+        }
+
+        body.portfolio-router:not(.browse-mode) #home .hero-buttons {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            width: min(100%, 470px) !important;
+            gap: 10px !important;
+            margin-top: clamp(14px, 2vh, 24px) !important;
+        }
+
+        body.portfolio-router:not(.browse-mode) #home .hero-buttons .button {
+            width: 100% !important;
+            min-width: 0 !important;
+            min-height: 46px !important;
+            padding-inline: 12px !important;
+            text-align: center !important;
+        }
+
+        body.portfolio-router:not(.browse-mode) #home .profile-card {
+            width: 100% !important;
+            max-width: 520px !important;
+            max-height: calc(100svh - var(--header-height) - 34px) !important;
+        }
+
+        body.portfolio-router:not(.browse-mode) #home .profile-card-top {
+            min-height: clamp(34px, 5vh, 50px) !important;
+        }
+
+        body.portfolio-router:not(.browse-mode) #home .profile-card-body {
+            min-height: 0 !important;
+            padding: clamp(18px, 3vh, 34px) !important;
+        }
+
+        body.portfolio-router:not(.browse-mode) #home .profile-photo-frame {
+            width: clamp(118px, 20vh, 180px) !important;
+            height: clamp(118px, 20vh, 180px) !important;
+        }
+
+        body.portfolio-router:not(.browse-mode) #home .profile-card-info {
+            margin-top: clamp(12px, 2vh, 22px) !important;
+        }
+
+        body.portfolio-router:not(.browse-mode) #home .profile-tags {
+            margin-top: clamp(10px, 1.5vh, 18px) !important;
+        }
+
+        /* Better navbar behavior for tablets and small laptops. */
+        @media (max-width: 1100px) {
+            .menu-button {
+                display: block !important;
+            }
+
+            .nav-links {
+                position: fixed !important;
+                top: var(--header-height) !important;
+                right: 20px !important;
+                left: 20px !important;
+                display: grid !important;
+                max-height: calc(100svh - var(--header-height) - 24px) !important;
+                overflow-y: auto !important;
+                padding: 16px !important;
+                border: 1px solid var(--border) !important;
+                border-radius: 17px !important;
+                background: var(--card) !important;
+                box-shadow: var(--shadow) !important;
+                opacity: 0 !important;
+                pointer-events: none !important;
+                transform: translateY(-12px) !important;
+                transition: .2s ease !important;
+            }
+
+            .nav-links.open {
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                transform: none !important;
+            }
+
+            .theme-button {
+                width: 100% !important;
             }
         }
 
-        projectModal.classList.add("open");
-        projectModal.setAttribute("aria-hidden", "false");
-        document.body.classList.add("modal-open");
-    }
-
-    function closeProjectModal() {
-        if (!projectModal) return;
-        projectModal.classList.remove("open");
-        projectModal.setAttribute("aria-hidden", "true");
-        document.body.classList.remove("modal-open");
-    }
-
-    $$(".project-open").forEach((button) => {
-        button.addEventListener("click", () => openProjectModal(button.dataset.project));
-    });
-
-    $$('[data-close-modal]').forEach((element) => {
-        element.addEventListener("click", closeProjectModal);
-    });
-
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") closeProjectModal();
-    });
-
-    const toast = $("#toast");
-
-    function showToast(message) {
-        if (!toast) return;
-        toast.textContent = message;
-        toast.classList.add("show");
-        clearTimeout(toastTimer);
-        toastTimer = window.setTimeout(() => toast.classList.remove("show"), 3000);
-    }
-
-    const contactForm = $("#contactForm");
-    const contactSubmitButton = $("#contactSubmitButton");
-
-    contactForm?.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        const name = $("#contactName")?.value.trim();
-        const email = $("#contactEmail")?.value.trim();
-        const subject = $("#contactSubject")?.value.trim();
-        const message = $("#contactMessage")?.value.trim();
-
-        if (!name || !email || !subject || !message) {
-            showToast("COMPLETE ALL FIELDS");
-            return;
-        }
-
-        const staticSite = location.hostname.endsWith("github.io") || location.protocol === "file:";
-
-        if (staticSite) {
-            const emailSubject = encodeURIComponent(subject);
-            const emailBody = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-            showToast("OPENING EMAIL APP...");
-            location.href = `mailto:liriocher25@gmail.com?subject=${emailSubject}&body=${emailBody}`;
-            return;
-        }
-
-        const originalText = contactSubmitButton?.textContent || "SEND MESSAGE";
-
-        if (contactSubmitButton) {
-            contactSubmitButton.disabled = true;
-            contactSubmitButton.textContent = "SENDING...";
-        }
-
-        try {
-            const response = await fetch("index.php", {
-                method: "POST",
-                body: new FormData(contactForm),
-                headers: { "X-Requested-With": "XMLHttpRequest" }
-            });
-            const result = await response.json();
-            if (!response.ok || !result.success) throw new Error(result.message || "Unable to save your message.");
-            contactForm.reset();
-            showToast("MESSAGE SAVED SUCCESSFULLY");
-        } catch (error) {
-            showToast(error.message || "DATABASE ERROR.");
-        } finally {
-            if (contactSubmitButton) {
-                contactSubmitButton.disabled = false;
-                contactSubmitButton.textContent = originalText;
+        /* Tablet and compact laptop: keep hero side-by-side so buttons do not drop below the fold. */
+        @media (min-width: 721px) and (max-width: 1100px) {
+            body.portfolio-router:not(.browse-mode) #home.route-active .hero-grid {
+                grid-template-columns: minmax(0, 1fr) minmax(260px, .68fr) !important;
+                gap: clamp(18px, 3vw, 38px) !important;
             }
-        }
-    });
 
-    function installRouterStyles() {
-        if ($("#portfolioRouterStyles")) return;
-
-        const style = document.createElement("style");
-        style.id = "portfolioRouterStyles";
-        style.textContent = `
-            html.portfolio-router, body.portfolio-router { width: 100%; min-height: 100%; }
-            html.portfolio-router:not(.browse-mode), body.portfolio-router:not(.browse-mode) { height: 100%; overflow: hidden !important; overscroll-behavior: none; }
-            body.portfolio-router:not(.browse-mode) main { position: relative; width: 100%; height: 100vh; height: 100svh; overflow: hidden; }
-            body.portfolio-router:not(.browse-mode) main > section { position: absolute; inset: 0; display: none !important; width: 100%; height: 100vh; height: 100svh; min-height: 0 !important; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
-            body.portfolio-router:not(.browse-mode) main > section.route-active { z-index: 2; display: block !important; animation: portfolioEnter ${TRANSITION_MS}ms cubic-bezier(.2,.75,.25,1) both; }
-            body.portfolio-router:not(.browse-mode) #home.route-active { display: grid !important; overflow: hidden !important; padding-bottom: 0 !important; }
-            body.portfolio-router:not(.browse-mode) #game.route-active { display: block !important; }
-            body.portfolio-router:not(.browse-mode) .footer { display: none !important; }
-            @keyframes portfolioEnter { from { opacity: 0; transform: translateY(22px) scale(.995); } to { opacity: 1; transform: translateY(0) scale(1); } }
-            .portfolio-route-cover { position: fixed; z-index: 99990; inset: 0; background: var(--background); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 180ms ease, visibility 180ms ease; }
-            .portfolio-route-cover.show { opacity: 1; visibility: visible; pointer-events: auto; }
-            #home .hero-description.home-choice-text { max-width: 760px; padding-left: 16px; border-left: 2px solid var(--primary); color: var(--muted); line-height: 1.54; }
-            #home .hero-description.home-choice-text strong { color: var(--primary); font-size: .78rem; font-weight: 900; letter-spacing: .07em; }
-            #home .hero-description.home-choice-text b { color: var(--text); }
-            .game-return-panel { width: min(calc(100% - 40px), var(--container)); margin: 32px auto 0; padding: 28px; border: 1px solid var(--border); border-radius: var(--radius); background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 8%, var(--card)), var(--card)); text-align: center; box-shadow: var(--shadow); }
-            .game-return-panel p { max-width: 620px; margin: 0 auto 16px; color: var(--muted); font-size: .9rem; }
-            html.browse-mode, body.browse-mode { height: auto !important; overflow-x: hidden !important; overflow-y: auto !important; overscroll-behavior: auto; }
-            body.browse-mode main { position: static !important; height: auto !important; overflow: visible !important; }
-            body.browse-mode main > section { position: relative !important; inset: auto !important; display: block !important; width: 100%; height: auto !important; min-height: auto !important; overflow: visible !important; opacity: 1 !important; transform: none !important; animation: none !important; }
-            body.browse-mode #home, body.browse-mode #game { display: none !important; }
-            body.browse-mode .footer { display: block !important; }
-            @media (prefers-reduced-motion: reduce) { body.portfolio-router main > section.route-active { animation-duration: 1ms !important; } .portfolio-route-cover { transition-duration: 1ms !important; } }
-            @media (max-width: 900px) { body.portfolio-router:not(.browse-mode) #home.route-active { padding-top: calc(var(--header-height) + 20px); } #home .hero-grid { gap: 24px; } #home .hero-description.home-choice-text { font-size: .86rem; line-height: 1.44; } }
-            @media (max-width: 600px) { body.portfolio-router:not(.browse-mode) #home.route-active { padding-top: calc(var(--header-height) + 8px); } #home .hero-grid { gap: 12px; } #home .hero-description.home-choice-text { margin-top: 10px; padding-left: 10px; font-size: .75rem; line-height: 1.37; } #home .hero-buttons { margin-top: 15px; } .game-return-panel { width: min(calc(100% - 24px), var(--container)); padding: 20px 15px; } }
-        `;
-        document.head.appendChild(style);
-    }
-
-    function createTransitionCover() {
-        const cover = document.createElement("div");
-        cover.id = "portfolioRouteCover";
-        cover.className = "portfolio-route-cover";
-        document.body.appendChild(cover);
-    }
-
-    function withTransition(callback) {
-        if (transitionBusy) return;
-        const cover = $("#portfolioRouteCover");
-        transitionBusy = true;
-        cover?.classList.add("show");
-        window.setTimeout(() => {
-            callback();
-            window.setTimeout(() => {
-                cover?.classList.remove("show");
-                window.setTimeout(() => { transitionBusy = false; }, 190);
-            }, 40);
-        }, 185);
-    }
-
-    function setBrowseMode(enabled) {
-        document.documentElement.classList.toggle("browse-mode", enabled);
-        document.body.classList.toggle("browse-mode", enabled);
-    }
-
-    function clearSinglePages() {
-        $$("main > section[id]").forEach((section) => {
-            section.classList.remove("route-active");
-            section.setAttribute("aria-hidden", "true");
-        });
-    }
-
-    function showSinglePage(pageId) {
-        const target = document.getElementById(pageId);
-        if (!target) return;
-        clearSinglePages();
-        target.classList.add("route-active");
-        target.setAttribute("aria-hidden", "false");
-        target.scrollTop = 0;
-        window.scrollTo(0, 0);
-    }
-
-    function setActiveNav(pageId) {
-        $$(".nav-links a").forEach((link) => {
-            link.classList.toggle("active", link.getAttribute("href") === `#${pageId}`);
-        });
-    }
-
-    function setHash(pageId) {
-        history.replaceState({ mode, pageId }, "", `${location.pathname}${location.search}#${pageId}`);
-    }
-
-    function configureHomeChoices() {
-        const description = $("#home .hero-description");
-        if (description) {
-            description.classList.add("home-choice-text");
-            description.innerHTML = `<strong>CHOOSE HOW YOU WANT TO VIEW MY PORTFOLIO:</strong><br><b>PLAY GAME</b> — play Snake, eat food to make the snake longer, and touch a section box to open that page.<br><b>BROWSE PORTFOLIO</b> — skip the game and scroll normally from About all the way to Contact.`;
-        }
-
-        const buttons = $("#home .hero-buttons");
-        if (!buttons) return;
-
-        const gameButton = buttons.querySelector('a[href="#game"]');
-        if (gameButton) {
-            gameButton.textContent = "PLAY GAME";
-            gameButton.dataset.homeGameChoice = "true";
-        }
-
-        let browseButton = buttons.querySelector('a[href="#resume"]');
-        if (!browseButton) {
-            browseButton = document.createElement("a");
-            browseButton.className = "button outline-button";
-            buttons.appendChild(browseButton);
-        }
-        browseButton.href = "#about";
-        browseButton.textContent = "BROWSE PORTFOLIO";
-        browseButton.dataset.homeBrowseChoice = "true";
-    }
-
-    function configureGameText() {
-        const description = $("#game .section-description");
-        if (description) {
-            description.textContent = "Classic Snake navigation: wait for 3 → 2 → 1 → START!, then move with Arrow Keys/WASD on desktop or swipe/use the arrow buttons on mobile. Eat the glowing food to increase the score and make the snake longer. Keep playing until the snake touches About, Skills, Projects, Resume, Certificates, or Contact. Touching a section box opens that page.";
-        }
-    }
-
-    function addGameAgainButtons() {
-        PORTFOLIO_PAGES.forEach((pageId) => {
-            const section = document.getElementById(pageId);
-            if (!section || section.querySelector(".game-return-panel")) return;
-            const panel = document.createElement("div");
-            panel.className = "game-return-panel";
-            panel.innerHTML = `<p>Want to visit another section through the game? Use this button instead of the GAME menu.</p><button class="button primary-button" type="button" data-play-game-again>PLAY GAME AGAIN</button>`;
-            section.appendChild(panel);
-        });
-    }
-
-    function enterHome(transition = true) {
-        const apply = () => {
-            mode = "home";
-            activeGamePage = null;
-            setBrowseMode(false);
-            showSinglePage("home");
-            setActiveNav("home");
-            setHash("home");
-            closeMobileMenu();
-        };
-        transition ? withTransition(apply) : apply();
-    }
-
-    function restartGameSoon() {
-        window.setTimeout(() => window.portfolioSnakeGame?.restart?.(), 470);
-    }
-
-    function enterGame(transition = true) {
-        const apply = () => {
-            mode = "game";
-            activeGamePage = null;
-            setBrowseMode(false);
-            showSinglePage("game");
-            setActiveNav("game");
-            setHash("game");
-            closeMobileMenu();
-            restartGameSoon();
-        };
-        transition ? withTransition(apply) : apply();
-    }
-
-    function openGamePage(pageId) {
-        if (!PORTFOLIO_PAGE_SET.has(pageId)) return;
-        withTransition(() => {
-            mode = "game-page";
-            activeGamePage = pageId;
-            setBrowseMode(false);
-            showSinglePage(pageId);
-            setActiveNav(pageId);
-            setHash(pageId);
-            closeMobileMenu();
-        });
-    }
-
-    function enterBrowse(transition = true) {
-        const apply = () => {
-            mode = "browse";
-            activeGamePage = null;
-            clearSinglePages();
-            setBrowseMode(true);
-            setActiveNav("about");
-            setHash("about");
-            closeMobileMenu();
-            window.scrollTo({ top: 0, behavior: "instant" });
-        };
-        transition ? withTransition(apply) : apply();
-    }
-
-    function getPageFromLink(link) {
-        const href = link?.getAttribute("href") || "";
-        if (!href.startsWith("#")) return null;
-        const id = href.slice(1);
-        if (id === "home" || id === "game" || PORTFOLIO_PAGE_SET.has(id)) return id;
-        const target = document.getElementById(id);
-        return target?.closest("main > section[id]")?.id || null;
-    }
-
-    document.addEventListener("click", (event) => {
-        const playAgain = event.target.closest?.("[data-play-game-again]");
-        if (playAgain) {
-            event.preventDefault();
-            enterGame();
-            return;
-        }
-
-        const link = event.target.closest?.('a[href^="#"]');
-        if (!link) return;
-        const pageId = getPageFromLink(link);
-        if (!pageId) return;
-
-        if (mode === "home") {
-            event.preventDefault();
-            if (link.dataset.homeGameChoice === "true") {
-                enterGame();
-                return;
+            body.portfolio-router:not(.browse-mode) #home h1 {
+                font-size: clamp(3rem, min(7.2vw, 9vh), 5.4rem) !important;
             }
-            if (link.dataset.homeBrowseChoice === "true") {
-                enterBrowse();
-                return;
-            }
-            if (pageId === "home") return;
-            showToast("CHOOSE PLAY GAME OR BROWSE PORTFOLIO");
-            return;
-        }
 
-        if (mode === "browse") {
-            if (pageId === "home") {
-                event.preventDefault();
-                enterHome();
-                return;
-            }
-            if (pageId === "game") {
-                event.preventDefault();
-                enterGame();
-                return;
-            }
-            return;
-        }
-
-        if (mode === "game") {
-            if (pageId === "home") {
-                event.preventDefault();
-                enterHome();
-                return;
-            }
-            if (pageId === "game") {
-                event.preventDefault();
-                return;
-            }
-            if (PORTFOLIO_PAGE_SET.has(pageId)) {
-                event.preventDefault();
-                showToast(`HIT THE ${pageId.toUpperCase()} BOX WITH THE SNAKE`);
-                return;
+            body.portfolio-router:not(.browse-mode) #home .profile-card {
+                transform: rotate(1deg) !important;
             }
         }
 
-        if (mode === "game-page") {
-            if (pageId === "home") {
-                event.preventDefault();
-                enterHome();
-                return;
+        /* Phone layout: compact card + two always-visible Home choices. */
+        @media (max-width: 720px) {
+            :root {
+                --header-height: 66px;
             }
-            if (pageId === "game") {
-                event.preventDefault();
-                showToast("USE PLAY GAME AGAIN AT THE BOTTOM");
-                return;
+
+            .container {
+                width: min(calc(100% - 24px), var(--container)) !important;
             }
-            if (PORTFOLIO_PAGE_SET.has(pageId) && pageId !== activeGamePage) {
-                event.preventDefault();
-                showToast("USE PLAY GAME AGAIN TO CHOOSE ANOTHER SECTION");
-                return;
+
+            body.portfolio-router:not(.browse-mode) #home.route-active {
+                padding-top: var(--header-height) !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home.route-active .hero-grid {
+                width: min(calc(100% - 24px), var(--container)) !important;
+                min-height: calc(100svh - var(--header-height)) !important;
+                max-height: calc(100svh - var(--header-height)) !important;
+                padding-block: 8px !important;
+                grid-template-columns: 1fr !important;
+                grid-template-rows: auto auto !important;
+                align-content: center !important;
+                gap: 10px !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home h1 {
+                margin-top: 6px !important;
+                font-size: clamp(2.65rem, 12vw, 4.15rem) !important;
+                line-height: .82 !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .small-label {
+                font-size: .62rem !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .hero-title {
+                margin-top: 10px !important;
+                padding-bottom: 5px !important;
+                font-size: .68rem !important;
+                line-height: 1.25 !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .hero-description {
+                margin-top: 8px !important;
+                padding-left: 9px !important;
+                font-size: clamp(.68rem, 2.8vw, .78rem) !important;
+                line-height: 1.32 !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .hero-buttons {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                width: 100% !important;
+                gap: 8px !important;
+                margin-top: 10px !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .hero-buttons .button {
+                min-height: 42px !important;
+                padding: 0 8px !important;
+                font-size: clamp(.58rem, 2.6vw, .7rem) !important;
+                letter-spacing: .035em !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .profile-card {
+                width: 100% !important;
+                max-width: none !important;
+                max-height: 142px !important;
+                transform: none !important;
+                border-radius: 15px !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .profile-card-top {
+                min-height: 26px !important;
+                padding-inline: 12px !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .profile-card-top span {
+                width: 7px !important;
+                height: 7px !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .profile-card-body {
+                display: grid !important;
+                grid-template-columns: 78px minmax(0, 1fr) !important;
+                min-height: 0 !important;
+                place-content: stretch !important;
+                align-items: center !important;
+                gap: 12px !important;
+                padding: 10px 12px !important;
+                text-align: left !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .profile-photo-frame {
+                width: 72px !important;
+                height: 72px !important;
+                margin: 0 !important;
+                border-width: 3px !important;
+                border-radius: 11px !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .profile-card-info {
+                margin-top: 0 !important;
+                min-width: 0 !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .profile-name {
+                font-size: .78rem !important;
+                line-height: 1.2 !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .profile-card-info p {
+                font-size: .67rem !important;
+                line-height: 1.3 !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .profile-card-info p + p {
+                margin-top: 2px !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .profile-tags {
+                display: none !important;
+            }
+
+            /* Game page stays inside its own scrollable screen and never pushes into another section. */
+            body.portfolio-router:not(.browse-mode) #game.route-active {
+                padding: calc(var(--header-height) + 10px) 0 16px !important;
+                overflow-y: auto !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #game .section-heading {
+                margin-bottom: 12px !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #game .section-heading h2 {
+                font-size: clamp(2rem, 10vw, 3.2rem) !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #game .section-description {
+                margin-top: 10px !important;
+                font-size: .78rem !important;
+                line-height: 1.4 !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #game .game-top {
+                min-height: 0 !important;
+                padding: 10px !important;
+                gap: 7px !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #game #snakeCanvas {
+                width: auto !important;
+                max-width: 100% !important;
+                max-height: 48svh !important;
+                margin-inline: auto !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #game .mobile-controls {
+                padding: 10px 6px 14px !important;
+                gap: 6px !important;
             }
         }
-    }, true);
 
-    document.addEventListener("wheel", (event) => {
-        if (mode === "home") event.preventDefault();
-    }, { passive: false });
+        /* Very small / short screens: Home may scroll ONLY inside Home, never into About. */
+        @media (max-width: 720px) and (max-height: 690px) {
+            body.portfolio-router:not(.browse-mode) #home.route-active {
+                overflow-y: auto !important;
+                overscroll-behavior: contain !important;
+            }
 
-    document.addEventListener("touchmove", (event) => {
-        if (mode === "home") event.preventDefault();
-    }, { passive: false });
+            body.portfolio-router:not(.browse-mode) #home.route-active .hero-grid {
+                min-height: auto !important;
+                max-height: none !important;
+                padding-block: 10px 16px !important;
+            }
+        }
 
-    const browseObserver = new IntersectionObserver((entries) => {
-        if (mode !== "browse") return;
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) setActiveNav(entry.target.id);
-        });
-    }, { rootMargin: "-35% 0px -55% 0px" });
+        /* Short laptop screens: compact everything so BOTH choices remain visible. */
+        @media (min-width: 721px) and (max-height: 720px) {
+            body.portfolio-router:not(.browse-mode) #home.route-active .hero-grid {
+                padding-block: 8px !important;
+                gap: 24px !important;
+            }
 
-    PORTFOLIO_PAGES.forEach((pageId) => {
-        const section = document.getElementById(pageId);
-        if (section) browseObserver.observe(section);
-    });
+            body.portfolio-router:not(.browse-mode) #home h1 {
+                font-size: clamp(2.8rem, min(6vw, 8.2vh), 4.7rem) !important;
+            }
 
-    window.addEventListener("portfolio:game-target", (event) => {
-        const pageId = event.detail?.id;
-        if (mode === "game" && PORTFOLIO_PAGE_SET.has(pageId)) openGamePage(pageId);
-    });
+            body.portfolio-router:not(.browse-mode) #home .hero-title {
+                margin-top: 10px !important;
+            }
 
-    function loadSnakeGame() {
-        const script = document.createElement("script");
-        script.src = "game-core.js?v=20260818-1525";
-        script.async = false;
-        script.addEventListener("error", () => {
-            showToast("SNAKE GAME FAILED TO LOAD. REFRESH THE PAGE.");
-        }, { once: true });
-        document.head.appendChild(script);
-    }
+            body.portfolio-router:not(.browse-mode) #home .hero-description {
+                margin-top: 8px !important;
+                font-size: .76rem !important;
+            }
 
-    installRouterStyles();
-    createTransitionCover();
-    document.documentElement.classList.add("portfolio-router");
-    document.body.classList.add("portfolio-router");
+            body.portfolio-router:not(.browse-mode) #home .hero-buttons {
+                margin-top: 10px !important;
+            }
 
-    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+            body.portfolio-router:not(.browse-mode) #home .profile-card-top {
+                min-height: 30px !important;
+            }
 
-    configureHomeChoices();
-    configureGameText();
-    addGameAgainButtons();
-    enterHome(false);
-    loadSnakeGame();
+            body.portfolio-router:not(.browse-mode) #home .profile-card-body {
+                padding: 14px !important;
+            }
 
-    window.portfolioRouter = {
-        home: enterHome,
-        game: enterGame,
-        browse: enterBrowse,
-        getMode() { return mode; }
-    };
+            body.portfolio-router:not(.browse-mode) #home .profile-photo-frame {
+                width: 105px !important;
+                height: 105px !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .profile-card-info {
+                margin-top: 8px !important;
+            }
+
+            body.portfolio-router:not(.browse-mode) #home .profile-tags {
+                margin-top: 8px !important;
+            }
+        }
+
+        /* Browse mode keeps all standard responsive section layouts. */
+        body.browse-mode main > section {
+            max-width: 100% !important;
+        }
+
+        body.browse-mode img,
+        body.browse-mode canvas,
+        body.browse-mode video,
+        body.browse-mode iframe {
+            max-width: 100% !important;
+        }
+    `;
+    document.head.appendChild(style);
+
+    const current = document.currentScript;
+    const base = current ? new URL(".", current.src) : new URL("./", location.href);
+    const core = document.createElement("script");
+    core.src = new URL("site-core.js?v=responsive-20260818-1545", base).href;
+    core.async = false;
+    core.addEventListener("error", () => {
+        console.error("Unable to load site-core.js");
+    }, { once: true });
+    document.head.appendChild(core);
 })();
