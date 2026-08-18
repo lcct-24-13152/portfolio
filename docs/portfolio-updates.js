@@ -1,7 +1,7 @@
 "use strict";
 
 (() => {
-    const VERSION = "20260818-1755";
+    const VERSION = "20260818-1835";
 
     const CERTIFICATES = [
         {
@@ -9,7 +9,7 @@
             title: "Bridging Business and Technology for the Next Generation",
             issuer: "La Consolacion College Tanauan · IT Week 2026",
             date: "March 21, 2026",
-            image: "assets/certificates/bridging-business-technology-2026.svg"
+            image: "assets/certificates/bridging-business-technology-2026.jpg"
         },
         {
             id: "robotics-experience-2026",
@@ -35,6 +35,7 @@
                 overflow: hidden !important;
                 background: #ffffff !important;
             }
+
             #certificates [data-added-certificate] .certificate-preview img {
                 display: block !important;
                 width: 100% !important;
@@ -46,9 +47,10 @@
                 opacity: 1 !important;
                 transform: none !important;
             }
+
             #certificates [data-added-certificate] .certificate-preview:hover img {
                 filter: none !important;
-                transform: scale(1.01) !important;
+                transform: none !important;
             }
         `;
         document.head.appendChild(style);
@@ -57,6 +59,7 @@
     function patchResumeLocation() {
         const resume = document.querySelector("#resumeTemplate");
         if (!resume) return;
+
         resume.querySelectorAll("*").forEach((element) => {
             if (element.children.length > 0) return;
             if ((element.textContent || "").trim() === "Philippines") {
@@ -70,6 +73,7 @@
         if (!grid) return;
 
         let article = grid.querySelector(`[data-added-certificate="${certificate.id}"]`);
+
         if (!article) {
             article = document.createElement("article");
             article.className = "certificate-card reveal visible";
@@ -78,16 +82,17 @@
         }
 
         const source = imageUrl(certificate.image);
+
         article.innerHTML = `
             <a class="certificate-preview" href="${source}" target="_blank" rel="noopener noreferrer" aria-label="View ${certificate.title} certificate">
-                <img src="${source}" alt="${certificate.title} certificate" loading="eager" decoding="async">
+                <img src="${source}" alt="${certificate.title} signed certificate" loading="eager" decoding="async">
                 <span>VIEW</span>
             </a>
             <div class="certificate-body">
                 <p class="certificate-type">CERTIFICATE OF PARTICIPATION</p>
                 <h3>${certificate.title}</h3>
                 <p class="certificate-date">${certificate.issuer} · ${certificate.date}</p>
-                <a class="certificate-button" href="${source}" target="_blank" rel="noopener noreferrer">VIEW CERTIFICATE</a>
+                <a class="certificate-button" href="${source}" target="_blank" rel="noopener noreferrer">VIEW SIGNED CERTIFICATE</a>
             </div>
         `;
     }
@@ -107,12 +112,14 @@
 
         items.forEach(([id, title, meta]) => {
             let block = list.querySelector(`[data-added-resume-cert="${id}"]`);
+
             if (!block) {
                 block = document.createElement("div");
                 block.className = "resume-cert-item";
                 block.dataset.addedResumeCert = id;
                 list.appendChild(block);
             }
+
             block.innerHTML = `<strong>${title}</strong><span>${meta}</span>`;
         });
     }
