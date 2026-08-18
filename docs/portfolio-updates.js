@@ -1,7 +1,7 @@
 "use strict";
 
 (() => {
-    const VERSION = "20260818-1835";
+    const VERSION = "20260818-1952";
 
     const CERTIFICATES = [
         {
@@ -24,8 +24,21 @@
         return `${path}?v=${VERSION}`;
     }
 
+    function getCertificateSource(certificate) {
+        if (
+            certificate.id === "business-tech-2026" &&
+            typeof window.__BRIDGE_EXACT === "string" &&
+            window.__BRIDGE_EXACT.startsWith("/9j/")
+        ) {
+            return `data:image/jpeg;base64,${window.__BRIDGE_EXACT}`;
+        }
+
+        return imageUrl(certificate.image);
+    }
+
     function installCertificateStyles() {
         if (document.querySelector("#certificateImageRepairStyles")) return;
+
         const style = document.createElement("style");
         style.id = "certificateImageRepairStyles";
         style.textContent = `
@@ -53,6 +66,7 @@
                 transform: none !important;
             }
         `;
+
         document.head.appendChild(style);
     }
 
@@ -62,6 +76,7 @@
 
         resume.querySelectorAll("*").forEach((element) => {
             if (element.children.length > 0) return;
+
             if ((element.textContent || "").trim() === "Philippines") {
                 element.textContent = "Tanauan City, Batangas";
             }
@@ -81,7 +96,7 @@
             grid.appendChild(article);
         }
 
-        const source = imageUrl(certificate.image);
+        const source = getCertificateSource(certificate);
 
         article.innerHTML = `
             <a class="certificate-preview" href="${source}" target="_blank" rel="noopener noreferrer" aria-label="View ${certificate.title} certificate">
