@@ -1,13 +1,18 @@
 "use strict";
 
 /* =========================================================
-   CHER MICOLE PORTFOLIO - GAME CONTROLLED NAVIGATION
-   ---------------------------------------------------------
-   HOME is locked to the first screen.
-   GAME is the only way to open:
-   ABOUT, SKILLS, PROJECTS, RESUME, CERTIFICATES, CONTACT.
-
-   The existing Snake Game engine is kept in game-core.js.
+   CHER MICOLE PORTFOLIO
+   GAME-CONTROLLED PAGE NAVIGATION
+   =========================================================
+   RULES:
+   1. The portfolio always opens on HOME.
+   2. HOME cannot scroll to another portfolio page.
+   3. Only the PLAY GAME button can leave HOME.
+   4. ABOUT, SKILLS, PROJECTS, RESUME, CERTIFICATES,
+      and CONTACT can only be opened when the snake
+      touches their target in the game.
+   5. Page changes use a fade/slide transition instead
+      of normal document scrolling.
    ========================================================= */
 
 (() => {
@@ -31,6 +36,8 @@
         "contact"
     ]);
 
+    const TRANSITION_MS = 420;
+
     const $ = (selector, parent = document) =>
         parent.querySelector(selector);
 
@@ -38,21 +45,27 @@
         [...parent.querySelectorAll(selector)];
 
     let activePage = "home";
+    let isTransitioning = false;
+    let noticeTimer = null;
 
-    function installLockedPageStyles() {
+    function installNavigationStyles() {
+        if ($("#gameNavigationStyles")) {
+            return;
+        }
+
         const style = document.createElement("style");
+        style.id = "gameNavigationStyles";
 
-        style.id = "gameOnlyNavigationStyles";
         style.textContent = `
-            html.game-only-navigation,
-            body.game-only-navigation {
+            html.game-navigation-mode,
+            body.game-navigation-mode {
                 width: 100%;
                 height: 100%;
                 overflow: hidden !important;
                 overscroll-behavior: none;
             }
 
-            body.game-only-navigation main {
+            body.game-navigation-mode main {
                 position: relative;
                 width: 100%;
                 height: 100vh;
@@ -60,7 +73,10 @@
                 overflow: hidden;
             }
 
-            body.game-only-navigation main > section {
+            body.game-navigation-mode main > section {
+                position: absolute;
+                inset: 0;
+                z-index: 0;
                 display: none !important;
                 width: 100%;
                 height: 100vh;
@@ -69,14 +85,60 @@
                 overflow-x: hidden;
                 overflow-y: auto;
                 overscroll-behavior: contain;
+                opacity: 0;
             }
 
-            body.game-only-navigation
-            main > section.portfolio-page-active {
+            body.game-navigation-mode
+            main > section.portfolio-page-active,
+            body.game-navigation-mode
+            main > section.portfolio-page-leaving {
                 display: block !important;
             }
 
-            body.game-only-navigation
+            body.game-navigation-mode
+            main > section.portfolio-page-active {
+                z-index: 2;
+                opacity: 1;
+                pointer-events: auto;
+                animation:
+                    portfolioPageIn ${TRANSITION_MS}ms
+                    cubic-bezier(.2,.75,.25,1) both;
+            }
+
+            body.game-navigation-mode
+            main > section.portfolio-page-leaving {
+                z-index: 1;
+                pointer-events: none;
+                animation:
+                    portfolioPageOut 340ms
+                    cubic-bezier(.4,0,.2,1) both;
+            }
+
+            @keyframes portfolioPageIn {
+                from {
+                    opacity: 0;
+                    transform: translate3d(0, 22px, 0) scale(.995);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translate3d(0, 0, 0) scale(1);
+                }
+            }
+
+            @keyframes portfolioPageOut {
+                from {
+                    opacity: 1;
+                    transform: translate3d(0, 0, 0) scale(1);
+                }
+
+                to {
+                    opacity: 0;
+                    transform: translate3d(0, -16px, 0) scale(.995);
+                }
+            }
+
+            body.game-navigation-mode
             #home.portfolio-page-active {
                 display: grid !important;
                 height: 100vh;
@@ -84,78 +146,125 @@
                 min-height: 0 !important;
                 overflow: hidden !important;
                 padding-bottom: 0 !important;
+                overscroll-behavior: none;
             }
 
-            body.game-only-navigation
+            body.game-navigation-mode
             #game.portfolio-page-active {
                 display: block !important;
             }
 
-            body.game-only-navigation .footer {
+            body.game-navigation-mode .footer {
                 display: none !important;
             }
 
-            body.game-only-navigation
-            .hero-description.game-instruction {
+            body.game-navigation-mode
+            #home .hero-description.game-navigation-instruction {
                 max-width: 720px;
-                padding-left: 15px;
+                padding-left: 16px;
                 border-left: 2px solid var(--primary);
                 color: var(--muted);
+                font-size: .95rem;
                 line-height: 1.58;
             }
 
-            body.game-only-navigation
-            .hero-description.game-instruction strong {
+            body.game-navigation-mode
+            #home .hero-description.game-navigation-instruction
+            strong {
                 color: var(--primary);
+                font-size: .78rem;
                 font-weight: 900;
+                letter-spacing: .08em;
             }
 
-            body.game-only-navigation
-            .nav-links a.game-locked-link {
-                cursor: pointer;
+            body.game-navigation-mode
+            .nav-links a.game-only-link {
+                opacity: .72;
+            }
+
+            body.game-navigation-mode
+            .nav-links a.game-only-link:hover {
+                opacity: 1;
+            }
+
+            body.game-navigation-mode
+            #game .section-description {
+                max-width: 820px;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                body.game-navigation-mode
+                main > section.portfolio-page-active,
+                body.game-navigation-mode
+                main > section.portfolio-page-leaving {
+                    animation-duration: 1ms !important;
+                }
             }
 
             @media (max-width: 900px) {
-                body.game-only-navigation
+                body.game-navigation-mode
                 #home.portfolio-page-active {
                     padding-top:
-                        calc(var(--header-height) + 24px);
+                        calc(var(--header-height) + 20px);
                 }
 
-                body.game-only-navigation
+                body.game-navigation-mode
                 #home .hero-grid {
-                    gap: 28px;
+                    gap: 24px;
+                }
+
+                body.game-navigation-mode
+                #home .hero-description.game-navigation-instruction {
+                    font-size: .88rem;
+                    line-height: 1.48;
                 }
             }
 
             @media (max-width: 600px) {
-                body.game-only-navigation
+                body.game-navigation-mode
                 #home.portfolio-page-active {
                     padding-top:
-                        calc(var(--header-height) + 10px);
+                        calc(var(--header-height) + 8px);
                 }
 
-                body.game-only-navigation
+                body.game-navigation-mode
                 #home .hero-grid {
-                    gap: 14px;
+                    gap: 12px;
                 }
 
-                body.game-only-navigation
-                .hero-description.game-instruction {
+                body.game-navigation-mode
+                #home .hero-description.game-navigation-instruction {
                     margin-top: 12px;
-                    padding-left: 11px;
-                    font-size: 0.82rem;
-                    line-height: 1.45;
+                    padding-left: 10px;
+                    font-size: .78rem;
+                    line-height: 1.40;
                 }
 
-                body.game-only-navigation
+                body.game-navigation-mode
                 #home .hero-buttons {
-                    margin-top: 18px;
+                    margin-top: 16px;
                 }
             }
         `;
 
         document.head.appendChild(style);
+    }
+
+    function showNotice(message) {
+        const toast = $("#toast");
+
+        if (!toast) {
+            return;
+        }
+
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        clearTimeout(noticeTimer);
+
+        noticeTimer = setTimeout(() => {
+            toast.classList.remove("show");
+        }, 3000);
     }
 
     function updateActiveNavigation(pageId) {
@@ -173,116 +282,221 @@
         document.body.classList.remove("menu-open");
     }
 
-    function setGameMessage(text) {
-        const message = $("#gameMessage");
+    function updateHash(pageId) {
+        const nextUrl =
+            `${location.pathname}${location.search}#${pageId}`;
 
-        if (message) {
-            message.textContent = text;
-        }
+        history.replaceState(
+            { portfolioPage: pageId },
+            "",
+            nextUrl
+        );
     }
 
-    function showPage(
-        pageId,
-        {
-            fromGame = false,
-            updateHash = true
-        } = {}
-    ) {
-        if (!PAGE_IDS.has(pageId)) {
-            pageId = "home";
-        }
-
-        if (GAME_ONLY_IDS.has(pageId) && !fromGame) {
-            pageId = "game";
-        }
-
-        const target = document.getElementById(pageId);
-
-        if (!target) {
-            return;
-        }
-
+    function setInitialPage(pageId) {
         $$("main > section[id]").forEach((section) => {
+            const isActive = section.id === pageId;
+
             section.classList.toggle(
                 "portfolio-page-active",
-                section.id === pageId
+                isActive
+            );
+
+            section.classList.remove(
+                "portfolio-page-leaving"
+            );
+
+            section.setAttribute(
+                "aria-hidden",
+                String(!isActive)
             );
         });
 
         activePage = pageId;
-        target.scrollTop = 0;
-
         updateActiveNavigation(pageId);
-        closeMobileMenu();
-
-        if (updateHash) {
-            const newUrl =
-                `${location.pathname}${location.search}#${pageId}`;
-
-            history.replaceState(
-                { portfolioPage: pageId },
-                "",
-                newUrl
-            );
-        }
-
+        updateHash(pageId);
         window.scrollTo(0, 0);
     }
 
-    function getProtectedPage(element) {
-        if (!element) {
+    function transitionToPage(
+        pageId,
+        {
+            fromGame = false
+        } = {}
+    ) {
+        if (!PAGE_IDS.has(pageId)) {
+            return false;
+        }
+
+        if (
+            GAME_ONLY_IDS.has(pageId) &&
+            !fromGame
+        ) {
+            return false;
+        }
+
+        if (
+            pageId === activePage ||
+            isTransitioning
+        ) {
+            return pageId === activePage;
+        }
+
+        const current =
+            document.getElementById(activePage);
+
+        const target =
+            document.getElementById(pageId);
+
+        if (!target) {
+            return false;
+        }
+
+        isTransitioning = true;
+
+        if (current) {
+            current.classList.add(
+                "portfolio-page-leaving"
+            );
+
+            current.classList.remove(
+                "portfolio-page-active"
+            );
+
+            current.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+        }
+
+        target.scrollTop = 0;
+        target.classList.remove(
+            "portfolio-page-leaving"
+        );
+
+        target.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        requestAnimationFrame(() => {
+            target.classList.add(
+                "portfolio-page-active"
+            );
+        });
+
+        activePage = pageId;
+
+        updateActiveNavigation(pageId);
+        closeMobileMenu();
+        updateHash(pageId);
+        window.scrollTo(0, 0);
+
+        window.setTimeout(() => {
+            current?.classList.remove(
+                "portfolio-page-leaving"
+            );
+
+            isTransitioning = false;
+        }, TRANSITION_MS + 30);
+
+        return true;
+    }
+
+    function isPlayGameButton(link) {
+        return Boolean(
+            link?.matches?.(
+                '#home .hero-buttons a[href="#game"]'
+            )
+        );
+    }
+
+    function getTargetInformation(link) {
+        const href =
+            link?.getAttribute("href") || "";
+
+        if (
+            !href.startsWith("#") ||
+            href === "#"
+        ) {
             return null;
         }
 
-        if (
-            element.matches?.("main > section[id]") &&
-            GAME_ONLY_IDS.has(element.id)
-        ) {
-            return element.id;
+        const targetId = href.slice(1);
+        const target =
+            document.getElementById(targetId);
+
+        if (!target) {
+            return null;
         }
 
-        const section =
-            element.closest?.("main > section[id]");
+        let pageId = null;
 
         if (
-            section &&
-            GAME_ONLY_IDS.has(section.id)
+            target.matches("main > section[id]")
         ) {
-            return section.id;
+            pageId = target.id;
+        } else {
+            pageId =
+                target.closest(
+                    "main > section[id]"
+                )?.id || null;
         }
 
-        return null;
+        return {
+            targetId,
+            target,
+            pageId
+        };
     }
 
-    function replaceHomeDescription() {
-        const heroDescription =
+    function replaceHomeText() {
+        const description =
             $("#home .hero-description");
 
-        if (!heroDescription) {
-            return;
+        if (description) {
+            description.classList.add(
+                "game-navigation-instruction"
+            );
+
+            description.innerHTML = `
+                <strong>GAME NAVIGATION INSTRUCTION:</strong>
+                Click <b>PLAY GAME</b> first.
+                Wait for <b>3 → 2 → 1 → START!</b>,
+                then control the snake using
+                <b>Arrow Keys/WASD</b> on laptop or desktop,
+                or <b>swipe / arrow buttons</b> on phone and tablet.
+                <b>You cannot scroll or use the menu to open
+                About, Skills, Projects, Resume, Certificates,
+                or Contact.</b>
+                The page will open only when the snake
+                touches that page's target inside the game.
+            `;
         }
 
-        heroDescription.classList.add(
-            "game-instruction"
-        );
+        const resumeButton =
+            $('#home .hero-buttons a[href="#resume"]');
 
-        heroDescription.innerHTML = `
-            <strong>HOW TO USE THE GAME:</strong>
-            Click <b>PLAY GAME</b> and wait for
-            <b>3 → 2 → 1 → START!</b>.
-            On laptop/desktop, use
-            <b>Arrow Keys or WASD</b>.
-            On phone/tablet, <b>swipe</b> on the game
-            or use the <b>arrow buttons</b>.
-            Guide the snake into
-            <b>ABOUT, SKILLS, PROJECTS, RESUME,
-            CERTIFICATES, or CONTACT</b>.
-            The page will open only when the snake
-            touches its target.
-        `;
+        if (resumeButton) {
+            resumeButton.textContent =
+                "SECTIONS VIA GAME";
+
+            resumeButton.title =
+                "Click PLAY GAME to navigate the portfolio";
+        }
     }
 
-    function configureLockedLinks() {
+    function configureGameText() {
+        const gameDescription =
+            $("#game .section-description");
+
+        if (gameDescription) {
+            gameDescription.textContent =
+                "HOW TO PLAY: Wait for 3 → 2 → 1 → START! before moving. Use Arrow Keys or WASD on laptop/desktop. On phones and tablets, swipe on the board or use the arrow buttons. The six boxes — About, Skills, Projects, Resume, Certificates, and Contact — are the only destinations. When the snake touches a box, the portfolio will transition to that page.";
+        }
+    }
+
+    function configureNavbar() {
         $$(".nav-links a").forEach((link) => {
             const href =
                 link.getAttribute("href") || "";
@@ -295,34 +509,13 @@
 
             if (GAME_ONLY_IDS.has(pageId)) {
                 link.classList.add(
-                    "game-locked-link"
+                    "game-only-link"
                 );
 
                 link.title =
-                    `${pageId.toUpperCase()} opens through the Snake Game`;
+                    "This page opens only through the Snake Game";
             }
         });
-
-        const resumeButton =
-            $('#home .hero-buttons a[href="#resume"]');
-
-        if (resumeButton) {
-            resumeButton.textContent =
-                "RESUME VIA GAME";
-
-            resumeButton.title =
-                "Play the Snake Game to open Resume";
-        }
-    }
-
-    function configureGameInstructions() {
-        const gameDescription =
-            $("#game .section-description");
-
-        if (gameDescription) {
-            gameDescription.textContent =
-                "Wait for 3 → 2 → 1 → START! before moving. Use Arrow Keys/WASD on laptop or desktop. On phones and tablets, swipe on the board or use the arrow buttons. Touch one of the six labeled targets with the snake to open that portfolio page.";
-        }
     }
 
     function installNavigationGuard() {
@@ -338,59 +531,127 @@
                     return;
                 }
 
-                const href =
-                    link.getAttribute("href") || "";
+                const info =
+                    getTargetInformation(link);
 
-                const pageId =
-                    href.startsWith("#")
-                        ? href.slice(1)
-                        : "";
-
-                if (!PAGE_IDS.has(pageId)) {
+                if (!info?.pageId) {
                     return;
                 }
 
-                event.preventDefault();
+                const {
+                    targetId,
+                    target,
+                    pageId
+                } = info;
 
-                if (
-                    GAME_ONLY_IDS.has(pageId)
-                ) {
-                    showPage("game");
+                if (activePage === "home") {
+                    event.preventDefault();
 
-                    setGameMessage(
-                        `USE THE SNAKE TO OPEN ${pageId.toUpperCase()}`
+                    if (
+                        pageId === "game" &&
+                        isPlayGameButton(link)
+                    ) {
+                        transitionToPage("game");
+                        return;
+                    }
+
+                    if (pageId === "home") {
+                        return;
+                    }
+
+                    showNotice(
+                        "CLICK PLAY GAME FIRST — OTHER PAGES OPEN ONLY WHEN THE SNAKE HITS THEIR TARGET"
                     );
 
                     return;
                 }
 
-                showPage(pageId);
+                if (
+                    pageId === "home" ||
+                    pageId === "game"
+                ) {
+                    event.preventDefault();
+                    transitionToPage(pageId);
+                    return;
+                }
+
+                if (
+                    pageId === activePage &&
+                    targetId !== pageId
+                ) {
+                    event.preventDefault();
+
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+
+                    return;
+                }
+
+                if (GAME_ONLY_IDS.has(pageId)) {
+                    event.preventDefault();
+
+                    showNotice(
+                        `RETURN TO GAME AND HIT THE ${pageId.toUpperCase()} TARGET`
+                    );
+
+                    return;
+                }
             },
             true
         );
     }
 
-    const originalScrollIntoView =
+    function installHomeScrollLock() {
+        document.addEventListener(
+            "wheel",
+            (event) => {
+                if (activePage === "home") {
+                    event.preventDefault();
+                }
+            },
+            {
+                passive: false
+            }
+        );
+
+        document.addEventListener(
+            "touchmove",
+            (event) => {
+                if (activePage === "home") {
+                    event.preventDefault();
+                }
+            },
+            {
+                passive: false
+            }
+        );
+    }
+
+    const nativeScrollIntoView =
         Element.prototype.scrollIntoView;
 
     Element.prototype.scrollIntoView =
         function (...args) {
-            const protectedPage =
-                getProtectedPage(this);
+            const isProtectedSection =
+                this.matches?.(
+                    "main > section[id]"
+                ) &&
+                GAME_ONLY_IDS.has(this.id);
 
-            if (protectedPage) {
-                showPage(
-                    protectedPage,
+            if (isProtectedSection) {
+                transitionToPage(
+                    this.id,
                     {
-                        fromGame: true,
-                        updateHash: true
+                        fromGame: true
                     }
                 );
 
                 return;
             }
 
-            return originalScrollIntoView.apply(
+            return nativeScrollIntoView.apply(
                 this,
                 args
             );
@@ -399,82 +660,81 @@
     function loadGameEngine() {
         return new Promise(
             (resolve, reject) => {
-                const script =
+                const gameScript =
                     document.createElement(
                         "script"
                     );
 
-                script.src = "game-core.js";
-                script.async = false;
+                gameScript.src =
+                    "game-core.js?v=20260818-1515";
 
-                script.addEventListener(
+                gameScript.async = false;
+
+                gameScript.addEventListener(
                     "load",
                     resolve,
-                    { once: true }
+                    {
+                        once: true
+                    }
                 );
 
-                script.addEventListener(
+                gameScript.addEventListener(
                     "error",
                     reject,
-                    { once: true }
+                    {
+                        once: true
+                    }
                 );
 
                 document.head.appendChild(
-                    script
+                    gameScript
                 );
             }
         );
     }
 
-    installLockedPageStyles();
+    installNavigationStyles();
 
     document.documentElement.classList.add(
-        "game-only-navigation"
+        "game-navigation-mode"
     );
 
     document.body.classList.add(
-        "game-only-navigation"
+        "game-navigation-mode"
     );
 
     if ("scrollRestoration" in history) {
         history.scrollRestoration = "manual";
     }
 
-    replaceHomeDescription();
-    configureLockedLinks();
-    configureGameInstructions();
+    replaceHomeText();
+    configureGameText();
+    configureNavbar();
     installNavigationGuard();
+    installHomeScrollLock();
 
-    showPage(
-        "home",
-        {
-            fromGame: false,
-            updateHash: true
-        }
-    );
+    setInitialPage("home");
 
     loadGameEngine().catch(() => {
-        console.error(
-            "Unable to load the Snake Game engine."
+        showNotice(
+            "GAME FAILED TO LOAD. PLEASE REFRESH THE PAGE."
         );
 
-        showPage("game");
-
-        setGameMessage(
-            "GAME ENGINE FAILED TO LOAD. REFRESH THE PAGE."
+        console.error(
+            "Unable to load game-core.js"
         );
     });
 
     window.portfolioNavigation = {
-        home() {
-            showPage("home");
+        goHome() {
+            transitionToPage("home");
         },
 
-        game() {
-            showPage("game");
+        goGame() {
+            transitionToPage("game");
         },
 
-        activePage() {
+        getActivePage() {
             return activePage;
         }
     };
