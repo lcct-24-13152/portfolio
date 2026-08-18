@@ -1,9 +1,7 @@
 "use strict";
 
 (() => {
-    const sharpImage = (value, fallback) => value
-        ? `data:image/webp;base64,${value}`
-        : fallback;
+    const VERSION = "20260818-1725";
 
     const CERTIFICATES = [
         {
@@ -11,21 +9,54 @@
             title: "Bridging Business and Technology for the Next Generation",
             issuer: "La Consolacion College Tanauan · IT Week 2026",
             date: "March 21, 2026",
-            image: sharpImage(window.__CERT_HQ1, "assets/certificates/bridging-business-technology-2026.jpg")
+            image: "assets/certificates/bridging-business-technology-2026.jpg"
         },
         {
             id: "robotics-experience-2026",
             title: "Design, Build, Innovate: The Robotics Experience",
             issuer: "First Eduspec Inc. / LCCT · ICT Week 2026",
             date: "March 19, 2026",
-            image: sharpImage(window.__CERT_HQ2, "assets/certificates/robotics-experience-2026.jpg")
+            image: "assets/certificates/robotics-experience-2026.jpg"
         }
     ];
+
+    function imageUrl(path) {
+        return `${path}?v=${VERSION}`;
+    }
+
+    function installCertificateStyles() {
+        if (document.querySelector("#certificateImageRepairStyles")) return;
+        const style = document.createElement("style");
+        style.id = "certificateImageRepairStyles";
+        style.textContent = `
+            #certificates [data-added-certificate] .certificate-preview {
+                display: grid !important;
+                place-items: center !important;
+                overflow: hidden !important;
+                background: #ffffff !important;
+            }
+            #certificates [data-added-certificate] .certificate-preview img {
+                display: block !important;
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: contain !important;
+                object-position: center !important;
+                image-rendering: auto !important;
+                filter: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            #certificates [data-added-certificate] .certificate-preview:hover img {
+                filter: none !important;
+                transform: scale(1.01) !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
 
     function patchResumeLocation() {
         const resume = document.querySelector("#resumeTemplate");
         if (!resume) return;
-
         resume.querySelectorAll("*").forEach((element) => {
             if (element.children.length > 0) return;
             if ((element.textContent || "").trim() === "Philippines") {
@@ -34,29 +65,35 @@
         });
     }
 
-    function addCertificateCards() {
+    function createOrRepairCertificateCard(certificate) {
         const grid = document.querySelector("#certificates .certificate-grid");
         if (!grid) return;
 
-        CERTIFICATES.forEach((certificate) => {
-            if (grid.querySelector(`[data-added-certificate="${certificate.id}"]`)) return;
-
-            const article = document.createElement("article");
+        let article = grid.querySelector(`[data-added-certificate="${certificate.id}"]`);
+        if (!article) {
+            article = document.createElement("article");
             article.className = "certificate-card reveal visible";
             article.dataset.addedCertificate = certificate.id;
-            article.innerHTML = `
-                <a class="certificate-preview" href="${certificate.image}" target="_blank" rel="noopener noreferrer" aria-label="View ${certificate.title} certificate">
-                    <img src="${certificate.image}" alt="${certificate.title} certificate" loading="lazy" decoding="async">
-                    <span>VIEW</span>
-                </a>
-                <div class="certificate-body">
-                    <p class="certificate-type">CERTIFICATE OF PARTICIPATION</p>
-                    <h3>${certificate.title}</h3>
-                    <p class="certificate-date">${certificate.issuer} · ${certificate.date}</p>
-                    <a class="certificate-button" href="${certificate.image}" target="_blank" rel="noopener noreferrer">VIEW CERTIFICATE</a>
-                </div>`;
             grid.appendChild(article);
-        });
+        }
+
+        const source = imageUrl(certificate.image);
+        article.innerHTML = `
+            <a class="certificate-preview" href="${source}" target="_blank" rel="noopener noreferrer" aria-label="View ${certificate.title} certificate">
+                <img src="${source}" alt="${certificate.title} certificate" loading="eager" decoding="async">
+                <span>VIEW</span>
+            </a>
+            <div class="certificate-body">
+                <p class="certificate-type">CERTIFICATE OF PARTICIPATION</p>
+                <h3>${certificate.title}</h3>
+                <p class="certificate-date">${certificate.issuer} · ${certificate.date}</p>
+                <a class="certificate-button" href="${source}" target="_blank" rel="noopener noreferrer">VIEW CERTIFICATE</a>
+            </div>
+        `;
+    }
+
+    function addCertificateCards() {
+        CERTIFICATES.forEach(createOrRepairCertificateCard);
     }
 
     function addResumeCertificates() {
@@ -69,16 +106,29 @@
         ];
 
         items.forEach(([id, title, meta]) => {
-            if (list.querySelector(`[data-added-resume-cert="${id}"]`)) return;
-            const block = document.createElement("div");
-            block.className = "resume-cert-item";
-            block.dataset.addedResumeCert = id;
+            let block = list.querySelector(`[data-added-resume-cert="${id}"]`);
+            if (!block) {
+                block = document.createElement("div");
+                block.className = "resume-cert-item";
+                block.dataset.addedResumeCert = id;
+                list.appendChild(block);
+            }
             block.innerHTML = `<strong>${title}</strong><span>${meta}</span>`;
-            list.appendChild(block);
         });
     }
 
-    patchResumeLocation();
-    addCertificateCards();
-    addResumeCertificates();
+    function applyUpdates() {
+        installCertificateStyles();
+        patchResumeLocation();
+        addCertificateCards();
+        addResumeCertificates();
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", applyUpdates, { once: true });
+    } else {
+        applyUpdates();
+    }
+
+    window.setTimeout(applyUpdates, 700);
 })();
