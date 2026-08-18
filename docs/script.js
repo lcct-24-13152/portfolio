@@ -1,7 +1,7 @@
 "use strict";
 
 (() => {
-    const VERSION = "20260818-1835";
+    const VERSION = "20260818-1952";
     const current = document.currentScript;
     const base = current
         ? new URL(".", current.src)
@@ -37,6 +37,9 @@
 
     loadScript("responsive-core.js")
         .then(() => loadScript("mobile-game-fix.js"))
+        .then(() => loadScript("bridge-exact-part-1.js"))
+        .then(() => loadScript("bridge-exact-part-2.js"))
+        .then(() => loadScript("bridge-exact-part-3.js"))
         .then(() => loadScript("portfolio-updates.js"))
         .catch((error) => {
             console.error("Portfolio update failed to load:", error);
