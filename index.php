@@ -252,7 +252,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                 </div>
                 <div class="about-layout">
                     <article class="about-card reveal">
-                        <h3>Hello, I’m Cher.</h3>
+                        <h3>Hello, I’m Micole.</h3>
                         <p>Motivated and responsible Information Technology student with knowledge in web development, databases, and system development. Able to communicate well, organize tasks, and solve basic technical problems. Comfortable working independently or with a team and willing to learn new skills when needed. Looking for an opportunity to gain experience, improve technical abilities, and contribute to the organization.</p>
                     </article>
                     <div class="about-grid reveal">
