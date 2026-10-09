@@ -1,7 +1,7 @@
 "use strict";
 
 (() => {
-    const VERSION = "20261009-1845";
+    const VERSION = "20261009-1900";
     const current = document.currentScript;
     const base = current
         ? new URL(".", current.src)
