@@ -103,29 +103,18 @@ filterButtons.forEach((button) => {
 const projectInformation = {
     1: {
         label: "PERSONAL WEBSITE",
-        title: "Interactive Portfolio",
-        description:
-            "A responsive personal portfolio with dark mode, animated sections, project filtering, a printable resume, and a Snake category navigation game.",
+        title: "Personal Portfolio Website",
+        description: "Designed and developed a responsive personal portfolio website to showcase projects, skills, achievements, and certificates. Added interactive features and organized navigation for a better user experience.",
         tools: ["HTML", "CSS", "JavaScript"],
-        url: "https://lcct-24-13152.github.io/portfolio/",
+        url: "https://lcct-24-13152.github.io/portfolio/#home",
         linkText: "OPEN LIVE PORTFOLIO ↗"
     },
     2: {
-        label: "WEB SYSTEM",
-        title: "Reservation System",
-        description:
-            "A reservation system concept that manages schedules, availability, customer details, bookings, payments, and reports.",
+        label: "EDUCATIONAL GAME SYSTEM",
+        title: "Sportzle Educational Game System",
+        description: "Developed an interactive sports-themed educational game with solo and multiplayer modes. Implemented player registration, scoring, difficulty levels, leaderboards, responsive game features, database integration, and an organized user experience.",
         tools: ["PHP", "MySQL", "JavaScript"],
-        url: "",
-        linkText: ""
-    },
-    3: {
-        label: "MANAGEMENT SYSTEM",
-        title: "Laundry Management",
-        description:
-            "A management system for recording customers, laundry services, transactions, inventory, payments, receipts, reports, and QR-based laundry status tracking.",
-        tools: ["PHP", "MySQL", "CRUD"],
-        url: "https://disabled-sprint-depends-lighter.trycloudflare.com/laundry-system/auth/login.php",
+        url: "https://intelsportzle.infinityfreeapp.com/?i=1",
         linkText: "OPEN LIVE SYSTEM ↗"
     }
 };

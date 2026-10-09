@@ -113,8 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of Cher Micole P. Lirio, BS Information Technology student.">
-    <title>Cher Micole P. Lirio | Portfolio</title>
+    <meta name="description" content="Portfolio of Cher Micole Plete Lirio, BS Information Technology student.">
+    <title>Cher Micole Plete Lirio | Portfolio</title>
 
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
@@ -179,12 +179,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                         <div class="profile-photo-frame">
                             <img
                                 src="profile-photo-2x2.jpg"
-                                alt="Cher Micole P. Lirio"
+                                alt="Cher Micole Plete Lirio"
                                 class="profile-photo">
                         </div>
 
                         <div class="profile-card-info">
-                            <p class="profile-name">CHER MICOLE P. LIRIO</p>
+                            <p class="profile-name">CHER MICOLE PLETE LIRIO</p>
                             <p>BS Information Technology Student</p>
                             <p>Aspiring Web and System Developer</p>
 
@@ -250,44 +250,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
                     <p class="small-label">GET TO KNOW ME</p>
                     <h2>ABOUT ME</h2>
                 </div>
-
                 <div class="about-layout">
                     <article class="about-card reveal">
                         <h3>Hello, I’m Cher.</h3>
-
-                        <p>
-                            I am a Bachelor of Science in Information Technology student
-                            at La Consolacion College Tanauan. I am interested in web
-                            development, system design, and creating simple solutions for
-                            real-life tasks.
-                        </p>
-
-                        <p>
-                            I enjoy learning new technologies and improving my skills in
-                            both front-end and back-end development.
-                        </p>
+                        <p>Motivated and responsible Information Technology student with knowledge in web development, databases, and system development. Able to communicate well, organize tasks, and solve basic technical problems. Comfortable working independently or with a team and willing to learn new skills when needed. Looking for an opportunity to gain experience, improve technical abilities, and contribute to the organization.</p>
                     </article>
-
                     <div class="about-grid reveal">
-                        <article class="info-card">
-                            <strong>BSIT</strong>
-                            <span>COURSE</span>
-                        </article>
-
-                        <article class="info-card">
-                            <strong>WEB</strong>
-                            <span>FOCUS</span>
-                        </article>
-
-                        <article class="info-card">
-                            <strong>UI</strong>
-                            <span>DESIGN</span>
-                        </article>
-
-                        <article class="info-card">
-                            <strong>DEV</strong>
-                            <span>DEVELOPMENT</span>
-                        </article>
+                        <article class="info-card"><strong>BSIT</strong><span>COURSE</span></article>
+                        <article class="info-card"><strong>WEB</strong><span>DEVELOPMENT</span></article>
+                        <article class="info-card"><strong>DB</strong><span>DATABASE</span></article>
+                        <article class="info-card"><strong>UI/UX</strong><span>DESIGN</span></article>
                     </div>
                 </div>
             </div>
@@ -295,138 +267,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
 
         <section class="section alternate-section" id="skills">
             <div class="container">
-                <div class="section-heading reveal">
-                    <p class="small-label">WHAT I USE</p>
-                    <h2>SKILLS</h2>
-                </div>
-
+                <div class="section-heading reveal"><p class="small-label">WHAT I USE</p><h2>SKILLS</h2></div>
                 <div class="skills-grid">
-                    <article class="skill-card reveal">
-                        <div class="skill-number">01</div>
-                        <h3>HTML & CSS</h3>
-                        <p>
-                            Creating organized page structures, responsive layouts,
-                            animations, and clean user interfaces.
-                        </p>
-                    </article>
-
-                    <article class="skill-card reveal">
-                        <div class="skill-number">02</div>
-                        <h3>JavaScript</h3>
-                        <p>
-                            Adding interactions, navigation, validation, games,
-                            and dynamic website functions.
-                        </p>
-                    </article>
-
-                    <article class="skill-card reveal">
-                        <div class="skill-number">03</div>
-                        <h3>PHP & MySQL</h3>
-                        <p>
-                            Building forms, CRUD functions, login systems,
-                            databases, and basic web applications.
-                        </p>
-                    </article>
-
-                    <article class="skill-card reveal">
-                        <div class="skill-number">04</div>
-                        <h3>UI Design</h3>
-                        <p>
-                            Designing simple, readable, and responsive interfaces
-                            for desktop and mobile devices.
-                        </p>
-                    </article>
+                    <article class="skill-card reveal"><div class="skill-number">01</div><h3>UI/UX Design</h3><p>Creating simple, readable, and responsive interfaces for desktop and mobile devices.</p></article>
+                    <article class="skill-card reveal"><div class="skill-number">02</div><h3>Web Development</h3><p>Building responsive websites and interfaces using HTML, CSS, and JavaScript.</p></article>
+                    <article class="skill-card reveal"><div class="skill-number">03</div><h3>Database Management</h3><p>Working with MySQL databases, records, forms, and basic data management.</p></article>
+                    <article class="skill-card reveal"><div class="skill-number">04</div><h3>System Development & Testing</h3><p>Developing and testing web-based systems with PHP and MySQL.</p></article>
                 </div>
             </div>
         </section>
 
         <section class="section" id="projects">
             <div class="container">
-                <div class="section-heading reveal">
-                    <p class="small-label">SELECTED WORKS</p>
-                    <h2>PROJECTS</h2>
-                </div>
-
+                <div class="section-heading reveal"><p class="small-label">SELECTED WORKS</p><h2>PROJECTS</h2></div>
                 <div class="project-filters reveal">
                     <button class="filter active" data-filter="all" type="button">ALL</button>
                     <button class="filter" data-filter="one" type="button">PORTFOLIO</button>
-                    <button class="filter" data-filter="two" type="button">RESERVATION</button>
-                    <button class="filter" data-filter="three" type="button">MANAGEMENT</button>
+                    <button class="filter" data-filter="two" type="button">SPORTZLE</button>
                 </div>
-
                 <div class="project-grid">
                     <article class="project-card reveal" id="project-portfolio" data-category="one">
-                        <div class="project-image project-one">
-                            <span>01</span>
-                        </div>
-
+                        <div class="project-image project-one"><span>01</span></div>
                         <div class="project-body">
-                            <p class="project-type">PERSONAL WEBSITE</p>
-                            <h3>Interactive Portfolio</h3>
-                            <p>
-                                A responsive portfolio with smooth transitions,
-                                resume sections, dark mode, and a Snake navigation game.
-                            </p>
-
-                            <div class="project-tools">
-                                <span>HTML</span>
-                                <span>CSS</span>
-                                <span>JAVASCRIPT</span>
-                            </div>
-
-                            <button class="project-open" data-project="1" type="button">
-                                VIEW DETAILS
-                            </button>
+                            <p class="project-type">PERSONAL WEBSITE</p><h3>Personal Portfolio Website</h3>
+                            <p>Designed and developed a responsive personal portfolio website to showcase projects, skills, achievements, and certificates.</p>
+                            <div class="project-tools"><span>HTML</span><span>CSS</span><span>JAVASCRIPT</span></div>
+                            <button class="project-open" data-project="1" type="button">VIEW DETAILS</button>
                         </div>
                     </article>
-
-                    <article class="project-card reveal" id="project-reservation" data-category="two">
-                        <div class="project-image project-two">
-                            <span>02</span>
-                        </div>
-
+                    <article class="project-card reveal" id="project-sportzle" data-category="two">
+                        <div class="project-image project-two"><span>02</span></div>
                         <div class="project-body">
-                            <p class="project-type">WEB SYSTEM</p>
-                            <h3>Reservation System</h3>
-                            <p>
-                                A system concept for managing customer reservations,
-                                availability, schedules, and payment records.
-                            </p>
-
-                            <div class="project-tools">
-                                <span>PHP</span>
-                                <span>MYSQL</span>
-                                <span>JAVASCRIPT</span>
-                            </div>
-
-                            <button class="project-open" data-project="2" type="button">
-                                VIEW DETAILS
-                            </button>
-                        </div>
-                    </article>
-
-                    <article class="project-card reveal" id="project-laundry" data-category="three">
-                        <div class="project-image project-three">
-                            <span>03</span>
-                        </div>
-
-                        <div class="project-body">
-                            <p class="project-type">MANAGEMENT SYSTEM</p>
-                            <h3>Laundry Management</h3>
-                            <p>
-                                A system concept for customer transactions,
-                                services, inventory, receipts, and reports.
-                            </p>
-
-                            <div class="project-tools">
-                                <span>PHP</span>
-                                <span>MYSQL</span>
-                                <span>CRUD</span>
-                            </div>
-
-                            <button class="project-open" data-project="3" type="button">
-                                VIEW DETAILS
-                            </button>
+                            <p class="project-type">EDUCATIONAL GAME SYSTEM</p><h3>Sportzle Educational Game System</h3>
+                            <p>Developed an interactive sports-themed educational game with solo and multiplayer modes, scoring, difficulty levels, leaderboards, and responsive features.</p>
+                            <div class="project-tools"><span>PHP</span><span>MYSQL</span><span>JAVASCRIPT</span></div>
+                            <button class="project-open" data-project="2" type="button">VIEW DETAILS</button>
                         </div>
                     </article>
                 </div>
@@ -435,191 +310,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
 
         <section class="section alternate-section" id="resume">
             <div class="container">
-                <div class="resume-heading reveal">
-                    <div class="section-heading">
-                        <p class="small-label">MY BACKGROUND</p>
-                        <h2>RESUME</h2>
-                    </div>
-
-                    <button class="button primary-button" id="printResume" type="button">
-                        PRINT / SAVE PDF
-                    </button>
-                </div>
-
+                <div class="resume-heading reveal"><div class="section-heading"><p class="small-label">MY BACKGROUND</p><h2>RESUME</h2></div><button class="button primary-button" id="printResume" type="button">PRINT / SAVE PDF</button></div>
                 <article class="resume-template reveal" id="resumeTemplate">
-                    <div class="resume-top">
-                        <div class="resume-photo">
-                            <img
-                                src="profile-photo-2x2.jpg"
-                                alt="Cher Micole P. Lirio">
-                        </div>
-
-                        <div>
-                            <h3>CHER MICOLE P. LIRIO</h3>
-                            <p>BS Information Technology Student</p>
-                            <span>Philippines</span>
-                        </div>
-                    </div>
-
+                    <div class="resume-top"><div class="resume-photo"><img src="profile-photo-2x2.jpg" alt="Cher Micole Plete Lirio"></div><div><h3>CHER MICOLE PLETE LIRIO</h3><p>BS Information Technology Student</p><span>Balele, Tanauan City, Batangas, Philippines</span></div></div>
                     <div class="resume-columns">
                         <aside>
-                            <div class="resume-block">
-                                <h4>CONTACT</h4>
-                                <p>liriocher25@gmail.com</p>
-                                <p>09764332931</p>
-                                <p>Philippines</p>
-                            </div>
-
-                            <div class="resume-block">
-                                <h4>TECHNICAL SKILLS</h4>
-                                <ul>
-                                    <li>HTML and CSS</li>
-                                    <li>JavaScript</li>
-                                    <li>PHP and MySQL</li>
-                                    <li>Responsive Web Design</li>
-                                    <li>CRUD Operations</li>
-                                </ul>
-                            </div>
-
-                            <div class="resume-block">
-                                <h4>TOOLS</h4>
-                                <ul>
-                                    <li>Visual Studio Code</li>
-                                    <li>Laragon</li>
-                                    <li>phpMyAdmin</li>
-                                    <li>GitHub</li>
-                                    <li>Canva</li>
-                                    <li>Figma</li>
-                                </ul>
-                            </div>
+                            <div class="resume-block"><h4>CONTACT</h4><p>09764332931</p><p>liriocher25@gmail.com</p><p>Balele, Tanauan City, Batangas, Philippines</p></div>
+                            <div class="resume-block"><h4>TECHNICAL SKILLS</h4><ul><li>UI/UX Design</li><li>Web Development</li><li>Database Management</li><li>System Development &amp; Testing</li><li>PHP &amp; MySQL</li><li>HTML, CSS, JavaScript</li></ul></div>
+                            <div class="resume-block"><h4>SOFT SKILLS</h4><ul><li>Communication Skills</li><li>Problem-Solving</li><li>Teamwork and Collaboration</li><li>Willingness to Learn</li><li>Time Management</li><li>Adaptability</li><li>Hardworking</li></ul></div>
+                            <div class="resume-block"><h4>REFERENCES</h4><p><strong>Dr. Salem Laylo</strong><br>IT Program Chair<br>La Consolacion College of Tanauan<br>Phone: 09178898876</p><p><strong>Ms. Regine Lopez</strong><br>SHS Teacher<br>La Consolacion College of Tanauan<br>Phone: 09677966337</p></div>
                         </aside>
-
                         <div class="resume-main">
-                            <div class="resume-block">
-                                <h4>PROFILE</h4>
-                                <p>
-                                    BS Information Technology student interested in
-                                    web development, database systems, and responsive
-                                    interface design. Willing to learn and improve through
-                                    academic and personal projects.
-                                </p>
+                            <div class="resume-block"><h4>ABOUT ME</h4><p>Motivated and responsible Information Technology student with knowledge in web development, databases, and system development. Able to communicate well, organize tasks, and solve basic technical problems. Comfortable working independently or with a team and willing to learn new skills when needed. Looking for an opportunity to gain experience, improve technical abilities, and contribute to the organization.</p></div>
+                            <div class="resume-block"><h4>EDUCATION</h4><div class="resume-item"><p class="resume-label">2017 - PRESENT</p><h5>La Consolacion College of Tanauan</h5><p>Bachelor of Science in Information Technology</p></div></div>
+                            <div class="resume-block"><h4>PROJECT AND EXPERIENCE</h4>
+                                <div class="resume-item"><h5>Personal Portfolio Website</h5><p>Designed and developed a responsive personal portfolio website to showcase projects, skills, achievements, and certificates. Added interactive features and organized navigation for a better user experience. Applied front-end development skills using HTML, CSS, and JavaScript.</p><a class="resume-project-link" href="https://lcct-24-13152.github.io/portfolio/#home" target="_blank" rel="noopener noreferrer">VIEW PROJECT ↗</a></div>
+                                <div class="resume-item"><h5>Sportzle Educational Game System</h5><p>Developed an interactive sports-themed educational game with solo and multiplayer modes. Implemented player registration, scoring, difficulty levels, leaderboards, and responsive game features. Worked on the system design, database integration, and overall user experience.</p><a class="resume-project-link" href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener noreferrer">VIEW PROJECT ↗</a></div>
                             </div>
-
-                            <div class="resume-block">
-                                <h4>EDUCATION</h4>
-
-                                <div class="resume-item">
-                                    <p class="resume-label">PRIMARY EDUCATION</p>
-                                    <h5>Lilyrose School</h5>
-                                    <p>Primary Level</p>
-                                </div>
-
-                                <div class="resume-item">
-                                    <p class="resume-label">SECONDARY EDUCATION</p>
-                                    <h5>La Consolacion College Tanauan</h5>
-                                    <p>Secondary Level</p>
-                                </div>
-
-                                <div class="resume-item">
-                                    <p class="resume-label">TERTIARY</p>
-                                    <h5>Bachelor of Science in Information Technology</h5>
-                                    <p>La Consolacion College Tanauan</p>
-                                </div>
-
-                                
-                            </div>
-
-                            <div class="resume-block resume-certifications-block">
-                                <h4>CERTIFICATIONS &amp; ACHIEVEMENTS</h4>
-
-                                <div class="resume-certifications">
-                                    <div class="resume-cert-item">
-                                        <strong>Network Technician Career Path Exam</strong>
-                                        <span>Cisco Networking Academy · Apr 22, 2026</span>
-                                    </div>
-
-                                    <div class="resume-cert-item">
-                                        <strong>Network Addressing and Basic Troubleshooting</strong>
-                                        <span>Cisco Networking Academy · Apr 14, 2026</span>
-                                    </div>
-
-                                    <div class="resume-cert-item">
-                                        <strong>Network Support and Security</strong>
-                                        <span>Cisco Networking Academy · Apr 14, 2026</span>
-                                    </div>
-
-                                    <div class="resume-cert-item">
-                                        <strong>Networking Devices and Initial Configuration</strong>
-                                        <span>Cisco Networking Academy · Apr 8, 2026</span>
-                                    </div>
-
-                                    <div class="resume-cert-item">
-                                        <strong>Networking Basics</strong>
-                                        <span>Cisco Networking Academy · Apr 6, 2026</span>
-                                    </div>
-
-                                    <div class="resume-cert-item">
-                                        <strong>HTML Essentials</strong>
-                                        <span>DICT-ITU DTC Initiative / Cisco Networking Academy · Aug 11, 2026</span>
-                                    </div>
-
-                                    <div class="resume-cert-item">
-                                        <strong>HTML Essentials — Statement of Achievement</strong>
-                                        <span>Cisco Networking Academy &amp; JS Institute · Aug 11, 2026</span>
-                                    </div>
-
-                                    <div class="resume-cert-item">
-                                        <strong>BSIT Educational Exposure Trip — Certificate of Participation</strong>
-                                        <span>La Consolacion College Tanauan · Mar 23, 2026</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="resume-block">
-                                <h4>PROJECT EXPERIENCE</h4>
-
-                                <div class="resume-item">
-                                    <p class="resume-label">WEB DEVELOPMENT</p>
-                                    <h5>Interactive Portfolio Website</h5>
-                                    <p>
-                                        Designed a responsive portfolio with sections,
-                                        animations, dark mode, and an interactive game.
-                                    </p>
-                                    <a class="resume-project-link" href="#project-portfolio">
-                                        VIEW PROJECT ↗
-                                    </a>
-                                </div>
-
-                                <div class="resume-item">
-                                    <p class="resume-label">SYSTEM DEVELOPMENT</p>
-                                    <h5>Resort and Reservation Management Systems</h5>
-                                    <p>
-                                        Practiced creating forms, databases,
-                                        reports, and responsive admin interfaces.
-                                    </p>
-                                    <a class="resume-project-link" href="#project-reservation">
-                                        VIEW PROJECT ↗
-                                    </a>
-                                </div>
-
-                                <div class="resume-item">
-                                    <p class="resume-label">SYSTEM DEVELOPMENT</p>
-                                    <h5>Laundry Management System</h5>
-                                    <p>
-                                        Developed a Laundry Management System that manages
-                                        customer information, laundry transactions, services,
-                                        inventory, payments, receipts, and sales reports. The
-                                        system also generates a QR code that customers can scan
-                                        to track the current status of their laundry.
-                                    </p>
-                                    <a class="resume-project-link"
-                                       href="https://disabled-sprint-depends-lighter.trycloudflare.com/laundry-system/auth/login.php"
-                                       target="_blank"
-                                       rel="noopener noreferrer">
-                                        OPEN LIVE SYSTEM ↗
-                                    </a>
-                                </div>
-                            </div>
+                            <div class="resume-block resume-certifications-block"><h4>CERTIFICATION</h4><div class="resume-certifications">
+                                <div class="resume-cert-item"><strong>HTML Essentials</strong><span>DICT-ITU DTC Initiative through Cisco Networking Academy · August 11, 2026</span></div>
+                                <div class="resume-cert-item"><strong>Network Technician Career Path Exam</strong><span>Cisco Networking Academy · April 22, 2026</span></div>
+                                <div class="resume-cert-item"><strong>Network Support and Security</strong><span>Cisco Networking Academy · April 14, 2026</span></div>
+                                <div class="resume-cert-item"><strong>Network Addressing and Basic Troubleshooting</strong><span>Cisco Networking Academy · April 14, 2026</span></div>
+                                <div class="resume-cert-item"><strong>Networking Devices and Initial Configuration</strong><span>Cisco Networking Academy · April 8, 2026</span></div>
+                                <div class="resume-cert-item"><strong>Networking Basics</strong><span>Cisco Networking Academy · April 6, 2026</span></div>
+                                <div class="resume-cert-item"><strong>Certificate of Participation: BSIT Educational Exposure Trip, IT Week 2026</strong><span>March 23, 2026</span></div>
+                                <div class="resume-cert-item"><strong>Certificate of Participation — “Design, Build, Innovate: The Robotics Experience”</strong><span>2026</span></div>
+                            </div></div>
                         </div>
                     </div>
                 </article>
@@ -851,7 +568,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
 
     <footer class="footer">
         <div class="container footer-content">
-            <span>CHER MICOLE P. LIRIO</span>
+            <span>CHER MICOLE PLETE LIRIO</span>
             <span>PORTFOLIO</span>
             <a href="#home">↑</a>
         </div>
@@ -869,7 +586,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'
             <div class="resume-pdf-toolbar">
                 <div>
                     <p class="small-label">RESUME PREVIEW</p>
-                    <h2 id="resumePdfTitle">CHER MICOLE P. LIRIO</h2>
+                    <h2 id="resumePdfTitle">CHER MICOLE PLETE LIRIO</h2>
                     <span class="resume-pdf-toolbar-description">
                         Review your styled A4 resume before printing or saving it as PDF.
                     </span>
