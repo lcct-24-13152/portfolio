@@ -1,408 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Portfolio of Cher Micole P. Lirio, BS Information Technology student.">
-    <title>Cher Micole P. Lirio | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio of Cher Micole P. Lirio, BS Information Technology student and aspiring web and system developer." />
+  <title>Cher Micole P. Lirio | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="route-cover" id="routeCover" aria-hidden="true"></div>
+  <div class="noise"></div>
+  <header class="site-header" id="top">
+    <a class="brand" href="#home" aria-label="Go to home">
+      <span class="brand-mark">CM</span>
+      <span class="brand-copy"><b>CHER MICOLE</b><small>PORTFOLIO</small></span>
+    </a>
 
-    <header class="header" id="header">
-        <nav class="nav container">
-            <a class="logo" href="#home" data-nav="home">PORTFOLIO</a>
+    <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
 
-            <button class="menu-button" id="menuButton" type="button" aria-label="Open menu">
-                <span></span><span></span><span></span>
-            </button>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#certificates">Certificates</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-            <div class="nav-links" id="navLinks">
-                <a href="#home" data-nav="home">HOME</a>
-                <a href="#game" data-nav="game">GAME</a>
-                <a href="#about" data-nav="about">ABOUT</a>
-                <a href="#skills" data-nav="skills">SKILLS</a>
-                <a href="#projects" data-nav="projects">PROJECTS</a>
-                <a href="#resume" data-nav="resume">RESUME</a>
-                <a href="#certificates" data-nav="certificates">CERTIFICATES</a>
-                <a href="#contact" data-nav="contact">CONTACT</a>
-                <button class="theme-button" id="themeButton" type="button" aria-label="Toggle theme">◐</button>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-        <!-- HOME -->
-        <section class="section hero single-route" id="home">
-            <div class="container hero-grid">
-                <div class="hero-copy">
-                    <p class="small-label">PERSONAL PORTFOLIO</p>
-                    <h1>CHER<br>MICOLE P.<br>LIRIO</h1>
-                    <span class="hero-title">BS INFORMATION TECHNOLOGY STUDENT</span>
-
-                    <div class="home-guide">
-                        <strong>CHOOSE HOW YOU WANT TO VIEW MY PORTFOLIO:</strong>
-                        <p><b>PLAY GAME</b> — play Snake, eat food to grow, then hit a section target to open that page.</p>
-                        <p><b>BROWSE PORTFOLIO</b> — skip the game and scroll normally from About to Contact.</p>
-                    </div>
-
-                    <div class="hero-buttons">
-                        <button class="button primary-button" id="playGameHome" type="button">PLAY GAME</button>
-                        <button class="button outline-button" id="browsePortfolioHome" type="button">BROWSE PORTFOLIO</button>
-                    </div>
-                </div>
-
-                <article class="profile-card">
-                    <div class="profile-card-top"><span></span><span></span><span></span></div>
-                    <div class="profile-card-body">
-                        <div class="profile-photo-frame">
-                            <img src="assets/profile-photo-2x2.jpg" alt="Cher Micole P. Lirio" class="profile-photo">
-                        </div>
-                        <div class="profile-card-info">
-                            <p class="profile-name">CHER MICOLE P. LIRIO</p>
-                            <p>BS Information Technology Student</p>
-                            <p>Aspiring Web and System Developer</p>
-                        </div>
-                        <div class="profile-tags">
-                            <span>WEB DEVELOPMENT</span>
-                            <span>PHP & MYSQL</span>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- GAME -->
-        <section class="section game-section single-route" id="game">
-            <div class="container">
-                <div class="section-heading game-heading">
-                    <p class="small-label">INTERACTIVE NAVIGATION</p>
-                    <h2>SNAKE GAME</h2>
-                    <p class="section-description">
-                        Wait for <b>3 → 2 → 1 → START!</b>. The snake automatically starts moving after the countdown.
-                        Eat the glowing food to increase your score and length. Guide the snake into ABOUT, SKILLS,
-                        PROJECTS, RESUME, CERTIFICATES, or CONTACT to open that page.
-                    </p>
-                </div>
-
-                <div class="game-box">
-                    <div class="game-top">
-                        <div class="score-box">FOOD <strong id="score">0</strong></div>
-                        <div id="gameMessage">GAME READY</div>
-                        <div class="game-actions">
-                            <button id="pauseButton" type="button">PAUSE</button>
-                            <button id="restartButton" type="button">RESTART</button>
-                        </div>
-                    </div>
-
-                    <div class="canvas-holder">
-                        <canvas id="snakeCanvas" width="960" height="560" aria-label="Snake navigation game"></canvas>
-                    </div>
-
-                    <div class="mobile-controls" aria-label="Mobile game controls">
-                        <button type="button" data-direction="up" aria-label="Move up">▲</button>
-                        <div>
-                            <button type="button" data-direction="left" aria-label="Move left">◀</button>
-                            <button type="button" id="mobilePause" aria-label="Pause game">Ⅱ</button>
-                            <button type="button" data-direction="right" aria-label="Move right">▶</button>
-                        </div>
-                        <button type="button" data-direction="down" aria-label="Move down">▼</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ABOUT -->
-        <section class="section content-section alternate-section" id="about">
-            <div class="container">
-                <div class="section-heading">
-                    <p class="small-label">ABOUT ME</p>
-                    <h2>Building practical digital systems.</h2>
-                    <p class="section-description">I enjoy creating clean, responsive, and functional web applications for school and real-world workflows.</p>
-                </div>
-
-                <div class="about-layout">
-                    <article class="about-card">
-                        <h3>Hello, I'm Cher Micole.</h3>
-                        <p>
-                            I am a BS Information Technology student interested in web development, database systems,
-                            responsive interfaces, and practical information systems. I use HTML, CSS, JavaScript,
-                            PHP, MySQL, GitHub, VS Code, and Laragon for my projects.
-                        </p>
-                    </article>
-
-                    <div class="about-grid">
-                        <article class="info-card"><strong>BSIT</strong><span>COURSE</span></article>
-                        <article class="info-card"><strong>PHP</strong><span>BACKEND</span></article>
-                        <article class="info-card"><strong>MYSQL</strong><span>DATABASE</span></article>
-                        <article class="info-card"><strong>WEB</strong><span>DEVELOPMENT</span></article>
-                    </div>
-                </div>
-
-                <div class="game-return-panel">
-                    <p>Want to visit another section through the Snake Game?</p>
-                    <button class="button primary-button play-game-again" type="button">PLAY GAME AGAIN</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- SKILLS -->
-        <section class="section content-section" id="skills">
-            <div class="container">
-                <div class="section-heading">
-                    <p class="small-label">SKILLS</p>
-                    <h2>Technologies I work with.</h2>
-                </div>
-
-                <div class="skills-grid">
-                    <article class="skill-card"><span class="skill-number">01</span><h3>HTML & CSS</h3><p>Responsive layouts, components, forms, cards, navigation, and mobile-first styling.</p></article>
-                    <article class="skill-card"><span class="skill-number">02</span><h3>JavaScript</h3><p>Interactive UI, game logic, DOM events, modals, validation, and client-side behavior.</p></article>
-                    <article class="skill-card"><span class="skill-number">03</span><h3>PHP & PDO</h3><p>CRUD operations, secure database connections, prepared statements, forms, and sessions.</p></article>
-                    <article class="skill-card"><span class="skill-number">04</span><h3>MySQL</h3><p>Database design, tables, relationships, queries, reports, and application data management.</p></article>
-                    <article class="skill-card"><span class="skill-number">05</span><h3>Git & GitHub</h3><p>Version control, repositories, commits, GitHub Pages, and project publishing.</p></article>
-                    <article class="skill-card"><span class="skill-number">06</span><h3>Laragon</h3><p>Local PHP/MySQL development environment for database-driven web applications.</p></article>
-                </div>
-
-                <div class="game-return-panel">
-                    <p>Want to visit another section through the Snake Game?</p>
-                    <button class="button primary-button play-game-again" type="button">PLAY GAME AGAIN</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- PROJECTS -->
-        <section class="section content-section alternate-section" id="projects">
-            <div class="container">
-                <div class="section-heading">
-                    <p class="small-label">PROJECTS</p>
-                    <h2>Selected systems and web projects.</h2>
-                </div>
-
-                <div class="project-grid">
-                    <article class="project-card">
-                        <div class="project-image project-one"><span>01</span></div>
-                        <div class="project-body">
-                            <p class="project-type">WEB SYSTEM</p>
-                            <h3>Laundry Management System</h3>
-                            <p>Customer records, transactions, services, inventory, payments, receipts, reports, loyalty discounts, and QR-based laundry status tracking.</p>
-                            <div class="project-tools"><span>PHP</span><span>MYSQL</span><span>PDO</span></div>
-                        </div>
-                    </article>
-
-                    <article class="project-card">
-                        <div class="project-image project-two"><span>02</span></div>
-                        <div class="project-body">
-                            <p class="project-type">RESERVATION SYSTEM</p>
-                            <h3>Resort Reservation System</h3>
-                            <p>Bookings, room availability, guest pricing, promos, GCash payments, calendar reservations, email notifications, and reporting.</p>
-                            <div class="project-tools"><span>PHP</span><span>MYSQL</span><span>JAVASCRIPT</span></div>
-                        </div>
-                    </article>
-
-                    <article class="project-card">
-                        <div class="project-image project-three"><span>03</span></div>
-                        <div class="project-body">
-                            <p class="project-type">PERSONAL WEBSITE</p>
-                            <h3>Interactive Portfolio</h3>
-                            <p>A responsive portfolio with two navigation modes: normal browsing or a classic Snake game used to open portfolio sections.</p>
-                            <div class="project-tools"><span>HTML</span><span>CSS</span><span>JAVASCRIPT</span></div>
-                        </div>
-                    </article>
-                </div>
-
-                <div class="game-return-panel">
-                    <p>Want to visit another section through the Snake Game?</p>
-                    <button class="button primary-button play-game-again" type="button">PLAY GAME AGAIN</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- RESUME -->
-        <section class="section content-section" id="resume">
-            <div class="container">
-                <div class="resume-heading section-heading">
-                    <div>
-                        <p class="small-label">RESUME</p>
-                        <h2>Student developer resume.</h2>
-                    </div>
-                    <button class="button outline-button" id="printResume" type="button">PRINT / SAVE PDF</button>
-                </div>
-
-                <article class="resume-template" id="resumeTemplate">
-                    <div class="resume-top">
-                        <div class="resume-photo"><img src="assets/profile-photo-2x2.jpg" alt="Cher Micole P. Lirio"></div>
-                        <div>
-                            <h3>CHER MICOLE P. LIRIO</h3>
-                            <p>BS Information Technology Student</p>
-                            <span>Tanauan City, Batangas</span>
-                        </div>
-                    </div>
-
-                    <div class="resume-columns">
-                        <aside>
-                            <div class="resume-block">
-                                <h4>TECHNICAL SKILLS</h4>
-                                <ul>
-                                    <li>HTML, CSS, JavaScript</li>
-                                    <li>PHP and PDO</li>
-                                    <li>MySQL</li>
-                                    <li>Git and GitHub</li>
-                                    <li>Laragon and VS Code</li>
-                                    <li>Responsive Web Design</li>
-                                </ul>
-                            </div>
-
-                            <div class="resume-block">
-                                <h4>CONTACT</h4>
-                                <p>Tanauan City, Batangas</p>
-                                <p>liriocher25@gmail.com</p>
-                            </div>
-                        </aside>
-
-                        <div class="resume-main">
-                            <div class="resume-block">
-                                <h4>PROFILE</h4>
-                                <p>BS Information Technology student interested in responsive web development, database systems, and practical system development.</p>
-                            </div>
-
-                            <div class="resume-block">
-                                <h4>PROJECTS</h4>
-                                <div class="resume-item"><p class="resume-label">SYSTEM DEVELOPMENT</p><h5>Laundry Management System</h5><p>PHP/MySQL system with CRUD, inventory, transactions, reports, receipt generation, and QR status tracking.</p></div>
-                                <div class="resume-item"><p class="resume-label">WEB APPLICATION</p><h5>Resort Reservation System</h5><p>Reservation and availability management with online payment information, email notifications, calendar views, and reports.</p></div>
-                            </div>
-
-                            <div class="resume-block">
-                                <h4>CERTIFICATIONS & PARTICIPATION</h4>
-                                <div class="resume-certifications">
-                                    <div class="resume-cert-item"><strong>HTML Essentials — Statement of Achievement</strong><span>Cisco Networking Academy / JS Institute · Aug 11, 2026</span></div>
-                                    <div class="resume-cert-item"><strong>BSIT Educational Exposure Trip</strong><span>La Consolacion College Tanauan · Mar 23, 2026</span></div>
-                                    <div class="resume-cert-item"><strong>Bridging Business and Technology for the Next Generation</strong><span>La Consolacion College Tanauan · Mar 21, 2026</span></div>
-                                    <div class="resume-cert-item"><strong>Design, Build, Innovate: The Robotics Experience</strong><span>First Eduspec Inc. / LCCT · Mar 19, 2026</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <div class="game-return-panel">
-                    <p>Want to visit another section through the Snake Game?</p>
-                    <button class="button primary-button play-game-again" type="button">PLAY GAME AGAIN</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- CERTIFICATES -->
-        <section class="section content-section certificates-section alternate-section" id="certificates">
-            <div class="container">
-                <div class="section-heading">
-                    <p class="small-label">CERTIFICATES</p>
-                    <h2>Learning and participation.</h2>
-                    <p class="section-description">The two newest certificates below use the original signed images so the signatures remain visible.</p>
-                </div>
-
-                <div class="certificate-grid">
-                    <article class="certificate-card">
-                        <a class="certificate-preview" href="assets/certificates/html-essentials-achievement.jpg" target="_blank" rel="noopener">
-                            <img src="assets/certificates/html-essentials-achievement.jpg" alt="HTML Essentials Statement of Achievement">
-                            <span>VIEW</span>
-                        </a>
-                        <div class="certificate-body">
-                            <p class="certificate-type">CISCO NETWORKING ACADEMY · JS INSTITUTE</p>
-                            <h3>HTML Essentials — Statement of Achievement</h3>
-                            <p class="certificate-date">Issued August 11, 2026</p>
-                            <a class="certificate-button" href="assets/certificates/html-essentials-achievement.jpg" target="_blank" rel="noopener">VIEW ACHIEVEMENT ↗</a>
-                        </div>
-                    </article>
-
-                    <article class="certificate-card">
-                        <a class="certificate-preview" href="assets/certificates/bsit-educational-exposure-trip.png" target="_blank" rel="noopener">
-                            <img src="assets/certificates/bsit-educational-exposure-trip.png" alt="BSIT Educational Exposure Trip certificate">
-                            <span>VIEW</span>
-                        </a>
-                        <div class="certificate-body">
-                            <p class="certificate-type">LA CONSOLACION COLLEGE TANAUAN · IT WEEK 2026</p>
-                            <h3>BSIT Educational Exposure Trip — Certificate of Participation</h3>
-                            <p class="certificate-date">March 23, 2026 · Bonifacio Global City</p>
-                            <a class="certificate-button" href="assets/certificates/bsit-educational-exposure-trip.png" target="_blank" rel="noopener">VIEW CERTIFICATE ↗</a>
-                        </div>
-                    </article>
-
-                    <article class="certificate-card signed-certificate">
-                        <a class="certificate-preview" href="assets/certificates/bridging-business-technology-2026.png" target="_blank" rel="noopener">
-                            <img src="assets/certificates/bridging-business-technology-2026.png" alt="Bridging Business and Technology for the Next Generation signed certificate">
-                            <span>VIEW</span>
-                        </a>
-                        <div class="certificate-body">
-                            <p class="certificate-type">CERTIFICATE OF PARTICIPATION</p>
-                            <h3>Bridging Business and Technology for the Next Generation</h3>
-                            <p class="certificate-date">La Consolacion College Tanauan · IT Week 2026 · March 21, 2026</p>
-                            <a class="certificate-button" href="assets/certificates/bridging-business-technology-2026.png" target="_blank" rel="noopener">VIEW SIGNED CERTIFICATE ↗</a>
-                        </div>
-                    </article>
-
-                    <article class="certificate-card signed-certificate">
-                        <a class="certificate-preview" href="assets/certificates/robotics-experience-2026.jpg" target="_blank" rel="noopener">
-                            <img src="assets/certificates/robotics-experience-2026.jpg" alt="Design Build Innovate Robotics Experience signed certificate">
-                            <span>VIEW</span>
-                        </a>
-                        <div class="certificate-body">
-                            <p class="certificate-type">CERTIFICATE OF PARTICIPATION</p>
-                            <h3>Design, Build, Innovate: The Robotics Experience</h3>
-                            <p class="certificate-date">First Eduspec Inc. / LCCT · March 19, 2026</p>
-                            <a class="certificate-button" href="assets/certificates/robotics-experience-2026.jpg" target="_blank" rel="noopener">VIEW SIGNED CERTIFICATE ↗</a>
-                        </div>
-                    </article>
-                </div>
-
-                <div class="game-return-panel">
-                    <p>Want to visit another section through the Snake Game?</p>
-                    <button class="button primary-button play-game-again" type="button">PLAY GAME AGAIN</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- CONTACT -->
-        <section class="section content-section" id="contact">
-            <div class="container contact-layout">
-                <div class="contact-information">
-                    <p class="small-label">CONTACT</p>
-                    <h2>Let's connect.</h2>
-                    <p>You can contact me regarding school projects, collaboration, or internship opportunities.</p>
-                    <div class="contact-details">
-                        <div><span>LOCATION</span><strong>Tanauan City, Batangas</strong></div>
-                        <div><span>EMAIL</span><strong>liriocher25@gmail.com</strong></div>
-                    </div>
-                </div>
-
-                <form class="contact-form" id="contactForm">
-                    <div class="form-row">
-                        <label>NAME<input id="contactName" type="text" required></label>
-                        <label>EMAIL<input id="contactEmail" type="email" required></label>
-                    </div>
-                    <label>SUBJECT<input id="contactSubject" type="text" required></label>
-                    <label>MESSAGE<textarea id="contactMessage" rows="7" required></textarea></label>
-                    <button class="button primary-button" type="submit">SEND MESSAGE</button>
-                </form>
-            </div>
-
-            <div class="container">
-                <div class="game-return-panel">
-                    <p>Want to return to the Snake Game?</p>
-                    <button class="button primary-button play-game-again" type="button">PLAY GAME AGAIN</button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container footer-content">
-            <span>CHER MICOLE P. LIRIO · PORTFOLIO</span>
-            <a href="#home">TOP ↑</a>
+  <main>
+    <section class="hero section" id="home">
+      <div class="hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span></span> BS INFORMATION TECHNOLOGY</p>
+          <h1>Designing simple ideas into <em>useful digital experiences.</em></h1>
+          <p class="hero-lead">I’m Cher Micole P. Lirio, an aspiring web and system developer focused on clean interfaces, responsive websites, and practical systems.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">Explore my work</a>
+            <a class="btn btn-ghost" href="#certificates">View certificates</a>
+          </div>
+          <div class="hero-mini-stats">
+            <div><strong>09</strong><span>Unique certificates</span></div>
+            <div><strong>06+</strong><span>Core web skills</span></div>
+            <div><strong>100%</strong><span>Responsive layout</span></div>
+          </div>
         </div>
-    </footer>
 
-    <div class="toast" id="toast"></div>
+        <div class="hero-visual reveal delay-1">
+          <div class="portrait-shell">
+            <div class="portrait-label">ASPIRING DEVELOPER · UI / WEB / SYSTEMS</div>
+            <img src="assets/images/cher-micole-lirio.png" alt="Cher Micole P. Lirio" />
+            <div class="portrait-card card-a"><span>01</span><b>WEB<br>DESIGN</b></div>
+            <div class="portrait-card card-b"><span>02</span><b>SYSTEM<br>BUILDING</b></div>
+          </div>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#about" aria-label="Scroll to about"><span></span>SCROLL TO DISCOVER</a>
+    </section>
+
+    <section class="about section" id="about">
+      <div class="section-kicker reveal">01 / ABOUT</div>
+      <div class="about-grid">
+        <div class="about-title reveal">
+          <h2>I like technology that feels <span>clear, useful, and human.</span></h2>
+        </div>
+        <div class="about-copy reveal delay-1">
+          <p>I am a Bachelor of Science in Information Technology student at La Consolacion College Tanauan. I am interested in web development, system design, database-driven applications, and creating simple solutions for real-life tasks.</p>
+          <p>I enjoy learning new technologies and improving both front-end and back-end skills through academic and personal projects.</p>
+          <div class="identity-tags">
+            <span>BSIT Student</span><span>Web Development</span><span>UI Design</span><span>PHP & MySQL</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="skills section" id="skills">
+      <div class="section-head reveal">
+        <div>
+          <div class="section-kicker">02 / SKILLS</div>
+          <h2>What I work with</h2>
+        </div>
+        <p>Core technologies and tools I use to turn concepts into working interfaces and systems.</p>
+      </div>
+      <div class="skills-grid">
+        <article class="skill-card reveal"><span>01</span><h3>HTML & CSS</h3><p>Semantic page structure, responsive layouts, components, animations, and accessible styling.</p></article>
+        <article class="skill-card reveal delay-1"><span>02</span><h3>JavaScript</h3><p>Interactions, validation, dynamic interfaces, navigation, filters, and client-side functionality.</p></article>
+        <article class="skill-card reveal delay-2"><span>03</span><h3>PHP & MySQL</h3><p>CRUD operations, forms, authentication, databases, reports, and basic web applications.</p></article>
+        <article class="skill-card reveal"><span>04</span><h3>Responsive UI</h3><p>Clean layouts that adapt naturally across laptop, tablet, and mobile screens.</p></article>
+        <article class="skill-card reveal delay-1"><span>05</span><h3>Figma & Canva</h3><p>Wireframes, visual concepts, presentation assets, and interface planning.</p></article>
+        <article class="skill-card reveal delay-2"><span>06</span><h3>Git & GitHub</h3><p>Version control, repository organization, commits, and GitHub Pages deployment.</p></article>
+      </div>
+    </section>
+
+    <section class="projects section" id="projects">
+      <div class="section-head reveal">
+        <div>
+          <div class="section-kicker">03 / PROJECTS</div>
+          <h2>Selected work</h2>
+        </div>
+        <p>A mix of portfolio, reservation, and management-system concepts.</p>
+      </div>
+
+      <div class="project-stack">
+        <article class="project-card reveal">
+          <div class="project-number">01</div>
+          <div class="project-content"><p class="project-type">PERSONAL WEBSITE</p><h3>Interactive Portfolio</h3><p>A responsive portfolio with animations, dark visual accents, structured sections, and interactive navigation.</p><div class="chip-row"><span>HTML</span><span>CSS</span><span>JavaScript</span></div></div>
+          <div class="project-visual visual-one"><div class="window-mock"><i></i><i></i><i></i><div class="mock-title">PORTFOLIO</div><div class="mock-lines"></div></div></div>
+        </article>
+
+        <article class="project-card reverse reveal">
+          <div class="project-number">02</div>
+          <div class="project-content"><p class="project-type">WEB SYSTEM</p><h3>Reservation System</h3><p>A system concept for managing customer reservations, schedules, availability, and payment records.</p><div class="chip-row"><span>PHP</span><span>MySQL</span><span>JavaScript</span></div></div>
+          <div class="project-visual visual-two"><div class="dash-mock"><div></div><div></div><div></div><div></div></div></div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-number">03</div>
+          <div class="project-content"><p class="project-type">MANAGEMENT SYSTEM</p><h3>Laundry Management</h3><p>A web-based system concept for customer records, transactions, services, inventory, receipts, sales reports, and QR-based tracking.</p><div class="chip-row"><span>PHP</span><span>MySQL</span><span>CRUD</span><span>QR Tracking</span></div></div>
+          <div class="project-visual visual-three"><div class="qr-mock">QR<div class="qr-grid"></div></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="certificates section" id="certificates">
+      <div class="section-head reveal">
+        <div>
+          <div class="section-kicker">04 / CERTIFICATES</div>
+          <h2>Credentials & participation</h2>
+        </div>
+        <p>Nine unique certificates are included. The duplicate HTML Essentials statement was intentionally omitted.</p>
+      </div>
+
+      <div class="filter-row reveal" role="group" aria-label="Certificate filters">
+        <button class="filter active" data-filter="all">All</button>
+        <button class="filter" data-filter="cisco">Cisco</button>
+        <button class="filter" data-filter="academic">Academic</button>
+      </div>
+
+      <div class="certificate-grid">
+        <article class="certificate-card reveal" data-category="academic">
+          <a class="certificate-image" href="assets/certificates/bridging-business-technology-2026.jpg" target="_blank" rel="noopener"><img src="assets/certificates/bridging-business-technology-2026.jpg" alt="Bridging Business and Technology for the Next Generation certificate" /></a>
+          <div class="certificate-meta"><span>IT WEEK 2026</span><time>21 Mar 2026</time></div>
+          <h3>Bridging Business and Technology for the Next Generation</h3>
+          <a class="text-link" href="assets/certificates/bridging-business-technology-2026.jpg" target="_blank" rel="noopener">View certificate ↗</a>
+        </article>
+
+        <article class="certificate-card reveal delay-1" data-category="academic">
+          <a class="certificate-image" href="assets/certificates/bsit-educational-exposure-trip.jpg" target="_blank" rel="noopener"><img src="assets/certificates/bsit-educational-exposure-trip.jpg" alt="BSIT Educational Exposure Trip certificate" /></a>
+          <div class="certificate-meta"><span>LCCT · IT WEEK 2026</span><time>23 Mar 2026</time></div>
+          <h3>BSIT Educational Exposure Trip</h3>
+          <a class="text-link" href="assets/certificates/bsit-educational-exposure-trip.jpg" target="_blank" rel="noopener">View certificate ↗</a>
+        </article>
+
+        <article class="certificate-card reveal delay-2" data-category="academic">
+          <a class="certificate-image" href="assets/certificates/robotics-experience-2026.jpg" target="_blank" rel="noopener"><img src="assets/certificates/robotics-experience-2026.jpg" alt="Design Build Innovate The Robotics Experience certificate" /></a>
+          <div class="certificate-meta"><span>FIRST EDUSPEC INC · LCCT</span><time>19 Mar 2026</time></div>
+          <h3>Design, Build, Innovate: The Robotics Experience</h3>
+          <a class="text-link" href="assets/certificates/robotics-experience-2026.jpg" target="_blank" rel="noopener">View certificate ↗</a>
+        </article>
+
+        <article class="certificate-card reveal" data-category="cisco">
+          <a class="certificate-image" href="assets/certificates/html-essentials-certificate.pdf" target="_blank" rel="noopener"><img src="assets/certificates/html-essentials-certificate-thumb.jpg" alt="HTML Essentials certificate" /></a>
+          <div class="certificate-meta"><span>CISCO · DICT-ITU DTC</span><time>11 Aug 2026</time></div>
+          <h3>HTML Essentials</h3>
+          <a class="text-link" href="assets/certificates/html-essentials-certificate.pdf" target="_blank" rel="noopener">Open PDF ↗</a>
+        </article>
+
+        <article class="certificate-card reveal delay-1" data-category="cisco">
+          <a class="certificate-image" href="assets/certificates/networking-basics.pdf" target="_blank" rel="noopener"><img src="assets/certificates/networking-basics-thumb.jpg" alt="Networking Basics certificate" /></a>
+          <div class="certificate-meta"><span>CISCO NETWORKING ACADEMY</span><time>06 Apr 2026</time></div>
+          <h3>Networking Basics</h3>
+          <a class="text-link" href="assets/certificates/networking-basics.pdf" target="_blank" rel="noopener">Open PDF ↗</a>
+        </article>
+
+        <article class="certificate-card reveal delay-2" data-category="cisco">
+          <a class="certificate-image" href="assets/certificates/networking-devices-initial-configuration.pdf" target="_blank" rel="noopener"><img src="assets/certificates/networking-devices-initial-configuration-thumb.jpg" alt="Networking Devices and Initial Configuration certificate" /></a>
+          <div class="certificate-meta"><span>CISCO NETWORKING ACADEMY</span><time>08 Apr 2026</time></div>
+          <h3>Networking Devices and Initial Configuration</h3>
+          <a class="text-link" href="assets/certificates/networking-devices-initial-configuration.pdf" target="_blank" rel="noopener">Open PDF ↗</a>
+        </article>
+
+        <article class="certificate-card reveal" data-category="cisco">
+          <a class="certificate-image" href="assets/certificates/network-addressing-basic-troubleshooting.pdf" target="_blank" rel="noopener"><img src="assets/certificates/network-addressing-basic-troubleshooting-thumb.jpg" alt="Network Addressing and Basic Troubleshooting certificate" /></a>
+          <div class="certificate-meta"><span>CISCO NETWORKING ACADEMY</span><time>14 Apr 2026</time></div>
+          <h3>Network Addressing and Basic Troubleshooting</h3>
+          <a class="text-link" href="assets/certificates/network-addressing-basic-troubleshooting.pdf" target="_blank" rel="noopener">Open PDF ↗</a>
+        </article>
+
+        <article class="certificate-card reveal delay-1" data-category="cisco">
+          <a class="certificate-image" href="assets/certificates/network-support-security.pdf" target="_blank" rel="noopener"><img src="assets/certificates/network-support-security-thumb.jpg" alt="Network Support and Security certificate" /></a>
+          <div class="certificate-meta"><span>CISCO NETWORKING ACADEMY</span><time>14 Apr 2026</time></div>
+          <h3>Network Support and Security</h3>
+          <a class="text-link" href="assets/certificates/network-support-security.pdf" target="_blank" rel="noopener">Open PDF ↗</a>
+        </article>
+
+        <article class="certificate-card reveal delay-2" data-category="cisco">
+          <a class="certificate-image" href="assets/certificates/network-technician-career-path.pdf" target="_blank" rel="noopener"><img src="assets/certificates/network-technician-career-path-thumb.jpg" alt="Network Technician Career Path Exam certificate" /></a>
+          <div class="certificate-meta"><span>CISCO NETWORKING ACADEMY</span><time>22 Apr 2026</time></div>
+          <h3>Network Technician Career Path Exam</h3>
+          <a class="text-link" href="assets/certificates/network-technician-career-path.pdf" target="_blank" rel="noopener">Open PDF ↗</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact section" id="contact">
+      <div class="contact-panel reveal">
+        <div>
+          <div class="section-kicker light">05 / CONTACT</div>
+          <h2>Have an idea?<br><span>Let’s build something useful.</span></h2>
+        </div>
+        <div class="contact-details">
+          <p>For collaborations, school projects, website concepts, or system-development opportunities.</p>
+          <a href="mailto:liriocher25@gmail.com">liriocher25@gmail.com ↗</a>
+          <span>Tanauan City, Batangas, Philippines</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div><b>CHER MICOLE P. LIRIO</b><span>BS Information Technology Student</span></div>
+    <a href="#top">BACK TO TOP ↑</a>
+    <small>© 2026 Portfolio</small>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
