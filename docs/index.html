@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cher Micole P. Lirio | Portfolio</title>
-  <meta name="description" content="Portfolio of Cher Micole P. Lirio, BS Information Technology student focused on web development, databases, and system development.">
+  <title>Micole Lirio | Portfolio</title>
+  <meta name="description" content="Portfolio of Cher Micole P. Lirio, BS Information Technology student at La Consolacion College of Tanauan. Web development, databases and system development.">
   <link rel="icon" href="profile-photo.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script>
-    // Apply saved theme before paint to avoid a flash
     try {
       var t = localStorage.getItem('theme');
       if (t) document.documentElement.setAttribute('data-theme', t);
@@ -20,22 +19,20 @@
 </head>
 <body>
 
-  <!-- ============ HEADER ============ -->
-  <header class="header" id="top">
-    <div class="container header__inner">
-      <a href="#home" class="logo" aria-label="Back to top">Cher<span>.</span></a>
+  <header class="header">
+    <div class="wrap header__inner">
+      <a href="#home" class="logo">Micole<span>.</span></a>
 
       <nav class="nav" id="nav" aria-label="Main navigation">
         <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#play">Play</a>
+        <a href="#work">Work</a>
         <a href="#skills">Skills</a>
         <a href="#certificates">Certificates</a>
         <a href="#contact">Contact</a>
       </nav>
 
       <div class="header__actions">
-        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">
+        <button class="icon-btn" id="themeToggle" aria-label="Switch light or dark mode">
           <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
           <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
         </button>
@@ -47,332 +44,211 @@
   </header>
 
   <main>
-    <!-- ============ HERO ============ -->
+    <!-- ========== HERO: ID card on a lanyard ========== -->
     <section class="hero" id="home">
-      <div class="container hero__inner">
-        <div class="hero__text reveal">
-          <p class="eyebrow">BS Information Technology Student</p>
-          <h1>Cher Micole<br>Plete Lirio</h1>
+      <div class="wrap hero__inner">
+        <div class="hero__text">
+          <p class="status"><span class="status__dot"></span>Open to OJT and internships</p>
+          <h1>Hi, I'm Micole.</h1>
           <p class="hero__lead">
-            I build clean, responsive websites and simple systems that solve real problems —
-            using HTML, CSS, JavaScript, PHP and MySQL.
+            I'm Cher Micole P. Lirio, an IT student at La Consolacion College of Tanauan.
+            I build web systems with PHP, MySQL and JavaScript, from the database up to the screen people use.
           </p>
           <div class="hero__buttons">
-            <a href="#projects" class="btn btn--primary">View projects</a>
-            <a href="#contact" class="btn btn--ghost">Get in touch</a>
+            <a href="#work" class="btn btn--solid">See my work</a>
+            <a href="#contact" class="btn btn--line">Contact me</a>
           </div>
-          <ul class="hero__meta">
-            <li>Tanauan City, Batangas</li>
-            <li>La Consolacion College of Tanauan</li>
-          </ul>
-        </div>
-        <div class="hero__photo reveal">
-          <img src="profile-photo.jpg" alt="Portrait of Cher Micole P. Lirio" width="320" height="320">
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ ABOUT ============ -->
-    <section class="section" id="about">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="section__num">01</span>
-          <h2>About me</h2>
         </div>
 
-        <div class="about">
-          <div class="about__text reveal">
-            <p>
-              I'm a motivated and responsible Information Technology student with knowledge in
-              web development, databases, and system development. I communicate well, keep my
-              tasks organized, and enjoy solving technical problems.
-            </p>
-            <p>
-              I'm comfortable working on my own or with a team, and always willing to learn new
-              skills. I'm looking for an opportunity to gain experience, improve my technical
-              abilities, and contribute to an organization.
-            </p>
+        <div class="badge-area">
+          <div class="lanyard" aria-hidden="true">
+            <span>LA CONSOLACION COLLEGE OF TANAUAN&nbsp;&nbsp;&nbsp;BSIT&nbsp;&nbsp;&nbsp;LA CONSOLACION COLLEGE OF TANAUAN</span>
           </div>
-
-          <div class="about__side reveal">
-            <h3 class="label">Education</h3>
-            <div class="edu">
-              <span class="edu__year">2017 — Present</span>
-              <p class="edu__school">La Consolacion College of Tanauan</p>
-              <p class="edu__course">Bachelor of Science in Information Technology</p>
+          <div class="badge" id="badge">
+            <div class="badge__clip" aria-hidden="true"></div>
+            <div class="badge__slot" aria-hidden="true"></div>
+            <p class="badge__school">La Consolacion College of Tanauan</p>
+            <div class="badge__photo">
+              <img src="profile-photo.jpg" alt="Photo of Cher Micole P. Lirio" width="292" height="277">
             </div>
-
-            <h3 class="label">References</h3>
-            <ul class="refs">
-              <li>
-                <strong>Dr. Salem Laylo</strong>
-                <span>IT Program Chair, La Consolacion College of Tanauan</span>
-              </li>
-              <li>
-                <strong>Ms. Regine Lopez</strong>
-                <span>SHS Teacher, La Consolacion College of Tanauan</span>
-              </li>
-            </ul>
-            <p class="muted small">Contact details available upon request.</p>
+            <p class="badge__name">Cher Micole P. Lirio</p>
+            <p class="badge__course">BS Information Technology</p>
+            <div class="badge__barcode" aria-hidden="true"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ PROJECTS ============ -->
-    <section class="section" id="projects">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="section__num">02</span>
-          <h2>Projects &amp; experience</h2>
+    <!-- ========== ABOUT ========== -->
+    <section class="block" id="about">
+      <div class="wrap about">
+        <h2>About me</h2>
+        <div class="about__text">
+          <p class="about__big">
+            I like turning everyday tasks, like tracking laundry or keeping score in a game, into systems that just work.
+          </p>
+          <p>
+            I'm a motivated and responsible Information Technology student with knowledge in web development,
+            databases and system development. I communicate well, keep my tasks organized and enjoy solving
+            technical problems. I work well on my own or with a team, and I'm always willing to learn new skills.
+          </p>
         </div>
+        <dl class="facts">
+          <div><dt>Course</dt><dd>Bachelor of Science in Information Technology</dd></div>
+          <div><dt>School</dt><dd>La Consolacion College of Tanauan, 2017 to present</dd></div>
+          <div><dt>Based in</dt><dd>Balele, Tanauan City, Batangas</dd></div>
+          <div><dt>References</dt><dd>Dr. Salem Laylo, IT Program Chair<br>Ms. Regine Lopez, SHS Teacher<br><span class="muted">Contact details on request</span></dd></div>
+        </dl>
+      </div>
+    </section>
 
-        <!-- Featured: Sportzle -->
-        <article class="project project--featured reveal">
-          <a class="project__preview" href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener" aria-label="Open Sportzle live system">
-            <div class="sportzle-mock" aria-hidden="true">
-              <div class="sportzle-mock__bar"><i></i><i></i><i></i></div>
-              <div class="sportzle-mock__body">
-                <span class="sportzle-mock__title">SPORTZLE</span>
-                <div class="sportzle-mock__grid">
-                  <b>S</b><b>P</b><b class="on">O</b><b>R</b><b>T</b>
-                  <b class="on">Z</b><b>L</b><b>E</b><b class="on">!</b><b>?</b>
-                </div>
-                <div class="sportzle-mock__modes"><span>Solo</span><span>Multiplayer</span></div>
-              </div>
+    <!-- ========== WORK ========== -->
+    <section class="block" id="work">
+      <div class="wrap">
+        <h2>Things I've built</h2>
+
+        <!-- Sportzle -->
+        <article class="work work--sportzle">
+          <a class="work__visual" href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener" aria-label="Play Sportzle">
+            <div class="logo-tile">
+              <!-- Upload your game logo as assets/sportzle-logo.png -->
+              <img src="assets/sportzle-logo.png" alt="Sportzle logo"
+                   onerror="this.parentElement.classList.add('logo-tile--fallback'); this.remove();">
+              <span class="logo-tile__word" aria-hidden="true">Sportzle</span>
             </div>
-            <span class="project__live">Live ↗</span>
           </a>
-
-          <div class="project__body">
-            <p class="eyebrow">Educational Game System</p>
-            <h3>Sportzle Educational Game System</h3>
-            <ul class="bullets">
-              <li>Developed an interactive sports-themed educational game with solo and multiplayer modes.</li>
-              <li>Implemented player registration, scoring, difficulty levels, leaderboards, and responsive game features.</li>
-              <li>Worked on the system design, database integration, and overall user experience.</li>
+          <div class="work__body">
+            <p class="work__kind">Educational game system</p>
+            <h3>Sportzle</h3>
+            <p>A sports-themed educational game you can play solo or against friends.</p>
+            <ul class="work__list">
+              <li>Player registration, scoring, difficulty levels and leaderboards</li>
+              <li>Solo and multiplayer modes with a responsive game screen</li>
+              <li>I handled the system design, database integration and user experience</li>
             </ul>
-            <ul class="tags">
-              <li>PHP</li><li>MySQL</li><li>JavaScript</li><li>HTML</li><li>CSS</li>
-            </ul>
-            <a href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener" class="btn btn--primary">Open Sportzle ↗</a>
+            <p class="stack">PHP, MySQL, JavaScript, HTML, CSS</p>
+            <a href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener" class="btn btn--solid">Play Sportzle</a>
           </div>
         </article>
 
-        <!-- Featured: Portfolio -->
-        <article class="project project--featured project--reverse reveal">
-          <a class="project__preview" href="https://lcct-24-13152.github.io/portfolio/#home" target="_blank" rel="noopener" aria-label="Open portfolio website">
-            <div class="site-mock" aria-hidden="true">
-              <div class="sportzle-mock__bar"><i></i><i></i><i></i></div>
-              <div class="site-mock__body">
-                <div class="site-mock__row">
-                  <span class="site-mock__circle"></span>
-                  <div>
-                    <span class="line line--lg"></span>
-                    <span class="line"></span>
-                    <span class="line line--sm"></span>
-                  </div>
-                </div>
-                <div class="site-mock__cards"><span></span><span></span><span></span></div>
+        <!-- Laundry -->
+        <article class="work work--laundry">
+          <div class="work__visual" aria-hidden="true">
+            <div class="ticket">
+              <div class="ticket__top">
+                <span>Laundry ticket</span>
+                <b>#0247</b>
+              </div>
+              <div class="ticket__qr"></div>
+              <div class="ticket__steps">
+                <span class="done">Received</span>
+                <span class="done">Washing</span>
+                <span class="now">Drying</span>
+                <span>Ready</span>
               </div>
             </div>
-            <span class="project__live">Live ↗</span>
-          </a>
-
-          <div class="project__body">
-            <p class="eyebrow">Personal Website</p>
-            <h3>Personal Portfolio Website</h3>
-            <ul class="bullets">
-              <li>Designed and developed a responsive personal portfolio to showcase projects, skills, achievements, and certificates.</li>
-              <li>Added interactive features and organized navigation for a better user experience.</li>
-              <li>Applied front-end development skills using HTML, CSS, and JavaScript.</li>
+          </div>
+          <div class="work__body">
+            <p class="work__kind">Management system</p>
+            <h3>Laundry Management System</h3>
+            <p>Runs the day-to-day of a laundry shop, from drop-off to payment.</p>
+            <ul class="work__list">
+              <li>Customers, transactions, services, inventory and payments in one place</li>
+              <li>Prints receipts and generates sales reports</li>
+              <li>Each order gets a QR code customers scan to check their laundry status</li>
             </ul>
-            <ul class="tags">
-              <li>HTML</li><li>CSS</li><li>JavaScript</li><li>GitHub Pages</li>
-            </ul>
-            <a href="https://github.com/lcct-24-13152/portfolio" target="_blank" rel="noopener" class="btn btn--ghost">View code on GitHub ↗</a>
+            <p class="stack">PHP, MySQL, JavaScript</p>
+            <div class="work__actions">
+              <a href="#" id="laundryLive" class="btn btn--solid" target="_blank" rel="noopener" hidden>Open live system</a>
+              <a href="#" id="laundryCode" class="btn btn--line" target="_blank" rel="noopener" hidden>View code</a>
+              <p class="soon" id="laundrySoon">Live demo coming soon</p>
+            </div>
           </div>
         </article>
 
-        <!-- Other work -->
-        <h3 class="label label--spaced reveal">Other work</h3>
-        <div class="mini-grid">
-          <article class="mini reveal">
-            <p class="eyebrow">System Development</p>
-            <h4>Laundry Management System</h4>
-            <p>Manages customers, laundry transactions, services, inventory, payments, receipts and sales reports, with a QR code customers scan to track their laundry status.</p>
-            <ul class="tags"><li>PHP</li><li>MySQL</li><li>CRUD</li></ul>
-          </article>
-          <article class="mini reveal">
-            <p class="eyebrow">System Development</p>
-            <h4>Resort &amp; Reservation Management</h4>
-            <p>A system for managing customer reservations, availability, schedules and payment records, with forms, reports and a responsive admin interface.</p>
-            <ul class="tags"><li>PHP</li><li>MySQL</li><li>JavaScript</li></ul>
-          </article>
-        </div>
+        <!-- Portfolio (small) -->
+        <article class="work-small">
+          <div>
+            <p class="work__kind">Personal website</p>
+            <h3>This portfolio</h3>
+            <p>Designed and coded by hand with HTML, CSS and JavaScript, and hosted on GitHub Pages.</p>
+          </div>
+          <a href="https://github.com/lcct-24-13152/portfolio" target="_blank" rel="noopener" class="btn btn--line">View code</a>
+        </article>
       </div>
     </section>
 
-    <!-- ============ PLAY (Snake game) ============ -->
-    <section class="section" id="play">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="section__num">03</span>
-          <h2>Just for fun</h2>
-        </div>
-
-        <div class="game reveal">
-          <div class="game__info">
-            <p class="eyebrow">Built with JavaScript &amp; Canvas</p>
-            <h3>Snake</h3>
-            <p class="muted">A small game I built from scratch. Eat the dots, avoid the walls and your own tail. It speeds up as your score grows.</p>
-
-            <div class="game__stats">
-              <div><span class="label">Score</span><strong id="gScore">0</strong></div>
-              <div><span class="label">Best</span><strong id="gBest">0</strong></div>
-            </div>
-
-            <div class="game__buttons">
-              <button class="btn btn--primary" id="gStart">Start game</button>
-              <button class="btn btn--ghost" id="gRestart">Restart</button>
-            </div>
-
-            <p class="game__hint muted small">Desktop: arrow keys or WASD · Space to pause<br>Phone: swipe on the board or use the buttons</p>
-          </div>
-
-          <div class="game__board">
-            <div class="game__canvas-wrap">
-              <canvas id="snake" width="400" height="400" aria-label="Snake game board" tabindex="0"></canvas>
-              <div class="game__overlay" id="gOverlay">
-                <p id="gMsg">Press Start to play</p>
-              </div>
-            </div>
-            <div class="dpad" aria-label="Game controls">
-              <button data-dir="up" aria-label="Up">▲</button>
-              <button data-dir="left" aria-label="Left">◀</button>
-              <button data-dir="down" aria-label="Down">▼</button>
-              <button data-dir="right" aria-label="Right">▶</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ SKILLS ============ -->
-    <section class="section" id="skills">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="section__num">04</span>
-          <h2>Skills</h2>
-        </div>
-
+    <!-- ========== SKILLS ========== -->
+    <section class="block" id="skills">
+      <div class="wrap">
+        <h2>What I work with</h2>
+        <p class="skills__big">HTML / CSS / JavaScript / PHP / MySQL</p>
         <div class="skills">
-          <div class="skills__col reveal">
-            <h3 class="label">Technical</h3>
-            <ul class="chips">
-              <li>UI/UX Design</li>
-              <li>Web Development</li>
-              <li>Database Management</li>
-              <li>System Development &amp; Testing</li>
-              <li>PHP &amp; MySQL</li>
-              <li>HTML, CSS, JavaScript</li>
+          <div>
+            <h3>Technical</h3>
+            <ul>
+              <li>Web development</li>
+              <li>Database management</li>
+              <li>System development and testing</li>
+              <li>UI/UX design</li>
             </ul>
           </div>
-          <div class="skills__col reveal">
-            <h3 class="label">Soft skills</h3>
-            <ul class="chips">
-              <li>Communication</li>
-              <li>Problem-Solving</li>
-              <li>Teamwork &amp; Collaboration</li>
-              <li>Willingness to Learn</li>
-              <li>Time Management</li>
-              <li>Adaptability</li>
-              <li>Hardworking</li>
-            </ul>
-          </div>
-          <div class="skills__col reveal">
-            <h3 class="label">Tools</h3>
-            <ul class="chips">
+          <div>
+            <h3>Tools</h3>
+            <ul>
               <li>Visual Studio Code</li>
-              <li>Laragon</li>
-              <li>phpMyAdmin</li>
-              <li>Git &amp; GitHub</li>
-              <li>Canva</li>
-              <li>Figma</li>
+              <li>Laragon and phpMyAdmin</li>
+              <li>Git and GitHub</li>
+              <li>Figma and Canva</li>
+            </ul>
+          </div>
+          <div>
+            <h3>How I work</h3>
+            <ul>
+              <li>Clear communication</li>
+              <li>Problem-solving</li>
+              <li>Teamwork and collaboration</li>
+              <li>Time management</li>
+              <li>Adaptable, hardworking and always learning</li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ CERTIFICATES ============ -->
-    <section class="section" id="certificates">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="section__num">05</span>
-          <h2>Certifications</h2>
+    <!-- ========== CERTIFICATES ========== -->
+    <section class="block" id="certificates">
+      <div class="wrap">
+        <div class="certs__head">
+          <h2>Certificates</h2>
+          <p class="muted" id="certCount"></p>
         </div>
-        <p class="section__intro reveal">Networking, web development and academic certificates. Select any card to view the original.</p>
-
-        <div class="filters reveal" role="group" aria-label="Filter certificates">
-          <button class="filter is-active" data-filter="all">All</button>
-          <button class="filter" data-filter="cisco">Cisco</button>
-          <button class="filter" data-filter="web">Web</button>
-          <button class="filter" data-filter="academic">Academic</button>
-        </div>
-
-        <div class="certs" id="certGrid">
-          <!-- Cards are generated from the list in script.js -->
-        </div>
+        <div id="certList"></div>
       </div>
+      <div class="cert-preview" id="certPreview" aria-hidden="true"><img alt=""></div>
     </section>
 
-    <!-- ============ CONTACT ============ -->
-    <section class="section" id="contact">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="section__num">06</span>
-          <h2>Contact</h2>
+    <!-- ========== CONTACT ========== -->
+    <section class="block contact" id="contact">
+      <div class="wrap">
+        <h2>Let's talk</h2>
+        <p class="contact__lead">I'm looking for a place to learn, grow and contribute. If you have an OJT slot, a project or a question, send me a message.</p>
+        <div class="contact__mail">
+          <a href="mailto:liriocher25@gmail.com" class="contact__email">liriocher25@gmail.com</a>
+          <button class="btn btn--line" id="copyEmail">Copy email</button>
         </div>
-
-        <div class="contact">
-          <div class="contact__info reveal">
-            <p class="contact__lead">Open to internships, collaborations, website projects and system development work. I'll reply as soon as I can.</p>
-            <ul class="contact__list">
-              <li>
-                <span class="label">Email</span>
-                <a href="mailto:liriocher25@gmail.com">liriocher25@gmail.com</a>
-              </li>
-              <li>
-                <span class="label">Phone</span>
-                <a href="tel:+639764332931">0976 433 2931</a>
-              </li>
-              <li>
-                <span class="label">Address</span>
-                <span>Balele, Tanauan City, Batangas, Philippines</span>
-              </li>
-            </ul>
-          </div>
-
-          <form class="form reveal" id="contactForm" novalidate>
-            <div class="form__row">
-              <label>Name<input type="text" name="name" required autocomplete="name"></label>
-              <label>Email<input type="email" name="email" required autocomplete="email"></label>
-            </div>
-            <label>Subject<input type="text" name="subject" required></label>
-            <label>Message<textarea name="message" rows="5" required></textarea></label>
-            <button type="submit" class="btn btn--primary">Send message</button>
-            <p class="form__note" id="formNote" aria-live="polite"></p>
-          </form>
-        </div>
+        <dl class="contact__more">
+          <div><dt>Phone</dt><dd><a href="tel:+639764332931">0976 433 2931</a></dd></div>
+          <div><dt>Address</dt><dd>Balele, Tanauan City, Batangas, Philippines</dd></div>
+        </dl>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container footer__inner">
+    <div class="wrap footer__inner">
       <p>© <span id="year"></span> Cher Micole P. Lirio</p>
-      <a href="#home">Back to top ↑</a>
+      <a href="#home">Back to top</a>
     </div>
   </footer>
 
