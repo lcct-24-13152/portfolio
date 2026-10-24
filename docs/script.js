@@ -1,5 +1,5 @@
 /* ==========================================================
-   Micole Lirio — Portfolio scripts
+   Cher Micole P. Lirio — Portfolio scripts
    ========================================================== */
 
 /* ---------- Laundry system links ----------
@@ -8,7 +8,7 @@
    (for example from InfinityFree, like Sportzle).
 */
 const LAUNDRY_LIVE_URL = '';   // e.g. 'https://your-laundry.infinityfreeapp.com/auth/login.php'
-const LAUNDRY_CODE_URL = '';   // e.g. 'https://github.com/lcct-24-13152/laundry-system'
+const LAUNDRY_CODE_URL = 'https://github.com/lcct-24-13152/laundry-system';
 
 /* ---------- Certificates ----------
    To add one, copy an entry and edit it.
@@ -89,10 +89,9 @@ function setupCertPreview() {
 function setupLaundry() {
   const live = document.getElementById('laundryLive');
   const code = document.getElementById('laundryCode');
-  const soon = document.getElementById('laundrySoon');
   const isPublic = (u) => u && !/localhost|127\.0\.0\.1/.test(u);
 
-  if (isPublic(LAUNDRY_LIVE_URL)) { live.href = LAUNDRY_LIVE_URL; live.hidden = false; soon.hidden = true; }
+  if (isPublic(LAUNDRY_LIVE_URL)) { live.href = LAUNDRY_LIVE_URL; live.hidden = false; }
   if (LAUNDRY_CODE_URL) { code.href = LAUNDRY_CODE_URL; code.hidden = false; }
 }
 

@@ -3,12 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Micole Lirio | Portfolio</title>
+  <title>Cher Micole P. Lirio</title>
   <meta name="description" content="Portfolio of Cher Micole P. Lirio, BS Information Technology student at La Consolacion College of Tanauan. Web development, databases and system development.">
-  <link rel="icon" href="profile-photo.jpg">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="theme-color" content="#5b3fa8">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script>
     try {
@@ -21,14 +24,17 @@
 
   <header class="header">
     <div class="wrap header__inner">
-      <a href="#home" class="logo">Micole<span>.</span></a>
+      <a href="#home" class="logo" aria-label="Cher Micole P. Lirio, back to top">
+        <img src="favicon.svg" alt="" width="34" height="34">
+        <span>Micole<b>.</b></span>
+      </a>
 
       <nav class="nav" id="nav" aria-label="Main navigation">
         <a href="#about">About</a>
         <a href="#work">Work</a>
         <a href="#skills">Skills</a>
         <a href="#certificates">Certificates</a>
-        <a href="#contact">Contact</a>
+        <a href="#contact" class="nav__cta">Contact</a>
       </nav>
 
       <div class="header__actions">
@@ -44,36 +50,43 @@
   </header>
 
   <main>
-    <!-- ========== HERO: ID card on a lanyard ========== -->
+    <!-- ========== HERO ========== -->
     <section class="hero" id="home">
       <div class="wrap hero__inner">
         <div class="hero__text">
           <p class="status"><span class="status__dot"></span>Open to OJT and internships</p>
-          <h1>Hi, I'm Micole.</h1>
+          <h1>Cher Micole <span>Plete Lirio</span></h1>
           <p class="hero__lead">
-            I'm Cher Micole P. Lirio, an IT student at La Consolacion College of Tanauan.
+            BS Information Technology student at La Consolacion College of Tanauan.
             I build web systems with PHP, MySQL and JavaScript, from the database up to the screen people use.
           </p>
           <div class="hero__buttons">
             <a href="#work" class="btn btn--solid">See my work</a>
             <a href="#contact" class="btn btn--line">Contact me</a>
           </div>
+          <ul class="hero__links">
+            <li><a href="mailto:liriocher25@gmail.com">liriocher25@gmail.com</a></li>
+            <li><a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">GitHub</a></li>
+            <li>Tanauan City, Batangas</li>
+          </ul>
         </div>
 
         <div class="badge-area">
           <div class="lanyard" aria-hidden="true">
             <span>LA CONSOLACION COLLEGE OF TANAUAN&nbsp;&nbsp;&nbsp;BSIT&nbsp;&nbsp;&nbsp;LA CONSOLACION COLLEGE OF TANAUAN</span>
           </div>
-          <div class="badge" id="badge">
+          <div class="badge">
             <div class="badge__clip" aria-hidden="true"></div>
             <div class="badge__slot" aria-hidden="true"></div>
-            <p class="badge__school">La Consolacion College of Tanauan</p>
+            <div class="badge__band">
+              <span>La Consolacion College of Tanauan</span>
+            </div>
             <div class="badge__photo">
               <img src="profile-photo.jpg" alt="Photo of Cher Micole P. Lirio" width="292" height="277">
             </div>
             <p class="badge__name">Cher Micole P. Lirio</p>
             <p class="badge__course">BS Information Technology</p>
-            <div class="badge__barcode" aria-hidden="true"></div>
+            <p class="badge__role">Student</p>
           </div>
         </div>
       </div>
@@ -82,23 +95,40 @@
     <!-- ========== ABOUT ========== -->
     <section class="block" id="about">
       <div class="wrap about">
-        <h2>About me</h2>
-        <div class="about__text">
-          <p class="about__big">
-            I like turning everyday tasks, like tracking laundry or keeping score in a game, into systems that just work.
-          </p>
-          <p>
+        <div class="about__intro">
+          <h2>About me</h2>
+          <p class="about__lead">
             I'm a motivated and responsible Information Technology student with knowledge in web development,
-            databases and system development. I communicate well, keep my tasks organized and enjoy solving
-            technical problems. I work well on my own or with a team, and I'm always willing to learn new skills.
+            databases and system development.
+          </p>
+          <p class="muted">
+            I communicate well, keep my tasks organized and enjoy solving technical problems.
+            I work well on my own or with a team, and I'm always willing to learn new skills.
+            I'm looking for a chance to gain experience, improve my technical abilities and contribute to an organization.
           </p>
         </div>
-        <dl class="facts">
-          <div><dt>Course</dt><dd>Bachelor of Science in Information Technology</dd></div>
-          <div><dt>School</dt><dd>La Consolacion College of Tanauan, 2017 to present</dd></div>
-          <div><dt>Based in</dt><dd>Balele, Tanauan City, Batangas</dd></div>
-          <div><dt>References</dt><dd>Dr. Salem Laylo, IT Program Chair<br>Ms. Regine Lopez, SHS Teacher<br><span class="muted">Contact details on request</span></dd></div>
-        </dl>
+
+        <div class="about__side">
+          <dl class="facts">
+            <div><dt>Course</dt><dd>Bachelor of Science in Information Technology</dd></div>
+            <div><dt>School</dt><dd>La Consolacion College of Tanauan, 2017 to present</dd></div>
+            <div><dt>Based in</dt><dd>Balele, Tanauan City, Batangas</dd></div>
+          </dl>
+
+          <h3 class="refs__title">References</h3>
+          <div class="refs">
+            <div class="ref">
+              <p class="ref__name">Dr. Salem Laylo</p>
+              <p class="ref__role">IT Program Chair, La Consolacion College of Tanauan</p>
+              <a class="ref__phone" href="tel:+639178898876">0917 889 8876</a>
+            </div>
+            <div class="ref">
+              <p class="ref__name">Ms. Regine Lopez</p>
+              <p class="ref__role">SHS Teacher, La Consolacion College of Tanauan</p>
+              <a class="ref__phone" href="tel:+639677966337">0967 796 6337</a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -107,27 +137,23 @@
       <div class="wrap">
         <h2>Things I've built</h2>
 
-        <!-- Sportzle -->
+        <!-- Intel Sportzle -->
         <article class="work work--sportzle">
-          <a class="work__visual" href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener" aria-label="Play Sportzle">
-            <div class="logo-tile">
-              <!-- Upload your game logo as assets/sportzle-logo.png -->
-              <img src="assets/sportzle-logo.png" alt="Sportzle logo"
-                   onerror="this.parentElement.classList.add('logo-tile--fallback'); this.remove();">
-              <span class="logo-tile__word" aria-hidden="true">Sportzle</span>
-            </div>
+          <a class="work__visual" href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener" aria-label="Play Intel Sportzle">
+            <img class="work__logo" src="assets/sportzle-logo.png" alt="Intel Sportzle logo" width="360" height="360">
+            <span class="work__caption">Sports Word Challenge</span>
           </a>
           <div class="work__body">
             <p class="work__kind">Educational game system</p>
-            <h3>Sportzle</h3>
-            <p>A sports-themed educational game you can play solo or against friends.</p>
+            <h3>Intel Sportzle</h3>
+            <p class="work__summary">A sports-themed word game you can play solo or against friends.</p>
             <ul class="work__list">
               <li>Player registration, scoring, difficulty levels and leaderboards</li>
               <li>Solo and multiplayer modes with a responsive game screen</li>
               <li>I handled the system design, database integration and user experience</li>
             </ul>
             <p class="stack">PHP, MySQL, JavaScript, HTML, CSS</p>
-            <a href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener" class="btn btn--solid">Play Sportzle</a>
+            <a href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener" class="btn btn--solid">Play Intel Sportzle</a>
           </div>
         </article>
 
@@ -136,7 +162,7 @@
           <div class="work__visual" aria-hidden="true">
             <div class="ticket">
               <div class="ticket__top">
-                <span>Laundry ticket</span>
+                <span>CML Laundry</span>
                 <b>#0247</b>
               </div>
               <div class="ticket__qr"></div>
@@ -150,18 +176,17 @@
           </div>
           <div class="work__body">
             <p class="work__kind">Management system</p>
-            <h3>Laundry Management System</h3>
-            <p>Runs the day-to-day of a laundry shop, from drop-off to payment.</p>
+            <h3>CML Laundry Management System</h3>
+            <p class="work__summary">Runs the day-to-day of a laundry shop, from drop-off to payment.</p>
             <ul class="work__list">
-              <li>Customers, transactions, services, inventory and payments in one place</li>
-              <li>Prints receipts and generates sales reports</li>
-              <li>Each order gets a QR code customers scan to check their laundry status</li>
+              <li>Transactions, pricing, inventory and GCash or cash payments in one place</li>
+              <li>Email alerts for low stock, SMS status updates and printable PDF reports</li>
+              <li>Each receipt has a QR code customers scan to check their laundry status</li>
             </ul>
-            <p class="stack">PHP, MySQL, JavaScript</p>
+            <p class="stack">PHP, MySQL, JavaScript, PHPMailer, Dompdf</p>
             <div class="work__actions">
               <a href="#" id="laundryLive" class="btn btn--solid" target="_blank" rel="noopener" hidden>Open live system</a>
-              <a href="#" id="laundryCode" class="btn btn--line" target="_blank" rel="noopener" hidden>View code</a>
-              <p class="soon" id="laundrySoon">Live demo coming soon</p>
+              <a href="#" id="laundryCode" class="btn btn--line" target="_blank" rel="noopener" hidden>View code on GitHub</a>
             </div>
           </div>
         </article>
@@ -179,10 +204,12 @@
     </section>
 
     <!-- ========== SKILLS ========== -->
-    <section class="block" id="skills">
+    <section class="block block--tint" id="skills">
       <div class="wrap">
         <h2>What I work with</h2>
-        <p class="skills__big">HTML / CSS / JavaScript / PHP / MySQL</p>
+        <ul class="langs">
+          <li>HTML</li><li>CSS</li><li>JavaScript</li><li>PHP</li><li>MySQL</li>
+        </ul>
         <div class="skills">
           <div>
             <h3>Technical</h3>
@@ -231,16 +258,19 @@
     <!-- ========== CONTACT ========== -->
     <section class="block contact" id="contact">
       <div class="wrap">
-        <h2>Let's talk</h2>
-        <p class="contact__lead">I'm looking for a place to learn, grow and contribute. If you have an OJT slot, a project or a question, send me a message.</p>
-        <div class="contact__mail">
-          <a href="mailto:liriocher25@gmail.com" class="contact__email">liriocher25@gmail.com</a>
-          <button class="btn btn--line" id="copyEmail">Copy email</button>
+        <div class="contact__card">
+          <h2>Let's talk</h2>
+          <p class="contact__lead">I'm looking for a place to learn, grow and contribute. If you have an OJT slot, a project or a question, send me a message.</p>
+          <div class="contact__mail">
+            <a href="mailto:liriocher25@gmail.com" class="contact__email">liriocher25@gmail.com</a>
+            <button class="btn btn--light" id="copyEmail">Copy email</button>
+          </div>
+          <dl class="contact__more">
+            <div><dt>Phone</dt><dd><a href="tel:+639764332931">0976 433 2931</a></dd></div>
+            <div><dt>Address</dt><dd>Balele, Tanauan City, Batangas, Philippines</dd></div>
+            <div><dt>GitHub</dt><dd><a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">lcct-24-13152</a></dd></div>
+          </dl>
         </div>
-        <dl class="contact__more">
-          <div><dt>Phone</dt><dd><a href="tel:+639764332931">0976 433 2931</a></dd></div>
-          <div><dt>Address</dt><dd>Balele, Tanauan City, Batangas, Philippines</dd></div>
-        </dl>
       </div>
     </section>
   </main>
