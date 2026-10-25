@@ -15,13 +15,15 @@ const LAUNDRY_CODE_URL = 'https://github.com/lcct-24-13152/laundry-system';
    and the whole gallery stays hidden until at least one exists.
 */
 const LAUNDRY_SHOTS = [
-  { file: 'assets/laundry/login.png',       caption: 'Admin login' },
-  { file: 'assets/laundry/dashboard.png',   caption: 'Dashboard' },
-  { file: 'assets/laundry/transaction.png', caption: 'Adding a transaction' },
-  { file: 'assets/laundry/receipt.png',     caption: 'Receipt with QR code' },
-  { file: 'assets/laundry/tracking.png',    caption: 'Customer tracking page' },
-  { file: 'assets/laundry/inventory.png',   caption: 'Inventory and stock alerts' }
-];
+  { name: 'login',       caption: 'Admin login' },
+  { name: 'dashboard',   caption: 'Dashboard with sales and stock status' },
+  { name: 'transaction', caption: 'Cashier screen for new transactions' },
+  { name: 'receipt',     caption: 'Official receipt with tracking QR code' },
+  { name: 'history',     caption: 'Transaction history and payment status' },
+  { name: 'supplies',    caption: 'Supplies with low and critical stock alerts' },
+  { name: 'types',       caption: 'Laundry types and pricing per load' },
+  { name: 'loyalty',     caption: 'Loyalty discounts and customer points' }
+].map(s => ({ ...s, file: `assets/laundry/${s.name}.jpg`, thumb: `assets/laundry/${s.name}-thumb.jpg` }));
 
 /* ---------- Certificates ----------
    To add one, copy an entry and edit it.
@@ -247,34 +249,83 @@ function setupTicket() {
 
 /* ---------- Screenshot gallery + lightbox ---------- */
 function setupShots() {
+  const gallery = document.getElementById('screens');
   const box = document.getElementById('laundryShots');
   const lb = document.getElementById('lightbox');
   const lbImg = document.getElementById('lightboxImg');
   const lbCap = document.getElementById('lightboxCap');
-  let shown = 0;
+  const lbCount = document.getElementById('lightboxCount');
+  const shots = [];
+  let current = 0, lastFocus = null;
 
-  LAUNDRY_SHOTS.forEach((s) => {
+  const show = (i) => {
+    current = (i + shots.length) % shots.length;
+    const s = shots[current];
+    lbImg.classList.remove('is-ready');
+    lbImg.onload = () => lbImg.classList.add('is-ready');
+    lbImg.src = s.file; lbImg.alt = s.caption;
+    lbCap.textContent = s.caption;
+    lbCount.textContent = `${current + 1} of ${shots.length}`;
+  };
+  const open = (i) => {
+    lastFocus = document.activeElement;
+    show(i);
+    lb.hidden = false;
+    requestAnimationFrame(() => lb.classList.add('is-open'));
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lightboxClose').focus();
+  };
+  const close = () => {
+    lb.classList.remove('is-open');
+    document.body.style.overflow = '';
+    setTimeout(() => { lb.hidden = true; }, 250);
+    if (lastFocus) lastFocus.focus();
+  };
+
+  // Build in list order; skip any image that doesn't exist
+  Promise.all(LAUNDRY_SHOTS.map(s => new Promise(res => {
     const img = new Image();
-    img.onload = () => {
+    img.onload = () => res(s); img.onerror = () => res(null);
+    img.src = s.thumb;
+  }))).then(found => {
+    found.filter(Boolean).forEach((s) => {
+      const i = shots.push(s) - 1;
       const btn = document.createElement('button');
       btn.className = 'shot';
+      btn.style.setProperty('--d', (i * 60) + 'ms');
       btn.setAttribute('aria-label', 'View screenshot: ' + s.caption);
-      btn.innerHTML = `<img src="${s.file}" alt="${escapeHtml(s.caption)}" loading="lazy"><span>${escapeHtml(s.caption)}</span>`;
-      btn.addEventListener('click', () => {
-        lbImg.src = s.file; lbImg.alt = s.caption; lbCap.textContent = s.caption;
-        lb.hidden = false; requestAnimationFrame(() => lb.classList.add('is-open'));
-        document.getElementById('lightboxClose').focus();
-      });
+      btn.innerHTML = `<img src="${s.thumb}" alt="" loading="lazy"><span>${escapeHtml(s.caption)}</span>`;
+      btn.addEventListener('click', () => open(i));
       box.appendChild(btn);
-      shown++; box.hidden = false;
-    };
-    img.src = s.file;
+    });
+    if (shots.length) {
+      gallery.hidden = false;
+      // Opened from the QR code: jump to the screenshots once they exist
+      if (location.hash === '#screens') {
+        gallery.classList.add('is-in');
+        setTimeout(() => gallery.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
+      }
+    }
   });
 
-  const close = () => { lb.classList.remove('is-open'); setTimeout(() => { lb.hidden = true; }, 250); };
   document.getElementById('lightboxClose').addEventListener('click', close);
+  document.getElementById('lightboxPrev').addEventListener('click', () => show(current - 1));
+  document.getElementById('lightboxNext').addEventListener('click', () => show(current + 1));
   lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !lb.hidden) close(); });
+  document.addEventListener('keydown', (e) => {
+    if (lb.hidden) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+  // swipe on phones
+  let x0 = null;
+  lb.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 40) show(current + (dx < 0 ? 1 : -1));
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -288,7 +339,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupTabs();
   setupScrollUI();
   setupReveal();
-  setupTicket();
   setupShots();
   document.getElementById('year').textContent = new Date().getFullYear();
 });

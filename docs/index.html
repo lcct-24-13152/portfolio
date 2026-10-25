@@ -175,22 +175,16 @@
 
         <!-- Laundry -->
         <article class="rv work work--laundry">
-          <div class="work__visual" aria-hidden="true">
-            <div class="ticket">
-              <div class="ticket__top">
-                <span>CML Laundry</span>
-                <b>#0247</b>
-              </div>
-              <div class="ticket__qr"><span class="ticket__scan"></span></div>
-              <div class="ticket__steps" id="ticketSteps">
-                <span class="done">Received</span>
-                <span class="done">Washing</span>
-                <span class="now">Drying</span>
-                <span>Ready</span>
-              </div>
-              <p class="ticket__status" id="ticketStatus">Status: Drying</p>
+          <a class="work__visual work__visual--shot" href="#screens" aria-label="See all screenshots of the laundry system">
+            <div class="browser">
+              <div class="browser__bar" aria-hidden="true"><i></i><i></i><i></i><span>CML Laundry Management System</span></div>
+              <img src="assets/laundry/dashboard.jpg" alt="CML Laundry dashboard showing sales totals and inventory status" loading="lazy">
             </div>
-          </div>
+            <span class="qr-chip">
+              <img src="assets/laundry-qr.svg" alt="" width="64" height="64">
+              <span>Scan or tap to<br>see all screens</span>
+            </span>
+          </a>
           <div class="work__body">
             <p class="work__kind">Management system</p>
             <h3>CML Laundry Management System</h3>
@@ -198,16 +192,24 @@
             <ul class="work__list">
               <li>Transactions, pricing, inventory and GCash or cash payments in one place</li>
               <li>Email alerts for low stock, SMS status updates and printable PDF reports</li>
-              <li>Each receipt has a QR code customers scan to check their laundry status</li>
+              <li>Printable receipts, transaction history and loyalty discounts for regular customers</li>
             </ul>
             <p class="stack">PHP, MySQL, JavaScript, PHPMailer, Dompdf</p>
-            <div class="shots" id="laundryShots" hidden></div>
             <div class="work__actions">
               <a href="#" id="laundryLive" class="btn btn--solid" target="_blank" rel="noopener" hidden>Open live system</a>
               <a href="#" id="laundryCode" class="btn btn--line" target="_blank" rel="noopener" hidden>View code on GitHub</a>
             </div>
           </div>
         </article>
+
+        <!-- Laundry screenshots -->
+        <section class="gallery rv" id="screens" aria-label="Laundry system screenshots" hidden>
+          <div class="gallery__head">
+            <h3>Inside the CML Laundry system</h3>
+            <p>Select a screen to see it full size.</p>
+          </div>
+          <div class="shots" id="laundryShots"></div>
+        </section>
 
         <!-- Portfolio (small) -->
         <article class="rv work-small">
@@ -309,7 +311,9 @@
 
   <div class="lightbox" id="lightbox" hidden>
     <button class="lightbox__close" id="lightboxClose" aria-label="Close">×</button>
-    <figure><img id="lightboxImg" alt=""><figcaption id="lightboxCap"></figcaption></figure>
+    <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="Previous screenshot">‹</button>
+    <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="Next screenshot">›</button>
+    <figure><img id="lightboxImg" alt=""><figcaption id="lightboxCap"></figcaption><p class="lightbox__count" id="lightboxCount"></p></figure>
   </div>
 
   <a href="#home" class="to-top" id="toTop" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
