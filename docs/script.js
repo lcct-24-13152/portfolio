@@ -58,18 +58,17 @@ function renderCertificates() {
   list.innerHTML = groups.map(g => `
     <div class="cert-group" data-group="${escapeHtml(g)}">
       <h3>${escapeHtml(g)}</h3>
-      ${certificates.filter(c => c.group === g).map(c => `
+      <div class="cert-grid">${certificates.filter(c => c.group === g).map(c => `
         ${c.image
-          ? `<button type="button" class="cert-row" data-cert="${certificates.indexOf(c)}" data-thumb="${CERT_PATH + c.thumb}">`
-          : `<a class="cert-row" href="${CERT_PATH + c.file}" target="_blank" rel="noopener" data-thumb="${CERT_PATH + c.thumb}">`}
-          <span class="cert-row__thumb"><img src="${CERT_PATH + c.thumb}" alt="" loading="lazy" onerror="this.remove()"></span>
-          <span>
-            <span class="cert-row__title">${escapeHtml(c.title)}</span><br>
-            <span class="cert-row__issuer">${escapeHtml(c.issuer)}</span>
+          ? `<button type="button" class="cert-card" data-cert="${certificates.indexOf(c)}">`
+          : `<a class="cert-card" href="${CERT_PATH + c.file}" target="_blank" rel="noopener">`}
+          <span class="cert-card__img"><img src="${CERT_PATH + c.thumb}" alt="" loading="lazy" onerror="this.remove()"><span class="cert-card__zoom">View</span></span>
+          <span class="cert-card__body">
+            <span class="cert-card__date">${escapeHtml(c.date)}</span>
+            <span class="cert-card__title">${escapeHtml(c.title)}</span>
+            <span class="cert-card__issuer">${escapeHtml(c.issuer)}</span>
           </span>
-          <span class="cert-row__date">${escapeHtml(c.date)}</span>
-          <span class="cert-row__view">View</span>
-        ${c.image ? '</button>' : '</a>'}`).join('')}
+        ${c.image ? '</button>' : '</a>'}`).join('')}</div>
     </div>`).join('');
 
   document.getElementById('certCount').textContent = `${certificates.length} certificates from networking courses, IT Week seminars and school activities.`;
@@ -173,7 +172,7 @@ function setupTabs() {
       document.querySelectorAll('.cert-group').forEach((grp) => {
         const hide = f !== 'all' && grp.dataset.group !== f;
         grp.classList.toggle('is-hidden', hide);
-        if (!hide) grp.querySelectorAll('.cert-row').forEach((r, i) => {
+        if (!hide) grp.querySelectorAll('.cert-card').forEach((r, i) => {
           r.style.animation = 'none'; void r.offsetWidth;
           r.style.animation = ''; r.style.animationDelay = (i * 40) + 'ms';
         });
@@ -406,15 +405,69 @@ function setupResume() {
 function setupCertViewer() {
   const list = document.getElementById('certList');
   list.addEventListener('click', (e) => {
-    const row = e.target.closest('button.cert-row');
+    const row = e.target.closest('button.cert-card');
     if (!row) return;
-    const visible = [...list.querySelectorAll('.cert-group:not(.is-hidden) button.cert-row')];
+    const visible = [...list.querySelectorAll('.cert-group:not(.is-hidden) button.cert-card')];
     const slides = visible.map(r => {
       const c = certificates[+r.dataset.cert];
       return { file: CERT_PATH + c.image, caption: c.title, sub: c.date };
     });
     window.openLightbox(visible.indexOf(row), slides);
   });
+}
+
+/* ---------- Hero light that follows the pointer ---------- */
+function setupHeroGlow() {
+  const hero = document.getElementById('home');
+  const glow = document.getElementById('heroGlow');
+  if (!hero || !glow || !matchMedia('(hover: hover)').matches) return;
+  hero.addEventListener('pointermove', (e) => {
+    const r = hero.getBoundingClientRect();
+    glow.style.setProperty('--x', (e.clientX - r.left) + 'px');
+    glow.style.setProperty('--y', (e.clientY - r.top) + 'px');
+    glow.classList.add('is-on');
+  });
+  hero.addEventListener('pointerleave', () => glow.classList.remove('is-on'));
+}
+
+/* ---------- Terminal that types when it scrolls into view ---------- */
+function setupTerminal() {
+  const term = document.getElementById('term');
+  const body = document.getElementById('termBody');
+  if (!term) return;
+  const script = [
+    ['cmd', 'whoami'],
+    ['out', 'Cher Micole P. Lirio, BS Information Technology student'],
+    ['cmd', 'skills --list'],
+    ['out', 'HTML  CSS  JavaScript  PHP  MySQL  UI/UX  Database management'],
+    ['cmd', 'ls projects/'],
+    ['out', 'intel-sportzle/  cml-laundry-system/  portfolio/'],
+    ['cmd', 'cat status.txt'],
+    ['ok',  'Open to OJT and internships. Let\'s talk!']
+  ];
+  const render = (lines, partial) => {
+    body.innerHTML = lines.map(([t, s]) => t === 'cmd'
+      ? `<span class="t-p">$</span> <span class="t-c">${escapeHtml(s)}</span>`
+      : `<span class="t-${t === 'ok' ? 'ok' : 'o'}">${escapeHtml(s)}</span>`).join('\n')
+      + (partial !== undefined ? (lines.length ? '\n' : '') + `<span class="t-p">$</span> <span class="t-c">${escapeHtml(partial)}</span>` : '')
+      + '<span class="t-cursor"></span>';
+  };
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) { render(script); return; }
+  render([]);
+  const run = async () => {
+    const done = [];
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+    for (const [t, s] of script) {
+      if (t === 'cmd') {
+        for (let i = 1; i <= s.length; i++) { render(done, s.slice(0, i)); await wait(45 + Math.random() * 40); }
+        await wait(250);
+      } else { await wait(200); }
+      done.push([t, s]); render(done);
+    }
+  };
+  const io = new IntersectionObserver((es) => { if (es[0].isIntersecting) { io.disconnect(); run(); } }, { threshold: .4 });
+  io.observe(term);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -432,5 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupReveal();
   setupShots();
   setupCertViewer();
+  setupHeroGlow();
+  setupTerminal();
   document.getElementById('year').textContent = new Date().getFullYear();
 });

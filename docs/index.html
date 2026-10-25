@@ -11,7 +11,7 @@
   <meta name="theme-color" content="#5b3fa8">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script>
     document.documentElement.classList.add('js');
@@ -56,6 +56,7 @@
   <main>
     <!-- ========== HERO ========== -->
     <section class="hero" id="home">
+      <div class="hero__glow" id="heroGlow" aria-hidden="true"></div>
       <div class="wrap hero__inner">
         <div class="hero__text">
           <p class="status intro"><span class="status__dot"></span>Open to OJT and internships</p>
@@ -230,6 +231,11 @@
         <div class="head">
           <h2>What I work with</h2>
           <p>The languages, tools and habits I bring to a team.</p>
+        </div>
+        <div class="term rv" id="term" aria-label="Terminal showing my skills">
+          <div class="term__bar" aria-hidden="true"><i></i><i></i><i></i><span>micole@lcct: ~</span></div>
+          <pre class="term__body" id="termBody" aria-hidden="true"></pre>
+          <p class="sr">whoami: Cher Micole P. Lirio, BS Information Technology student. Stack: HTML, CSS, JavaScript, PHP, MySQL. Projects: Intel Sportzle, CML Laundry Management System.</p>
         </div>
         <div class="skills rv">
           <div>
