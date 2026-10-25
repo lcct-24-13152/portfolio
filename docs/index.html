@@ -14,6 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script>
+    document.documentElement.classList.add('js');
     try {
       var t = localStorage.getItem('theme');
       if (t) document.documentElement.setAttribute('data-theme', t);
@@ -21,6 +22,7 @@
   </script>
 </head>
 <body>
+  <div class="progress" id="progress" aria-hidden="true"></div>
 
   <header class="header">
     <div class="wrap header__inner">
@@ -35,6 +37,7 @@
         <a href="#skills">Skills</a>
         <a href="#certificates">Certificates</a>
         <a href="#contact" class="nav__cta">Contact</a>
+        <span class="nav__pill" id="navPill" aria-hidden="true"></span>
       </nav>
 
       <div class="header__actions">
@@ -54,17 +57,17 @@
     <section class="hero" id="home">
       <div class="wrap hero__inner">
         <div class="hero__text">
-          <p class="status"><span class="status__dot"></span>Open to OJT and internships</p>
-          <h1>Cher Micole <span>Plete Lirio</span></h1>
-          <p class="hero__lead">
+          <p class="status intro"><span class="status__dot"></span>Open to OJT and internships</p>
+          <h1 class="reveal-name"><span class="line"><span>Cher Micole</span></span><span class="line"><span>Plete Lirio</span></span></h1>
+          <p class="hero__lead intro">
             BS Information Technology student at La Consolacion College of Tanauan.
             I build web systems with PHP, MySQL and JavaScript, from the database up to the screen people use.
           </p>
-          <div class="hero__buttons">
+          <div class="hero__buttons intro">
             <a href="#work" class="btn btn--solid">See my work</a>
             <a href="#contact" class="btn btn--line">Contact me</a>
           </div>
-          <ul class="hero__links">
+          <ul class="hero__links intro">
             <li><a href="mailto:liriocher25@gmail.com">liriocher25@gmail.com</a></li>
             <li><a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">GitHub</a></li>
             <li>Tanauan City, Batangas</li>
@@ -92,11 +95,20 @@
       </div>
     </section>
 
+    <!-- ========== RIBBON ========== -->
+    <div class="ribbon" aria-label="Skills: HTML, CSS, JavaScript, PHP, MySQL, UI/UX design, database management, networking">
+      <div class="ribbon__track" aria-hidden="true">
+        <span>HTML</span><span>CSS</span><span>JavaScript</span><span>PHP</span><span>MySQL</span><span>UI/UX design</span><span>Database management</span><span>Cisco networking</span><span>System testing</span>
+        <span>HTML</span><span>CSS</span><span>JavaScript</span><span>PHP</span><span>MySQL</span><span>UI/UX design</span><span>Database management</span><span>Cisco networking</span><span>System testing</span>
+      </div>
+    </div>
+
     <!-- ========== ABOUT ========== -->
     <section class="block" id="about">
       <div class="wrap about">
         <div class="about__intro">
-          <h2>About me</h2>
+          <h2 class="sr">About me</h2>
+          <p class="kicker">Hello! Here's a bit about me.</p>
           <p class="about__lead">
             I'm a motivated and responsible Information Technology student with knowledge in web development,
             databases and system development.
@@ -108,7 +120,7 @@
           </p>
         </div>
 
-        <div class="about__side">
+        <div class="rv about__side">
           <dl class="facts">
             <div><dt>Course</dt><dd>Bachelor of Science in Information Technology</dd></div>
             <div><dt>School</dt><dd>La Consolacion College of Tanauan, 2017 to present</dd></div>
@@ -135,11 +147,15 @@
     <!-- ========== WORK ========== -->
     <section class="block" id="work">
       <div class="wrap">
-        <h2>Things I've built</h2>
+        <div class="head">
+          <h2>Things I've built</h2>
+          <p>Two systems I designed and coded, from the database to the screen.</p>
+        </div>
 
         <!-- Intel Sportzle -->
-        <article class="work work--sportzle">
+        <article class="rv work work--sportzle">
           <a class="work__visual" href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener" aria-label="Play Intel Sportzle">
+            <span class="spark s1" aria-hidden="true"></span><span class="spark s2" aria-hidden="true"></span><span class="spark s3" aria-hidden="true"></span>
             <img class="work__logo" src="assets/sportzle-logo.png" alt="Intel Sportzle logo" width="360" height="360">
             <span class="work__caption">Sports Word Challenge</span>
           </a>
@@ -158,20 +174,21 @@
         </article>
 
         <!-- Laundry -->
-        <article class="work work--laundry">
+        <article class="rv work work--laundry">
           <div class="work__visual" aria-hidden="true">
             <div class="ticket">
               <div class="ticket__top">
                 <span>CML Laundry</span>
                 <b>#0247</b>
               </div>
-              <div class="ticket__qr"></div>
-              <div class="ticket__steps">
+              <div class="ticket__qr"><span class="ticket__scan"></span></div>
+              <div class="ticket__steps" id="ticketSteps">
                 <span class="done">Received</span>
                 <span class="done">Washing</span>
                 <span class="now">Drying</span>
                 <span>Ready</span>
               </div>
+              <p class="ticket__status" id="ticketStatus">Status: Drying</p>
             </div>
           </div>
           <div class="work__body">
@@ -184,6 +201,7 @@
               <li>Each receipt has a QR code customers scan to check their laundry status</li>
             </ul>
             <p class="stack">PHP, MySQL, JavaScript, PHPMailer, Dompdf</p>
+            <div class="shots" id="laundryShots" hidden></div>
             <div class="work__actions">
               <a href="#" id="laundryLive" class="btn btn--solid" target="_blank" rel="noopener" hidden>Open live system</a>
               <a href="#" id="laundryCode" class="btn btn--line" target="_blank" rel="noopener" hidden>View code on GitHub</a>
@@ -192,7 +210,7 @@
         </article>
 
         <!-- Portfolio (small) -->
-        <article class="work-small">
+        <article class="rv work-small">
           <div>
             <p class="work__kind">Personal website</p>
             <h3>This portfolio</h3>
@@ -206,14 +224,16 @@
     <!-- ========== SKILLS ========== -->
     <section class="block block--tint" id="skills">
       <div class="wrap">
-        <h2>What I work with</h2>
-        <ul class="langs">
-          <li>HTML</li><li>CSS</li><li>JavaScript</li><li>PHP</li><li>MySQL</li>
-        </ul>
-        <div class="skills">
+        <div class="head">
+          <h2>What I work with</h2>
+          <p>The languages, tools and habits I bring to a team.</p>
+        </div>
+        <div class="skills rv">
           <div>
             <h3>Technical</h3>
             <ul>
+              <li>HTML, CSS and JavaScript</li>
+              <li>PHP and MySQL</li>
               <li>Web development</li>
               <li>Database management</li>
               <li>System development and testing</li>
@@ -246,9 +266,14 @@
     <!-- ========== CERTIFICATES ========== -->
     <section class="block" id="certificates">
       <div class="wrap">
-        <div class="certs__head">
+        <div class="head">
           <h2>Certificates</h2>
-          <p class="muted" id="certCount"></p>
+          <p id="certCount"></p>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Filter certificates">
+          <button class="tab is-active" role="tab" aria-selected="true" data-filter="all">All</button>
+          <button class="tab" role="tab" aria-selected="false" data-filter="Cisco Networking Academy">Cisco</button>
+          <button class="tab" role="tab" aria-selected="false" data-filter="School and events">School and events</button>
         </div>
         <div id="certList"></div>
       </div>
@@ -258,7 +283,7 @@
     <!-- ========== CONTACT ========== -->
     <section class="block contact" id="contact">
       <div class="wrap">
-        <div class="contact__card">
+        <div class="rv contact__card">
           <h2>Let's talk</h2>
           <p class="contact__lead">I'm looking for a place to learn, grow and contribute. If you have an OJT slot, a project or a question, send me a message.</p>
           <div class="contact__mail">
@@ -281,6 +306,13 @@
       <a href="#home">Back to top</a>
     </div>
   </footer>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lightbox__close" id="lightboxClose" aria-label="Close">×</button>
+    <figure><img id="lightboxImg" alt=""><figcaption id="lightboxCap"></figcaption></figure>
+  </div>
+
+  <a href="#home" class="to-top" id="toTop" aria-label="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
 
   <script src="script.js"></script>
 </body>
