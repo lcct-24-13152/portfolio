@@ -36,6 +36,7 @@
         <a href="#work">Work</a>
         <a href="#skills">Skills</a>
         <a href="#certificates">Certificates</a>
+        <a href="#resume">Resume</a>
         <a href="#contact" class="nav__cta">Contact</a>
         <span class="nav__pill" id="navPill" aria-hidden="true"></span>
       </nav>
@@ -65,7 +66,7 @@
           </p>
           <div class="hero__buttons intro">
             <a href="#work" class="btn btn--solid">See my work</a>
-            <a href="#contact" class="btn btn--line">Contact me</a>
+            <button type="button" class="btn btn--line" data-open-resume>View resume</button>
           </div>
           <ul class="hero__links intro">
             <li><a href="mailto:liriocher25@gmail.com">liriocher25@gmail.com</a></li>
@@ -265,6 +266,35 @@
       </div>
     </section>
 
+    <!-- ========== RESUME ========== -->
+    <section class="block" id="resume">
+      <div class="wrap">
+        <div class="head">
+          <h2>Resume</h2>
+          <p>One page, ready to print or save as PDF.</p>
+        </div>
+        <div class="resume-promo rv">
+          <div class="resume-promo__text">
+            <h3>Everything on one sheet</h3>
+            <p class="muted">My education, skills, projects, certifications and references, laid out on a single A4 page for applications and OJT requirements.</p>
+            <ul class="resume-promo__list">
+              <li>Formatted for A4 paper</li>
+              <li>Prints only the resume, not the website</li>
+              <li>Choose "Save as PDF" in the print window to download it</li>
+            </ul>
+            <div class="hero__buttons">
+              <button type="button" class="btn btn--solid" data-print-resume>Print or save as PDF</button>
+              <button type="button" class="btn btn--line" data-open-resume>View full resume</button>
+            </div>
+          </div>
+          <button type="button" class="resume-thumb" data-open-resume aria-label="Open resume preview">
+            <span class="resume-thumb__paper" id="resumeThumb"></span>
+            <span class="resume-thumb__hint">Click to open</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
     <!-- ========== CERTIFICATES ========== -->
     <section class="block" id="certificates">
       <div class="wrap">
@@ -308,6 +338,128 @@
       <a href="#home">Back to top</a>
     </div>
   </footer>
+
+  <!-- ========== RESUME MODAL (also what gets printed) ========== -->
+  <div class="resume-modal" id="resumeModal" role="dialog" aria-modal="true" aria-labelledby="resumeModalTitle" hidden>
+    <div class="resume-modal__bar">
+      <p id="resumeModalTitle">Resume preview</p>
+      <div class="resume-modal__actions">
+        <button type="button" class="btn btn--light" data-print-resume>Print or save as PDF</button>
+        <button type="button" class="resume-modal__close" id="resumeClose" aria-label="Close resume">×</button>
+      </div>
+    </div>
+    <div class="resume-modal__scroll">
+      <article class="sheet" id="resumeSheet">
+        <header class="sheet__head">
+          <img class="sheet__photo" src="profile-photo.jpg" alt="Cher Micole P. Lirio">
+          <div>
+            <h1 class="sheet__name">Cher Micole Plete Lirio</h1>
+            <p class="sheet__title">BS Information Technology Student</p>
+            <p class="sheet__contact">
+              <span>0976 433 2931</span><span>liriocher25@gmail.com</span><span>Balele, Tanauan City, Batangas</span>
+            </p>
+          </div>
+        </header>
+
+        <div class="sheet__body">
+          <aside class="sheet__side">
+            <section>
+              <h2>Contact</h2>
+              <dl class="sheet__dl">
+                <dt>Phone</dt><dd>0976 433 2931</dd>
+                <dt>Email</dt><dd>liriocher25@gmail.com</dd>
+                <dt>Address</dt><dd>Balele, Tanauan City, Batangas, Philippines</dd>
+                <dt>Portfolio</dt><dd>lcct-24-13152.github.io/portfolio</dd>
+              </dl>
+            </section>
+            <section>
+              <h2>Education</h2>
+              <p class="sheet__year">2017 to present</p>
+              <p class="sheet__strong">La Consolacion College of Tanauan</p>
+              <p>Bachelor of Science in Information Technology</p>
+            </section>
+            <section>
+              <h2>Technical skills</h2>
+              <ul class="sheet__list">
+                <li>UI/UX design</li>
+                <li>Web development</li>
+                <li>Database management</li>
+                <li>System development and testing</li>
+                <li>PHP and MySQL</li>
+                <li>HTML, CSS and JavaScript</li>
+              </ul>
+            </section>
+            <section>
+              <h2>Soft skills</h2>
+              <ul class="sheet__list">
+                <li>Communication</li>
+                <li>Problem-solving</li>
+                <li>Teamwork and collaboration</li>
+                <li>Willingness to learn</li>
+                <li>Time management</li>
+                <li>Adaptability</li>
+                <li>Hardworking</li>
+              </ul>
+            </section>
+            <section>
+              <h2>References</h2>
+              <div class="sheet__ref">
+                <p class="sheet__strong">Dr. Salem Laylo</p>
+                <p>IT Program Chair</p>
+                <p>La Consolacion College of Tanauan</p>
+                <p>Phone: 0917 889 8876</p>
+              </div>
+              <div class="sheet__ref">
+                <p class="sheet__strong">Ms. Regine Lopez</p>
+                <p>SHS Teacher</p>
+                <p>La Consolacion College of Tanauan</p>
+                <p>Phone: 0967 796 6337</p>
+              </div>
+            </section>
+          </aside>
+
+          <div class="sheet__main">
+            <section>
+              <h2>About me</h2>
+              <p>Motivated and responsible Information Technology student with knowledge in web development, databases and system development. Able to communicate well, organize tasks and solve basic technical problems. Comfortable working independently or with a team and willing to learn new skills when needed. Looking for an opportunity to gain experience, improve technical abilities and contribute to the organization.</p>
+            </section>
+            <section>
+              <h2>Projects and experience</h2>
+              <div class="sheet__proj">
+                <h3>Intel Sportzle Educational Game System</h3>
+                <ul>
+                  <li>Developed an interactive sports-themed educational game with solo and multiplayer modes.</li>
+                  <li>Implemented player registration, scoring, difficulty levels, leaderboards and responsive game features.</li>
+                  <li>Worked on the system design, database integration and overall user experience.</li>
+                </ul>
+                <p class="sheet__link">intelsportzle.infinityfreeapp.com</p>
+              </div>
+              <div class="sheet__proj">
+                <h3>CML Laundry Management System</h3>
+                <ul>
+                  <li>Built a system for laundry transactions, pricing, inventory and cash or GCash payments.</li>
+                  <li>Added QR code tracking for customers, low-stock email alerts, SMS updates and PDF reports.</li>
+                </ul>
+                <p class="sheet__link">github.com/lcct-24-13152/laundry-system</p>
+              </div>
+              <div class="sheet__proj">
+                <h3>Personal Portfolio Website</h3>
+                <ul>
+                  <li>Designed and developed a responsive portfolio to showcase projects, skills, achievements and certificates.</li>
+                  <li>Applied front-end skills using HTML, CSS and JavaScript, with interactive features and organized navigation.</li>
+                </ul>
+                <p class="sheet__link">lcct-24-13152.github.io/portfolio</p>
+              </div>
+            </section>
+            <section>
+              <h2>Certifications</h2>
+              <ul class="sheet__certs" id="resumeCerts"></ul>
+            </section>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
 
   <div class="lightbox" id="lightbox" hidden>
     <button class="lightbox__close" id="lightboxClose" aria-label="Close">×</button>

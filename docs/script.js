@@ -61,6 +61,7 @@ function renderCertificates() {
       ${certificates.filter(c => c.group === g).map(c => `
         <a class="cert-row" href="${CERT_PATH + c.file}" target="_blank" rel="noopener"
            data-thumb="${CERT_PATH + c.thumb}">
+          <span class="cert-row__thumb"><img src="${CERT_PATH + c.thumb}" alt="" loading="lazy" onerror="this.remove()"></span>
           <span>
             <span class="cert-row__title">${escapeHtml(c.title)}</span><br>
             <span class="cert-row__issuer">${escapeHtml(c.issuer)}</span>
@@ -328,8 +329,78 @@ function setupShots() {
   });
 }
 
+/* ---------- Resume: certificates list, preview, modal, print ---------- */
+function renderResumeCerts() {
+  const ul = document.getElementById('resumeCerts');
+  if (!ul) return;
+  ul.innerHTML = certificates.map(c => {
+    const issuer = c.group === 'Cisco Networking Academy' ? c.issuer : c.issuer.replace(/^Certificate of Participation,\s*/, 'Participation, ');
+    return `<li><span><b>${escapeHtml(c.title)}</b><small>${escapeHtml(issuer)}</small></span><time>${escapeHtml(c.date)}</time></li>`;
+  }).join('');
+}
+
+function setupResume() {
+  const modal = document.getElementById('resumeModal');
+  const sheet = document.getElementById('resumeSheet');
+  const scroller = modal.querySelector('.resume-modal__scroll');
+  const thumb = document.getElementById('resumeThumb');
+  let lastFocus = null;
+
+  // Small live preview: a scaled copy of the real sheet
+  const copy = sheet.cloneNode(true);
+  copy.removeAttribute('id');
+  copy.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+  copy.setAttribute('aria-hidden', 'true');
+  thumb.appendChild(copy);
+  const A4_PX = 793.7; // 210mm at 96dpi
+  const fitThumb = () => { copy.style.transform = `scale(${thumb.clientWidth / A4_PX})`; };
+
+  // Fit the sheet to small screens inside the modal
+  const fitSheet = () => {
+    const avail = scroller.clientWidth - 16;
+    const z = Math.min(1, avail / 794);
+    sheet.style.zoom = z < 1 ? z : '';
+  };
+
+  const open = () => {
+    lastFocus = document.activeElement;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    fitSheet();
+    requestAnimationFrame(() => modal.classList.add('is-open'));
+    document.getElementById('resumeClose').focus();
+  };
+  const close = () => {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    setTimeout(() => { modal.hidden = true; }, 250);
+    if (lastFocus) lastFocus.focus();
+  };
+  const print = () => {
+    document.documentElement.classList.add('print-resume');
+    sheet.style.zoom = '';
+    window.print();
+  };
+
+  document.querySelectorAll('[data-open-resume]').forEach(b => b.addEventListener('click', open));
+  document.querySelectorAll('[data-print-resume]').forEach(b => b.addEventListener('click', print));
+  document.getElementById('resumeClose').addEventListener('click', close);
+  modal.addEventListener('click', (e) => { if (e.target === modal || e.target === scroller) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) close(); });
+
+  // Ctrl+P / browser print also prints the resume
+  window.addEventListener('beforeprint', () => { document.documentElement.classList.add('print-resume'); sheet.style.zoom = ''; });
+  window.addEventListener('afterprint', () => { document.documentElement.classList.remove('print-resume'); if (!modal.hidden) fitSheet(); });
+
+  window.addEventListener('resize', () => { fitThumb(); if (!modal.hidden) fitSheet(); });
+  fitThumb();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitThumb);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   renderCertificates();
+  renderResumeCerts();
+  setupResume();
   setupCertPreview();
   setupLaundry();
   setupTheme();
