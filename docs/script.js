@@ -35,15 +35,15 @@ const CERT_PATH = 'assets/certificates/';
 
 const certificates = [
   { group: 'Cisco Networking Academy', title: 'HTML Essentials', issuer: 'DICT-ITU DTC Initiative through Cisco Networking Academy', date: 'Aug 11, 2026', file: 'html-essentials-certificate.pdf', thumb: 'html-essentials-certificate-thumb.jpg' },
-  { group: 'Cisco Networking Academy', title: 'HTML Essentials, Statement of Achievement', issuer: 'Cisco Networking Academy and JS Institute', date: 'Aug 11, 2026', file: 'html-essentials-statement-of-achievement.pdf', thumb: 'html-essentials-statement-of-achievement-thumb.jpg' },
-  { group: 'Cisco Networking Academy', title: 'Network Technician Career Path Exam', issuer: 'Cisco Networking Academy', date: 'Apr 22, 2026', file: 'network-technician-career-path.pdf', thumb: 'network-technician-career-path-thumb.jpg' },
-  { group: 'Cisco Networking Academy', title: 'Network Support and Security', issuer: 'Cisco Networking Academy', date: 'Apr 14, 2026', file: 'network-support-security.pdf', thumb: 'network-support-security-thumb.jpg' },
-  { group: 'Cisco Networking Academy', title: 'Network Addressing and Basic Troubleshooting', issuer: 'Cisco Networking Academy', date: 'Apr 14, 2026', file: 'network-addressing-basic-troubleshooting.pdf', thumb: 'network-addressing-basic-troubleshooting-thumb.jpg' },
-  { group: 'Cisco Networking Academy', title: 'Networking Devices and Initial Configuration', issuer: 'Cisco Networking Academy', date: 'Apr 8, 2026', file: 'networking-devices-initial-configuration.pdf', thumb: 'networking-devices-initial-configuration-thumb.jpg' },
-  { group: 'Cisco Networking Academy', title: 'Networking Basics', issuer: 'Cisco Networking Academy', date: 'Apr 6, 2026', file: 'networking-basics.pdf', thumb: 'networking-basics-thumb.jpg' },
-  { group: 'School and events', title: 'BSIT Educational Exposure Trip', issuer: 'Certificate of Participation, IT Week 2026, La Consolacion College of Tanauan', date: 'Mar 23, 2026', file: 'bsit-educational-exposure-trip.png', thumb: 'bsit-educational-exposure-trip-thumb.jpg' },
-  { group: 'School and events', title: 'Bridging Business and Technology for the Next Generation', issuer: 'Certificate of Participation, IT Week 2026, La Consolacion College of Tanauan', date: 'Mar 21, 2026', file: 'bridging-business-technology-2026.svg', thumb: 'bridging-business-technology-2026.svg' },
-  { group: 'School and events', title: 'Design, Build, Innovate: The Robotics Experience', issuer: 'Certificate of Participation, LCCT ICT Week 2026, First Edusped Inc.', date: 'Mar 19, 2026', file: 'robotics-experience-2026.jpg', thumb: 'robotics-experience-2026.jpg' }
+  { group: 'Cisco Networking Academy', title: 'HTML Essentials, Statement of Achievement', issuer: 'Cisco Networking Academy and JS Institute', date: 'Aug 11, 2026', image: 'html-essentials-statement-of-achievement.jpg', thumb: 'html-essentials-statement-of-achievement-thumb.jpg' },
+  { group: 'Cisco Networking Academy', title: 'Network Technician Career Path', issuer: 'Cisco Networking Academy', date: 'Apr 22, 2026', image: 'network-technician-career-path.jpg', thumb: 'network-technician-career-path-thumb.jpg' },
+  { group: 'Cisco Networking Academy', title: 'Network Support and Security', issuer: 'Cisco Networking Academy', date: 'Apr 14, 2026', image: 'network-support-security.jpg', thumb: 'network-support-security-thumb.jpg' },
+  { group: 'Cisco Networking Academy', title: 'Network Addressing and Basic Troubleshooting', issuer: 'Cisco Networking Academy', date: 'Apr 14, 2026', image: 'network-addressing-basic-troubleshooting.jpg', thumb: 'network-addressing-basic-troubleshooting-thumb.jpg' },
+  { group: 'Cisco Networking Academy', title: 'Networking Devices and Initial Configuration', issuer: 'Cisco Networking Academy', date: 'Apr 8, 2026', image: 'networking-devices-initial-configuration.jpg', thumb: 'networking-devices-initial-configuration-thumb.jpg' },
+  { group: 'Cisco Networking Academy', title: 'Networking Basics', issuer: 'Cisco Networking Academy', date: 'Apr 6, 2026', image: 'networking-basics.jpg', thumb: 'networking-basics-thumb.jpg' },
+  { group: 'School and events', title: 'BSIT Educational Exposure Trip', issuer: 'Certificate of Participation, IT Week 2026, La Consolacion College of Tanauan', date: 'Mar 23, 2026', image: 'bsit-educational-exposure-trip.jpg', thumb: 'bsit-educational-exposure-trip-thumb.jpg' },
+  { group: 'School and events', title: 'Bridging Business and Technology for the Next Generation', issuer: 'Certificate of Participation, IT Week 2026, La Consolacion College of Tanauan', date: 'Mar 21, 2026', image: 'bridging-business-technology-2026.jpg', thumb: 'bridging-business-technology-2026-thumb.jpg' },
+  { group: 'School and events', title: 'Design, Build, Innovate: The Robotics Experience', issuer: 'Certificate of Participation, LCCT ICT Week 2026, First Eduspec Inc.', date: 'Mar 19, 2026', image: 'robotics-experience-2026.jpg', thumb: 'robotics-experience-2026-thumb.jpg' }
 ];
 
 function escapeHtml(s) {
@@ -59,8 +59,9 @@ function renderCertificates() {
     <div class="cert-group" data-group="${escapeHtml(g)}">
       <h3>${escapeHtml(g)}</h3>
       ${certificates.filter(c => c.group === g).map(c => `
-        <a class="cert-row" href="${CERT_PATH + c.file}" target="_blank" rel="noopener"
-           data-thumb="${CERT_PATH + c.thumb}">
+        ${c.image
+          ? `<button type="button" class="cert-row" data-cert="${certificates.indexOf(c)}" data-thumb="${CERT_PATH + c.thumb}">`
+          : `<a class="cert-row" href="${CERT_PATH + c.file}" target="_blank" rel="noopener" data-thumb="${CERT_PATH + c.thumb}">`}
           <span class="cert-row__thumb"><img src="${CERT_PATH + c.thumb}" alt="" loading="lazy" onerror="this.remove()"></span>
           <span>
             <span class="cert-row__title">${escapeHtml(c.title)}</span><br>
@@ -68,7 +69,7 @@ function renderCertificates() {
           </span>
           <span class="cert-row__date">${escapeHtml(c.date)}</span>
           <span class="cert-row__view">View</span>
-        </a>`).join('')}
+        ${c.image ? '</button>' : '</a>'}`).join('')}
     </div>`).join('');
 
   document.getElementById('certCount').textContent = `${certificates.length} certificates from networking courses, IT Week seminars and school activities.`;
@@ -257,18 +258,19 @@ function setupShots() {
   const lbCap = document.getElementById('lightboxCap');
   const lbCount = document.getElementById('lightboxCount');
   const shots = [];
-  let current = 0, lastFocus = null;
+  let items = shots, current = 0, lastFocus = null;
 
   const show = (i) => {
-    current = (i + shots.length) % shots.length;
-    const s = shots[current];
+    current = (i + items.length) % items.length;
+    const s = items[current];
     lbImg.classList.remove('is-ready');
     lbImg.onload = () => lbImg.classList.add('is-ready');
     lbImg.src = s.file; lbImg.alt = s.caption;
     lbCap.textContent = s.caption;
-    lbCount.textContent = `${current + 1} of ${shots.length}`;
+    lbCount.textContent = (s.sub ? s.sub + '  ·  ' : '') + `${current + 1} of ${items.length}`;
   };
-  const open = (i) => {
+  const open = (i, list) => {
+    items = list || shots;
     lastFocus = document.activeElement;
     show(i);
     lb.hidden = false;
@@ -308,6 +310,8 @@ function setupShots() {
       }
     }
   });
+
+  window.openLightbox = open;
 
   document.getElementById('lightboxClose').addEventListener('click', close);
   document.getElementById('lightboxPrev').addEventListener('click', () => show(current - 1));
@@ -398,6 +402,21 @@ function setupResume() {
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitThumb);
 }
 
+/* ---------- Certificates open in the lightbox ---------- */
+function setupCertViewer() {
+  const list = document.getElementById('certList');
+  list.addEventListener('click', (e) => {
+    const row = e.target.closest('button.cert-row');
+    if (!row) return;
+    const visible = [...list.querySelectorAll('.cert-group:not(.is-hidden) button.cert-row')];
+    const slides = visible.map(r => {
+      const c = certificates[+r.dataset.cert];
+      return { file: CERT_PATH + c.image, caption: c.title, sub: c.date };
+    });
+    window.openLightbox(visible.indexOf(row), slides);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   renderCertificates();
   renderResumeCerts();
@@ -412,5 +431,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupScrollUI();
   setupReveal();
   setupShots();
+  setupCertViewer();
   document.getElementById('year').textContent = new Date().getFullYear();
 });

@@ -1103,3 +1103,7 @@ html, body { overflow-x: clip; }
   .resume-modal__title { display: none; }
   .resume-modal__cancel { display: none; }
 }
+/* cert rows can be buttons now */
+button.cert-row { width: 100%; background: none; border: 0; border-bottom: 1px solid var(--line); font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.cert-group button.cert-row:first-of-type { border-top: 1px solid var(--line); }
+.lightbox__count { white-space: pre; }
