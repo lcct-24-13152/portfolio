@@ -470,6 +470,28 @@ function setupTerminal() {
   io.observe(term);
 }
 
+/* ---------- Hero role: types, deletes, types the next one ---------- */
+function setupRole() {
+  const el = document.getElementById('roleText');
+  if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const roles = ['Web Developer', 'System Developer', 'Database Designer', 'UI/UX Enthusiast', 'Future IT Professional'];
+  let r = 0, i = roles[0].length, del = true;
+  const tick = () => {
+    const word = roles[r];
+    if (del) {
+      i--; el.textContent = word.slice(0, i);
+      if (i === 0) { del = false; r = (r + 1) % roles.length; }
+      setTimeout(tick, 45);
+    } else {
+      const next = roles[r];
+      i++; el.textContent = next.slice(0, i);
+      if (i === next.length) { del = true; setTimeout(tick, 1900); return; }
+      setTimeout(tick, 85);
+    }
+  };
+  setTimeout(tick, 2200);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   renderCertificates();
   renderResumeCerts();
@@ -487,5 +509,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupCertViewer();
   setupHeroGlow();
   setupTerminal();
+  setupRole();
   document.getElementById('year').textContent = new Date().getFullYear();
 });

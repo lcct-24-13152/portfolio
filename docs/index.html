@@ -15,9 +15,10 @@
   <link rel="stylesheet" href="style.css">
   <script>
     document.documentElement.classList.add('js');
+    document.documentElement.setAttribute('data-theme', 'dark');
     try {
       var t = localStorage.getItem('theme');
-      if (t) document.documentElement.setAttribute('data-theme', t);
+      document.documentElement.setAttribute('data-theme', t || 'dark');
     } catch (e) {}
   </script>
 </head>
@@ -32,12 +33,12 @@
       </a>
 
       <nav class="nav" id="nav" aria-label="Main navigation">
-        <a href="#about">About</a>
-        <a href="#work">Work</a>
-        <a href="#skills">Skills</a>
-        <a href="#certificates">Certificates</a>
-        <a href="#resume">Resume</a>
-        <a href="#contact" class="nav__cta">Contact</a>
+        <a href="#about"><i>./</i>about</a>
+        <a href="#work"><i>./</i>work</a>
+        <a href="#skills"><i>./</i>skills</a>
+        <a href="#certificates"><i>./</i>certificates</a>
+        <a href="#resume"><i>./</i>resume</a>
+        <a href="#contact" class="nav__cta">contact()</a>
         <span class="nav__pill" id="navPill" aria-hidden="true"></span>
       </nav>
 
@@ -59,8 +60,9 @@
       <div class="hero__glow" id="heroGlow" aria-hidden="true"></div>
       <div class="wrap hero__inner">
         <div class="hero__text">
-          <p class="status intro"><span class="status__dot"></span>Open to OJT and internships</p>
+          <p class="status intro"><span class="status__dot"></span>status: <b>open to OJT and internships</b></p>
           <h1 class="reveal-name"><span class="line"><span>Cher Micole</span></span><span class="line"><span>Plete Lirio</span></span></h1>
+          <p class="role intro" aria-label="Web developer, system developer and database designer"><span class="role__p">&gt;</span> <span id="roleText" aria-hidden="true">Web Developer</span><span class="role__cursor" aria-hidden="true"></span></p>
           <p class="hero__lead intro">
             BS Information Technology student at La Consolacion College of Tanauan.
             I build web systems with PHP, MySQL and JavaScript, from the database up to the screen people use.
@@ -110,7 +112,7 @@
       <div class="wrap about">
         <div class="about__intro">
           <h2 class="sr">About me</h2>
-          <p class="kicker">Hello! Here's a bit about me.</p>
+          <p class="kicker"><span>$</span> cat about.md</p>
           <p class="about__lead">
             I'm a motivated and responsible Information Technology student with knowledge in web development,
             databases and system development.
@@ -149,7 +151,7 @@
     <!-- ========== WORK ========== -->
     <section class="block" id="work">
       <div class="wrap">
-        <div class="head">
+        <div class="head" data-cmd="cd ~/projects">
           <h2>Things I've built</h2>
           <p>Two systems I designed and coded, from the database to the screen.</p>
         </div>
@@ -228,7 +230,7 @@
     <!-- ========== SKILLS ========== -->
     <section class="block block--tint" id="skills">
       <div class="wrap">
-        <div class="head">
+        <div class="head" data-cmd="cat skills.json">
           <h2>What I work with</h2>
           <p>The languages, tools and habits I bring to a team.</p>
         </div>
@@ -275,7 +277,7 @@
     <!-- ========== RESUME ========== -->
     <section class="block" id="resume">
       <div class="wrap">
-        <div class="head">
+        <div class="head" data-cmd="open resume.pdf">
           <h2>Resume</h2>
           <p>One page, ready to print or save as PDF.</p>
         </div>
@@ -304,7 +306,7 @@
     <!-- ========== CERTIFICATES ========== -->
     <section class="block" id="certificates">
       <div class="wrap">
-        <div class="head">
+        <div class="head" data-cmd="ls ~/certificates">
           <h2>Certificates</h2>
           <p id="certCount"></p>
         </div>
@@ -322,6 +324,7 @@
     <section class="block contact" id="contact">
       <div class="wrap">
         <div class="rv contact__card">
+          <p class="contact__cmd"><span>$</span> ping micole</p>
           <h2>Let's talk</h2>
           <p class="contact__lead">I'm looking for a place to learn, grow and contribute. If you have an OJT slot, a project or a question, send me a message.</p>
           <div class="contact__mail">
