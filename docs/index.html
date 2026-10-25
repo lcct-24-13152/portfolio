@@ -283,7 +283,7 @@
               <li>Choose "Save as PDF" in the print window to download it</li>
             </ul>
             <div class="hero__buttons">
-              <button type="button" class="btn btn--solid" data-print-resume>Print or save as PDF</button>
+              <button type="button" class="btn btn--solid" data-open-resume>Print or save as PDF</button>
               <button type="button" class="btn btn--line" data-open-resume>View full resume</button>
             </div>
           </div>
@@ -342,9 +342,16 @@
   <!-- ========== RESUME MODAL (also what gets printed) ========== -->
   <div class="resume-modal" id="resumeModal" role="dialog" aria-modal="true" aria-labelledby="resumeModalTitle" hidden>
     <div class="resume-modal__bar">
-      <p id="resumeModalTitle">Resume preview</p>
+      <div class="resume-modal__title">
+        <p id="resumeModalTitle">Resume preview</p>
+        <span>Check your A4 resume, then print it or choose "Save as PDF".</span>
+      </div>
       <div class="resume-modal__actions">
-        <button type="button" class="btn btn--light" data-print-resume>Print or save as PDF</button>
+        <button type="button" class="btn btn--light resume-modal__print" data-print-resume>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2M6 14h12v7H6z"/></svg>
+          Print or save as PDF
+        </button>
+        <button type="button" class="btn resume-modal__cancel" id="resumeCancel">Close</button>
         <button type="button" class="resume-modal__close" id="resumeClose" aria-label="Close resume">×</button>
       </div>
     </div>

@@ -385,6 +385,7 @@ function setupResume() {
   document.querySelectorAll('[data-open-resume]').forEach(b => b.addEventListener('click', open));
   document.querySelectorAll('[data-print-resume]').forEach(b => b.addEventListener('click', print));
   document.getElementById('resumeClose').addEventListener('click', close);
+  document.getElementById('resumeCancel').addEventListener('click', close);
   modal.addEventListener('click', (e) => { if (e.target === modal || e.target === scroller) close(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) close(); });
 
