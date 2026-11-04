@@ -1,4 +1,4 @@
-/* Micole's Desk — page logic */
+/* Cher Micole P. Lirio — page logic */
 const LAUNDRY_SHOTS = [
   { name: 'login',       caption: 'Admin login' },
   { name: 'dashboard',   caption: 'Dashboard with sales and stock status' },
@@ -250,13 +250,6 @@ function setupMiniSheet() {
   new ResizeObserver(fit).observe(holder); fit();
 }
 
-/* ---------- HUD uptime ---------- */
-function setupHud() {
-  const el = $('#hudUptime'), t0 = Date.now();
-  const p = n => String(n).padStart(2, '0');
-  setInterval(() => { const s = Math.floor((Date.now() - t0) / 1000); el.textContent = `${p(Math.floor(s / 3600))}:${p(Math.floor(s / 60) % 60)}:${p(s % 60)}`; }, 1000);
-}
-
 /* ---------- Nav: solid after the hero, active section ---------- */
 function setupNav() {
   const nav = $('#nav'), hero = $('#top');
@@ -279,44 +272,8 @@ function setupReveal() {
   els.forEach(e => io.observe(e));
 }
 
-/* ---------- Loader + 3D desk ---------- */
-async function setupDesk() {
-  const loader = $('#loader'), pct = $('#loaderPct'), bar = $('#loaderBar'), tip = $('#tip');
-  let shown = 0, target = 8, done = false;
-  const anim = setInterval(() => {
-    shown += Math.max(1, Math.round((target - shown) * .2));
-    if (shown > target) shown = target;
-    pct.textContent = shown; bar.style.width = shown + '%';
-    if (shown >= 100) { clearInterval(anim); setTimeout(hide, 250); }
-  }, 40);
-  const hide = () => { if (done) return; done = true; loader.classList.add('is-done'); setTimeout(() => loader.remove(), 700); };
-  const progress = (p) => { target = Math.max(target, Math.min(100, p)); };
-  setTimeout(() => progress(100), 7000); // never block the page
-
-  let desk = null;
-  try {
-    const { initDesk } = await import('./scene.js');
-    desk = initDesk({
-      canvas: $('#deskCanvas'),
-      onProgress: (p) => progress(10 + p * .9),
-      onReady: () => progress(100),
-      onPick: (where) => { if (where === 'photo') { Modal.open($('#photoModal')); return; } const el = $('#' + where); if (el) el.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth' }); },
-      onHover: (label, e) => {
-        if (!label) { tip.hidden = true; return; }
-        tip.hidden = false; tip.textContent = label;
-        tip.style.transform = `translate(${e.clientX + 14}px, ${e.clientY + 14}px)`;
-      }
-    });
-  } catch (e) { desk = null; }
-  if (!desk) { document.documentElement.classList.add('no-webgl'); progress(100); return; }
-
-  // pause rendering while the hero is off screen
-  new IntersectionObserver(([e]) => { e.isIntersecting ? desk.resume() : desk.pause(); }).observe($('#top'));
-}
 
 document.addEventListener('DOMContentLoaded', () => {
-  setupDesk();
-  setupHud();
   setupNav();
   setupReveal();
   setupProjects();
@@ -325,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupResume();
   setupMiniSheet();
   setupContact();
-  $('#openPhoto').addEventListener('click', () => Modal.open($('#photoModal')));
+  ['#openPhoto', '#heroPhoto'].forEach(s => $(s).addEventListener('click', () => Modal.open($('#photoModal'))));
   $('#year').textContent = new Date().getFullYear();
   openFromHash();
   window.addEventListener('hashchange', openFromHash);
