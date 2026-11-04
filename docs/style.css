@@ -1394,3 +1394,53 @@ body {
   .cert-modal__img img { max-height: 58vh; }
 }
 @media print { .cert-modal { display: none !important; } }
+
+/* ==========================================================
+   More systems: SALRC and Academic Helpdesk
+   ========================================================== */
+.more { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 3rem; }
+.more__card {
+  display: flex; flex-direction: column;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 22px; overflow: hidden;
+  transition: border-color .3s, box-shadow .3s, transform .3s cubic-bezier(.2,.8,.2,1);
+}
+.more__card:hover { border-color: var(--violet); box-shadow: 0 0 0 1px var(--violet), 0 20px 50px -24px rgba(165,139,245,.45); transform: translateY(-4px); }
+.more__visual { position: relative; display: flex; flex-direction: column; aspect-ratio: 16 / 9; text-decoration: none; overflow: hidden; }
+.more__visual--salrc { background: radial-gradient(70% 90% at 80% 10%, rgba(255, 201, 74, .25), transparent 60%), #1c2a3f; }
+.more__visual--help  { background: radial-gradient(70% 90% at 20% 10%, rgba(61, 220, 151, .22), transparent 60%), #1a1630; }
+.more__bar { display: flex; align-items: center; gap: 6px; padding: .55rem .8rem; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.08); }
+.more__bar i { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.25); }
+.more__bar b { margin-left: .5rem; font-family: var(--mono); font-weight: 400; font-size: .7rem; color: rgba(255,255,255,.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.more__art { flex: 1; display: flex; align-items: flex-end; justify-content: center; gap: 8px; padding: 1.2rem 1.5rem 0; }
+
+/* library shelf */
+.book { display: block; width: 13%; border-radius: 4px 4px 0 0; box-shadow: inset -4px 0 0 rgba(0,0,0,.18); transition: transform .4s cubic-bezier(.2,.8,.2,1); }
+.book::after { content: ""; display: block; margin: 18% 18% 0; height: 4px; border-radius: 2px; background: rgba(255,255,255,.5); }
+.b1 { height: 62%; background: #a58bf5; } .b2 { height: 80%; background: #ffc94a; } .b3 { height: 70%; background: #3ddc97; }
+.b4 { height: 88%; background: #5fa8ff; } .b5 { height: 66%; background: #ff8a8a; }
+.more__visual--salrc .more__art { border-bottom: 10px solid #8a6a3c; margin: 0 8%; }
+.more__visual:hover .b2 { transform: translateY(-14px); }
+.more__visual:hover .b4 { transform: translateY(-8px); }
+
+/* ticket list */
+.more__visual--help .more__art { flex-direction: column; align-items: stretch; justify-content: center; gap: 8px; padding: 1rem 12% 1.2rem; }
+.tk { display: grid; grid-template-columns: auto 1fr auto; grid-template-rows: auto auto; column-gap: .8rem; row-gap: 5px; align-items: center;
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; padding: .55rem .75rem; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+.tk em { grid-row: 1 / span 2; font-style: normal; font-family: var(--mono); font-size: .72rem; color: rgba(255,255,255,.7); }
+.tk__line { height: 6px; border-radius: 3px; background: rgba(255,255,255,.35); width: 85%; }
+.tk__line.s { width: 55%; background: rgba(255,255,255,.18); grid-column: 2; }
+.tk__pill { grid-row: 1 / span 2; grid-column: 3; font-family: var(--mono); font-size: .62rem; font-weight: 600; padding: .2rem .55rem; border-radius: 999px; }
+.tk__pill.open { background: rgba(255, 201, 74, .2); color: #ffc94a; }
+.tk__pill.prog { background: rgba(165, 139, 245, .22); color: #c4b2ff; }
+.tk__pill.done { background: rgba(61, 220, 151, .2); color: #3ddc97; }
+.more__visual:hover .tk:nth-child(1) { transform: translateX(6px); }
+.more__visual:hover .tk:nth-child(2) { transform: translateX(12px); }
+.more__visual:hover .tk:nth-child(3) { transform: translateX(6px); }
+
+.more__body { display: flex; flex-direction: column; align-items: flex-start; gap: .6rem; padding: 1.3rem 1.4rem 1.5rem; flex: 1; }
+.more__body h3 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+.more__body > p:not(.work__kind) { color: var(--muted); flex: 1; }
+.more__body .work__kind { margin-bottom: 0; }
+
+@media (max-width: 760px) { .more { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .book, .tk, .more__card { transition: none; } }

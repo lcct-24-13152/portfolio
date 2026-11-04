@@ -491,7 +491,7 @@ function setupTerminal() {
     ['cmd', 'skills --list'],
     ['out', 'HTML  CSS  JavaScript  PHP  MySQL  UI/UX  Database management'],
     ['cmd', 'ls projects/'],
-    ['out', 'intel-sportzle/  cml-laundry-system/  portfolio/'],
+    ['out', 'intel-sportzle/  cml-laundry-system/  salrc/  academic-helpdesk/  portfolio/'],
     ['cmd', 'cat status.txt'],
     ['ok',  'Open to OJT and internships. Let\'s talk!']
   ];
