@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-labelledby="t">
+  <title id="t">SALRC logo</title>
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe08a"/><stop offset=".5" stop-color="#f5b83d"/><stop offset="1" stop-color="#c98a1c"/>
+    </linearGradient>
+    <linearGradient id="navy" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2b4a7d"/><stop offset="1" stop-color="#14264a"/>
+    </linearGradient>
+  </defs>
+  <circle cx="200" cy="200" r="190" fill="url(#gold)"/>
+  <circle cx="200" cy="200" r="174" fill="url(#navy)"/>
+  <circle cx="200" cy="200" r="160" fill="none" stroke="url(#gold)" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>
+  <!-- open book -->
+  <g transform="translate(200 162)">
+    <path d="M-96 -38 Q-48 -58 0 -34 L0 52 Q-48 30 -96 48 Z" fill="#fff"/>
+    <path d="M96 -38 Q48 -58 0 -34 L0 52 Q48 30 96 48 Z" fill="#eef2fb"/>
+    <path d="M0 -34 L0 52" stroke="#c98a1c" stroke-width="4"/>
+    <g fill="none" stroke="#9fb2d6" stroke-width="5" stroke-linecap="round">
+      <path d="M-78 -18 Q-46 -30 -16 -16"/><path d="M-78 2 Q-46 -10 -16 4"/><path d="M-78 22 Q-46 10 -16 24"/>
+      <path d="M16 -16 Q46 -30 78 -18"/><path d="M16 4 Q46 -10 78 2"/><path d="M16 24 Q46 10 78 22"/>
+    </g>
+    <path d="M-104 50 Q-50 30 0 60 Q50 30 104 50" fill="none" stroke="url(#gold)" stroke-width="7" stroke-linecap="round"/>
+    <!-- spark of knowledge -->
+    <path d="M0 -96 L7 -74 L29 -67 L7 -60 L0 -38 L-7 -60 L-29 -67 L-7 -74 Z" fill="url(#gold)"/>
+  </g>
+  <text x="200" y="282" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="58" letter-spacing="3" fill="url(#gold)">SALRC</text>
+  <text x="200" y="314" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="12.5" letter-spacing="1.6" fill="#dfe7f7">LEARNING RESOURCE CENTER</text>
+</svg>

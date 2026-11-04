@@ -1444,3 +1444,26 @@ body {
 
 @media (max-width: 760px) { .more { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .book, .tk, .more__card { transition: none; } }
+
+/* SALRC and Helpdesk use the Sportzle layout */
+.work--help .work__visual { order: 2; }
+.work--salrc .work__visual,
+.work--help .work__visual { align-content: center; gap: 1.1rem; }
+.work--salrc .work__visual {
+  background:
+    radial-gradient(60% 55% at 82% 14%, rgba(245, 184, 61, .3), transparent 70%),
+    radial-gradient(55% 50% at 10% 90%, rgba(70, 120, 210, .35), transparent 70%),
+    #0f1a30;
+}
+.work--help .work__visual {
+  background:
+    radial-gradient(60% 55% at 18% 14%, rgba(61, 220, 151, .25), transparent 70%),
+    radial-gradient(55% 50% at 90% 88%, rgba(123, 92, 214, .45), transparent 70%),
+    #161028;
+}
+.work--salrc .s2 { background: #ffd35f; }
+.work--help .s1, .work--help .s3 { background: #6ff0b8; }
+.work--help .s2 { background: #c4b2ff; }
+.work--salrc .work__logo, .work--help .work__logo { width: 50%; }
+.work--help .work__logo { animation-delay: -2.5s; }
+@media (max-width: 760px) { .work--help .work__visual { order: 0; } }
