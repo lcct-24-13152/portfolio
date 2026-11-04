@@ -434,3 +434,4 @@ main { background-image: linear-gradient(rgba(165,139,245,.045) 1px, transparent
   .hero__photo { order: -1; justify-self: start; width: min(260px, 70%); border-radius: 22px; }
 }
 .btn--line { background: transparent; color: var(--ink); }
+.hero__copy { pointer-events: auto; }
