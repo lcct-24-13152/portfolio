@@ -477,6 +477,31 @@
     </div>
   </div>
 
+  <!-- ========== CERTIFICATE MODAL ========== -->
+  <div class="cert-modal" id="certModal" role="dialog" aria-modal="true" aria-labelledby="certModalTitle" hidden>
+    <div class="cert-modal__card">
+      <header class="cert-modal__head">
+        <div>
+          <p class="cert-modal__cmd"><span>$</span> open certificate</p>
+          <h3 id="certModalTitle"></h3>
+          <p class="cert-modal__meta" id="certModalMeta"></p>
+        </div>
+        <button type="button" class="cert-modal__close" id="certModalClose" aria-label="Close certificate">×</button>
+      </header>
+      <div class="cert-modal__img">
+        <img id="certModalImg" alt="">
+      </div>
+      <footer class="cert-modal__foot">
+        <button type="button" class="btn btn--line cert-modal__nav" id="certModalPrev" aria-label="Previous certificate">← Prev</button>
+        <span class="cert-modal__count" id="certModalCount"></span>
+        <div class="cert-modal__right">
+          <a class="cert-modal__open" id="certModalOpen" href="#" target="_blank" rel="noopener">Open full size</a>
+          <button type="button" class="btn btn--solid cert-modal__nav" id="certModalNext" aria-label="Next certificate">Next →</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
   <div class="lightbox" id="lightbox" hidden>
     <button class="lightbox__close" id="lightboxClose" aria-label="Close">×</button>
     <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="Previous screenshot">‹</button>

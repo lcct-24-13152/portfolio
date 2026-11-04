@@ -34,7 +34,7 @@ const LAUNDRY_SHOTS = [
 const CERT_PATH = 'assets/certificates/';
 
 const certificates = [
-  { group: 'Cisco Networking Academy', title: 'HTML Essentials', issuer: 'DICT-ITU DTC Initiative through Cisco Networking Academy', date: 'Aug 11, 2026', file: 'html-essentials-certificate.pdf', thumb: 'html-essentials-certificate-thumb.jpg' },
+  { group: 'Cisco Networking Academy', title: 'HTML Essentials', issuer: 'DICT-ITU DTC Initiative through Cisco Networking Academy', date: 'Aug 11, 2026', image: 'html-essentials-certificate.jpg', thumb: 'html-essentials-certificate-thumb.jpg' },
   { group: 'Cisco Networking Academy', title: 'HTML Essentials, Statement of Achievement', issuer: 'Cisco Networking Academy and JS Institute', date: 'Aug 11, 2026', image: 'html-essentials-statement-of-achievement.jpg', thumb: 'html-essentials-statement-of-achievement-thumb.jpg' },
   { group: 'Cisco Networking Academy', title: 'Network Technician Career Path', issuer: 'Cisco Networking Academy', date: 'Apr 22, 2026', image: 'network-technician-career-path.jpg', thumb: 'network-technician-career-path-thumb.jpg' },
   { group: 'Cisco Networking Academy', title: 'Network Support and Security', issuer: 'Cisco Networking Academy', date: 'Apr 14, 2026', image: 'network-support-security.jpg', thumb: 'network-support-security-thumb.jpg' },
@@ -401,18 +401,68 @@ function setupResume() {
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitThumb);
 }
 
-/* ---------- Certificates open in the lightbox ---------- */
+/* ---------- Certificate modal ---------- */
 function setupCertViewer() {
   const list = document.getElementById('certList');
+  const modal = document.getElementById('certModal');
+  const img = document.getElementById('certModalImg');
+  const title = document.getElementById('certModalTitle');
+  const meta = document.getElementById('certModalMeta');
+  const count = document.getElementById('certModalCount');
+  const openLink = document.getElementById('certModalOpen');
+  let items = [], current = 0, lastFocus = null;
+
+  const show = (i) => {
+    current = (i + items.length) % items.length;
+    const c = items[current];
+    img.classList.remove('is-ready');
+    img.onload = () => img.classList.add('is-ready');
+    img.src = CERT_PATH + c.image;
+    img.alt = c.title + ' certificate';
+    title.textContent = c.title;
+    meta.textContent = c.issuer + (c.date ? '  |  ' + c.date : '');
+    count.textContent = `${current + 1} / ${items.length}`;
+    openLink.href = CERT_PATH + c.image;
+  };
+  const open = (i) => {
+    lastFocus = document.activeElement;
+    show(i);
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => modal.classList.add('is-open'));
+    document.getElementById('certModalClose').focus();
+  };
+  const close = () => {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    setTimeout(() => { modal.hidden = true; }, 250);
+    if (lastFocus) lastFocus.focus();
+  };
+
   list.addEventListener('click', (e) => {
-    const row = e.target.closest('button.cert-card');
-    if (!row) return;
+    const card = e.target.closest('button.cert-card');
+    if (!card) return;
+    // only the certificates in the active filter tab, in on-screen order
     const visible = [...list.querySelectorAll('.cert-group:not(.is-hidden) button.cert-card')];
-    const slides = visible.map(r => {
-      const c = certificates[+r.dataset.cert];
-      return { file: CERT_PATH + c.image, caption: c.title, sub: c.date };
-    });
-    window.openLightbox(visible.indexOf(row), slides);
+    items = visible.map(el => certificates[+el.dataset.cert]);
+    open(visible.indexOf(card));
+  });
+  document.getElementById('certModalClose').addEventListener('click', close);
+  document.getElementById('certModalPrev').addEventListener('click', () => show(current - 1));
+  document.getElementById('certModalNext').addEventListener('click', () => show(current + 1));
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', (e) => {
+    if (modal.hidden) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+  let x0 = null;
+  modal.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  modal.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
   });
 }
 
