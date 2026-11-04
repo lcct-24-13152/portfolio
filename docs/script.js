@@ -250,18 +250,24 @@ function setupMiniSheet() {
   new ResizeObserver(fit).observe(holder); fit();
 }
 
-/* ---------- Nav: solid after the hero, active section ---------- */
+/* ---------- Sidebar nav: highlight the section in view ---------- */
 function setupNav() {
-  const nav = $('#nav'), hero = $('#top');
-  const links = $$('.nav__links a');
+  const links = $$('.profile__nav a');
   const secs = links.map(a => $(a.getAttribute('href')));
   const onScroll = () => {
-    nav.classList.toggle('is-solid', scrollY > hero.offsetHeight - 80);
-    let cur = null;
-    secs.forEach(s => { if (s && scrollY + 140 >= s.offsetTop) cur = s.id; });
+    let cur = secs[0] && secs[0].id;
+    secs.forEach(s => { if (s && scrollY + 160 >= s.offsetTop) cur = s.id; });
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) cur = 'contact';
     links.forEach(a => a.classList.toggle('is-active', a.getAttribute('href') === '#' + cur));
   };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
+}
+
+/* ---------- Skill bars fill when visible ---------- */
+function setupBars() {
+  const box = $('.bars'); if (!box) return;
+  if (!('IntersectionObserver' in window)) { box.classList.add('is-in'); return; }
+  new IntersectionObserver(([e], o) => { if (e.isIntersecting) { box.classList.add('is-in'); o.disconnect(); } }, { threshold: .4 }).observe(box);
 }
 
 /* ---------- Reveal on scroll ---------- */
@@ -275,14 +281,14 @@ function setupReveal() {
 
 document.addEventListener('DOMContentLoaded', () => {
   setupNav();
+  setupBars();
   setupReveal();
   setupProjects();
   Lightbox.init();
   setupCertificates();
   setupResume();
-  setupMiniSheet();
   setupContact();
-  ['#openPhoto', '#heroPhoto'].forEach(s => $(s).addEventListener('click', () => Modal.open($('#photoModal'))));
+  $('#heroPhoto').addEventListener('click', () => Modal.open($('#photoModal')));
   $('#year').textContent = new Date().getFullYear();
   openFromHash();
   window.addEventListener('hashchange', openFromHash);

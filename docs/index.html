@@ -4,198 +4,227 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cher Micole P. Lirio</title>
-  <meta name="description" content="The portfolio of Cher Micole P. Lirio, BS Information Technology student at La Consolacion College Tanauan. Web systems, certificates and a printable resume.">
-  <meta name="theme-color" content="#0f1220">
+  <meta name="description" content="Portfolio of Cher Micole P. Lirio, BS Information Technology student at La Consolacion College Tanauan. Web systems, certificates and a printable resume.">
+  <meta name="theme-color" content="#f6f5fb">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
+<div class="layout">
 
-  <!-- ========== NAV ========== -->
-  <header class="nav" id="nav">
-    <a href="#top" class="nav__brand"><img src="favicon.svg" alt="" width="28" height="28"><span>Cher Micole P. Lirio</span></a>
-    <nav class="nav__links" aria-label="Main">
-      <a href="#projects"><i>01</i>Projects</a>
-      <a href="#certificates"><i>02</i>Certificates</a>
-      <a href="#about"><i>03</i>About</a>
-      <a href="#resume"><i>04</i>Resume</a>
-      <a href="#contact"><i>05</i>Contact</a>
+  <!-- ========== PROFILE (sticky) ========== -->
+  <aside class="profile">
+    <button type="button" class="profile__photo" id="heroPhoto" aria-label="View my photo larger">
+      <img src="profile-photo.jpg" alt="Cher Micole P. Lirio" width="292" height="277">
+      <span class="profile__zoom" aria-hidden="true">View</span>
+    </button>
+    <h1 class="profile__name">Cher Micole<br>Plete Lirio</h1>
+    <p class="profile__handle">@micole · BSIT Student</p>
+    <p class="profile__status"><i></i>Open to OJT and internships</p>
+    <p class="profile__bio">I build web systems with PHP, MySQL and JavaScript, from the database up to the screen people use.</p>
+
+    <ul class="profile__meta">
+      <li><svg viewBox="0 0 24 24"><path d="M3 9.5 12 4l9 5.5-9 5.5z"/><path d="M7 12v4.5c3 2 7 2 10 0V12"/></svg>La Consolacion College Tanauan</li>
+      <li><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Tanauan City, Batangas</li>
+      <li><svg viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m3.5 7.5 8.5 6 8.5-6"/></svg><a href="mailto:liriocher25@gmail.com">liriocher25@gmail.com</a></li>
+      <li><svg viewBox="0 0 24 24"><path d="M9 19c-4 1.3-4-2-6-2.5M15 21v-3.5a3 3 0 0 0-.8-2.3c2.8-.3 5.8-1.4 5.8-6.2a4.8 4.8 0 0 0-1.3-3.3 4.5 4.5 0 0 0-.1-3.3s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6.2 0C6.6 2.1 5.6 2.4 5.6 2.4a4.5 4.5 0 0 0-.1 3.3A4.8 4.8 0 0 0 4.2 9c0 4.8 3 5.9 5.8 6.2a3 3 0 0 0-.8 2.3V21"/></svg><a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">lcct-24-13152</a></li>
+    </ul>
+
+    <button type="button" class="btn btn--solid btn--block" data-open-resume>View resume</button>
+
+    <nav class="profile__nav" aria-label="Sections">
+      <a href="#readme"><span>README.md</span></a>
+      <a href="#projects"><span>projects</span><b>4</b></a>
+      <a href="#skills"><span>package.json</span></a>
+      <a href="#certificates"><span>certificates</span><b>10</b></a>
+      <a href="#about"><span>about</span></a>
+      <a href="#contact"><span>contact</span></a>
     </nav>
-  </header>
+  </aside>
 
-  <!-- ========== HERO ========== -->
-  <section class="hero" id="top">
-    <div class="wrap hero__inner">
-      <div class="hero__copy">
-        <p class="hero__cmd"><span>$</span> whoami</p>
-        <h1><span class="h1-light">Cher Micole</span><span class="h1-bold">Plete Lirio</span></h1>
-        <p class="hero__tag">I build web systems that work.</p>
-        <p class="hero__sub">BS Information Technology Student at La Consolacion College Tanauan</p>
-        <div class="hero__actions">
-          <a href="#projects" class="btn btn--solid">View projects</a>
-          <button type="button" class="btn btn--line" data-open-resume>Resume</button>
-        </div>
-        <ul class="hero__stats">
-          <li><b>4</b><span>systems built</span></li>
-          <li><b>10</b><span>certificates</span></li>
-          <li><b class="ok">Open</b><span>to OJT and internships</span></li>
+  <!-- ========== CONTENT ========== -->
+  <main class="content">
+
+    <!-- README -->
+    <section class="file" id="readme">
+      <header class="file__bar"><span class="file__icon">📄</span>README.md</header>
+      <div class="file__body readme">
+        <p class="md-h"># Hi, I'm Micole <span class="wave" aria-hidden="true">👋</span></p>
+        <p class="readme__lead">An IT student who turns everyday tasks, like running a laundry shop or tracking a student's concern, into <mark>web systems that just work</mark>.</p>
+        <p class="md-h2">## Right now</p>
+        <ul class="md-list">
+          <li>Studying <b>BS Information Technology</b> at La Consolacion College Tanauan</li>
+          <li>Building systems with <code>PHP</code>, <code>MySQL</code> and <code>JavaScript</code></li>
+          <li>Looking for an <b>OJT or internship</b> where I can learn and contribute</li>
         </ul>
+        <div class="readme__stats">
+          <div><b>4</b><span>systems shipped</span></div>
+          <div><b>10</b><span>certificates</span></div>
+          <div><b>7</b><span>Cisco courses</span></div>
+        </div>
       </div>
-      <button type="button" class="hero__photo" id="heroPhoto" aria-label="View my photo larger">
-        <img src="profile-photo.jpg" alt="Cher Micole P. Lirio" width="292" height="277">
-        <span class="hero__badge"><i></i>Tanauan City, Batangas</span>
-      </button>
-    </div>
-    <a href="#projects" class="hero__scroll" aria-label="Scroll to projects"><span></span></a>
-  </section>
+    </section>
 
-  <main>
-    <!-- ========== 01 PROJECTS ========== -->
+    <!-- PROJECTS as git log -->
     <section class="sec" id="projects">
-      <div class="wrap">
-        <header class="sec__head" data-cmd="cd ~/projects && ls"><span class="sec__num">01</span><h2>Projects</h2><p>Web systems I built for school, games and real-world use.</p></header>
-
-        <article class="prow rv" data-project="sportzle">
-          <span class="prow__idx">/01</span>
-          <div class="prow__text">
-            <p class="prow__kind">Educational game system</p>
-            <h3>Intel Sportzle</h3>
-            <p>A sports-themed word game you can play solo or against friends, with scoring, difficulty levels and leaderboards.</p>
-            <ul class="tags"><li>PHP</li><li>MySQL</li><li>JavaScript</li></ul>
-            <div class="prow__actions"><button type="button" class="btn btn--solid" data-project-open="sportzle">View details</button><a class="btn btn--line" href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener">Play the game</a></div>
+      <header class="sec__head"><p class="cmd">$ git log --oneline --graph</p><h2>Projects</h2></header>
+      <ol class="gitlog">
+        <li class="commit rv">
+          <span class="commit__node" aria-hidden="true"></span>
+          <div class="commit__card">
+            <div class="commit__meta"><code class="hash">a3f9c21</code><span class="branch">HEAD -> main</span><span class="kind">Educational game</span></div>
+            <div class="commit__main">
+              <div>
+                <h3>Intel Sportzle</h3>
+                <p>A sports-themed word game you can play solo or against friends, with scoring, difficulty levels and leaderboards.</p>
+                <ul class="tags"><li>PHP</li><li>MySQL</li><li>JavaScript</li></ul>
+                <div class="commit__actions"><button type="button" class="btn btn--solid btn--sm" data-project-open="sportzle">View details</button><a class="btn btn--ghost btn--sm" href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener">Play the game</a></div>
+              </div>
+              <button type="button" class="commit__thumb th--sportzle" data-project-open="sportzle" aria-label="View Intel Sportzle details"><img src="assets/sportzle-logo.png" alt="" width="140" height="140"></button>
+            </div>
           </div>
-          <button type="button" class="prow__vis pv--sportzle" data-project-open="sportzle" aria-label="View Intel Sportzle details"><img src="assets/sportzle-logo.png" alt="" width="200" height="200"></button>
-        </article>
-
-        <article class="prow rv" data-project="laundry">
-          <span class="prow__idx">/02</span>
-          <div class="prow__text">
-            <p class="prow__kind">Management system</p>
-            <h3>CML Laundry Management System</h3>
-            <p>Runs a laundry shop from drop-off to payment: transactions, inventory, GCash or cash, and QR tracking for customers.</p>
-            <ul class="tags"><li>PHP</li><li>MySQL</li><li>PHPMailer</li><li>Dompdf</li></ul>
-            <div class="prow__actions"><button type="button" class="btn btn--solid" data-project-open="laundry">View details</button><a class="btn btn--line" href="https://github.com/lcct-24-13152/laundry-system" target="_blank" rel="noopener">View code</a></div>
+        </li>
+        <li class="commit rv">
+          <span class="commit__node" aria-hidden="true"></span>
+          <div class="commit__card">
+            <div class="commit__meta"><code class="hash">7c1e0b4</code><span class="branch b2">feature/laundry</span><span class="kind">Management system</span></div>
+            <div class="commit__main">
+              <div>
+                <h3>CML Laundry Management System</h3>
+                <p>Runs a laundry shop from drop-off to payment: transactions, inventory, GCash or cash, and a QR code on each receipt for tracking.</p>
+                <ul class="tags"><li>PHP</li><li>MySQL</li><li>PHPMailer</li><li>Dompdf</li></ul>
+                <div class="commit__actions"><button type="button" class="btn btn--solid btn--sm" data-project-open="laundry">View details</button><a class="btn btn--ghost btn--sm" href="https://github.com/lcct-24-13152/laundry-system" target="_blank" rel="noopener">View code</a></div>
+              </div>
+              <button type="button" class="commit__thumb th--laundry" data-project-open="laundry" aria-label="View CML Laundry details"><img class="th__shot" src="assets/laundry/dashboard-thumb.jpg" alt=""></button>
+            </div>
           </div>
-          <button type="button" class="prow__vis pv--laundry" data-project-open="laundry" aria-label="View CML Laundry details"><img class="pv__shot" src="assets/laundry/dashboard.jpg" alt="" loading="lazy"></button>
-        </article>
-
-        <article class="prow rv" data-project="salrc">
-          <span class="prow__idx">/03</span>
-          <div class="prow__text">
-            <p class="prow__kind">Library resource system</p>
-            <h3>SALRC</h3>
-            <p>The St. Augustine Learning Resource Center online, where students and staff find the library's books, files and materials in one place.</p>
-            <ul class="tags"><li>PHP</li><li>MySQL</li><li>JavaScript</li></ul>
-            <div class="prow__actions"><button type="button" class="btn btn--solid" data-project-open="salrc">View details</button><a class="btn btn--line" href="https://salrc-lcctanauan.infinityfree.io/" target="_blank" rel="noopener">Open SALRC</a></div>
+        </li>
+        <li class="commit rv">
+          <span class="commit__node" aria-hidden="true"></span>
+          <div class="commit__card">
+            <div class="commit__meta"><code class="hash">e58d9a2</code><span class="branch b3">feature/salrc</span><span class="kind">Library system</span></div>
+            <div class="commit__main">
+              <div>
+                <h3>SALRC</h3>
+                <p>The St. Augustine Learning Resource Center online, where students and staff find the library's books, files and materials in one place.</p>
+                <ul class="tags"><li>PHP</li><li>MySQL</li><li>JavaScript</li></ul>
+                <div class="commit__actions"><button type="button" class="btn btn--solid btn--sm" data-project-open="salrc">View details</button><a class="btn btn--ghost btn--sm" href="https://salrc-lcctanauan.infinityfree.io/" target="_blank" rel="noopener">Open SALRC</a></div>
+              </div>
+              <button type="button" class="commit__thumb th--salrc" data-project-open="salrc" aria-label="View SALRC details"><img src="assets/salrc-logo.svg" alt="" width="120" height="120"></button>
+            </div>
           </div>
-          <button type="button" class="prow__vis pv--salrc" data-project-open="salrc" aria-label="View SALRC details"><img src="assets/salrc-logo.svg" alt="" width="180" height="180"></button>
-        </article>
-
-        <article class="prow rv" data-project="helpdesk">
-          <span class="prow__idx">/04</span>
-          <div class="prow__text">
-            <p class="prow__kind">Ticketing system</p>
-            <h3>LCCT Academic Helpdesk</h3>
-            <p>Students send academic concerns as tickets, and the school tracks and answers each one until it is resolved.</p>
-            <ul class="tags"><li>PHP</li><li>MySQL</li><li>JavaScript</li></ul>
-            <div class="prow__actions"><button type="button" class="btn btn--solid" data-project-open="helpdesk">View details</button><a class="btn btn--line" href="https://lcct-academic-helpdesk.infinityfree.io/?i=1" target="_blank" rel="noopener">Open Helpdesk</a></div>
+        </li>
+        <li class="commit rv">
+          <span class="commit__node" aria-hidden="true"></span>
+          <div class="commit__card">
+            <div class="commit__meta"><code class="hash">1b4f6e8</code><span class="branch b4">feature/helpdesk</span><span class="kind">Ticketing system</span></div>
+            <div class="commit__main">
+              <div>
+                <h3>LCCT Academic Helpdesk</h3>
+                <p>Students send academic concerns as tickets, and the school tracks and answers each one until it is resolved.</p>
+                <ul class="tags"><li>PHP</li><li>MySQL</li><li>JavaScript</li></ul>
+                <div class="commit__actions"><button type="button" class="btn btn--solid btn--sm" data-project-open="helpdesk">View details</button><a class="btn btn--ghost btn--sm" href="https://lcct-academic-helpdesk.infinityfree.io/?i=1" target="_blank" rel="noopener">Open Helpdesk</a></div>
+              </div>
+              <button type="button" class="commit__thumb th--helpdesk" data-project-open="helpdesk" aria-label="View Academic Helpdesk details"><img src="assets/helpdesk-logo.svg" alt="" width="120" height="120"></button>
+            </div>
           </div>
-          <button type="button" class="prow__vis pv--helpdesk" data-project-open="helpdesk" aria-label="View Academic Helpdesk details"><img src="assets/helpdesk-logo.svg" alt="" width="180" height="180"></button>
-        </article>
+        </li>
+        <li class="commit commit--init rv">
+          <span class="commit__node" aria-hidden="true"></span>
+          <p class="commit__init"><code class="hash">0000001</code> Initial commit: started BS Information Technology at LCCT</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- SKILLS as package.json -->
+    <section class="sec" id="skills">
+      <header class="sec__head"><p class="cmd">$ cat package.json</p><h2>Skills</h2></header>
+      <div class="skills rv">
+        <div class="file file--code">
+          <header class="file__bar"><span class="file__icon">{ }</span>package.json</header>
+<pre class="code"><code><span class="p">{</span>
+  <span class="k">"name"</span>: <span class="s">"cher-micole-lirio"</span>,
+  <span class="k">"role"</span>: <span class="s">"BS Information Technology student"</span>,
+  <span class="k">"languages"</span>: <span class="p">{</span>
+    <span class="k">"html"</span>: <span class="s">"^5"</span>, <span class="k">"css"</span>: <span class="s">"^3"</span>, <span class="k">"javascript"</span>: <span class="s">"es2022"</span>,
+    <span class="k">"php"</span>: <span class="s">"^8"</span>, <span class="k">"mysql"</span>: <span class="s">"^8"</span>
+  <span class="p">}</span>,
+  <span class="k">"skills"</span>: [<span class="s">"web development"</span>, <span class="s">"database management"</span>,
+             <span class="s">"system development and testing"</span>, <span class="s">"UI/UX design"</span>],
+  <span class="k">"tools"</span>: [<span class="s">"VS Code"</span>, <span class="s">"Laragon"</span>, <span class="s">"phpMyAdmin"</span>,
+            <span class="s">"Git"</span>, <span class="s">"GitHub"</span>, <span class="s">"Figma"</span>, <span class="s">"Canva"</span>],
+  <span class="k">"softSkills"</span>: [<span class="s">"communication"</span>, <span class="s">"problem-solving"</span>, <span class="s">"teamwork"</span>,
+                 <span class="s">"time management"</span>, <span class="s">"adaptability"</span>],
+  <span class="k">"openToWork"</span>: <span class="b">true</span>
+<span class="p">}</span></code></pre>
+        </div>
+        <div class="bars">
+          <p class="bars__title">Most used</p>
+          <div class="bar"><span>PHP</span><i style="--w:90%"></i></div>
+          <div class="bar"><span>MySQL</span><i style="--w:85%"></i></div>
+          <div class="bar"><span>HTML and CSS</span><i style="--w:92%"></i></div>
+          <div class="bar"><span>JavaScript</span><i style="--w:75%"></i></div>
+          <p class="bars__note">Based on the systems I've built so far.</p>
+        </div>
       </div>
     </section>
 
-    <!-- ========== 02 CERTIFICATES ========== -->
+    <!-- CERTIFICATES -->
     <section class="sec" id="certificates">
-      <div class="wrap">
-        <header class="sec__head" data-cmd="ls ~/certificates"><span class="sec__num">02</span><h2>Certificates</h2><p><b id="certTotal">10</b> from Cisco Networking Academy, IT Week seminars and school activities.</p></header>
-        <div class="tabs rv" role="tablist" aria-label="Filter certificates">
-          <button class="tab is-active" role="tab" aria-selected="true" data-filter="all">All</button>
-          <button class="tab" role="tab" aria-selected="false" data-filter="Cisco Networking Academy">Cisco</button>
-          <button class="tab" role="tab" aria-selected="false" data-filter="School and events">School and events</button>
-        </div>
-        <div class="cgrid" id="certStrip"></div>
+      <header class="sec__head"><p class="cmd">$ ls ~/certificates</p><h2>Certificates</h2></header>
+      <div class="tabs" role="tablist" aria-label="Filter certificates">
+        <button class="tab is-active" role="tab" aria-selected="true" data-filter="all">All <b id="certTotal">10</b></button>
+        <button class="tab" role="tab" aria-selected="false" data-filter="Cisco Networking Academy">Cisco</button>
+        <button class="tab" role="tab" aria-selected="false" data-filter="School and events">School and events</button>
       </div>
+      <div class="cgrid" id="certStrip"></div>
     </section>
 
-    <!-- ========== 03 ABOUT ========== -->
+    <!-- ABOUT -->
     <section class="sec" id="about">
-      <div class="wrap">
-        <header class="sec__head" data-cmd="cat about-me.md"><span class="sec__num">03</span><h2>About</h2><p>The person behind the desk.</p></header>
-        <div class="about rv">
-          <button type="button" class="portrait" id="openPhoto" aria-label="View my photo larger">
-            <img src="profile-photo.jpg" alt="Cher Micole P. Lirio" width="292" height="277">
-            <span class="portrait__tag"><b>Cher Micole P. Lirio</b><span>BSIT, La Consolacion College Tanauan</span></span>
-            <span class="portrait__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5M11 8v6M8 11h6"/></svg>Click to enlarge</span>
-          </button>
-          <div class="about__main">
-            <p class="about__lead">I'm a motivated and responsible Information Technology student with knowledge in web development, databases and system development.</p>
-            <p class="muted">I communicate well, keep my tasks organized and enjoy solving technical problems. I work well on my own or with a team, and I'm always willing to learn new skills. I'm looking for a chance to gain experience, improve my technical abilities and contribute to an organization.</p>
-            <dl class="facts">
-              <div><dt>Course</dt><dd>BS Information Technology</dd></div>
-              <div><dt>School</dt><dd>La Consolacion College Tanauan</dd></div>
-              <div><dt>Since</dt><dd>2017 to present</dd></div>
-              <div><dt>Based in</dt><dd>Balele, Tanauan City, Batangas</dd></div>
-            </dl>
+      <header class="sec__head"><p class="cmd">$ whoami --verbose</p><h2>About</h2></header>
+      <div class="about rv">
+        <div class="about__text">
+          <p class="about__lead">I'm a motivated and responsible Information Technology student with knowledge in web development, databases and system development.</p>
+          <p class="muted">I communicate well, keep my tasks organized and enjoy solving technical problems. I work well on my own or with a team, and I'm always willing to learn new skills. I'm looking for a chance to gain experience, improve my technical abilities and contribute to an organization.</p>
+        </div>
+        <div class="about__cards">
+          <div class="mini">
+            <p class="mini__k">Education</p>
+            <p class="mini__v">La Consolacion College Tanauan</p>
+            <p class="muted small">BS Information Technology, 2017 to present</p>
           </div>
-          <div class="about__side">
-            <div class="card">
-              <p class="card__k">Skills</p>
-              <ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>PHP</li><li>MySQL</li><li>Web development</li><li>Database management</li><li>System testing</li><li>UI/UX design</li></ul>
-              <p class="card__k">Tools</p>
-              <ul class="chips"><li>VS Code</li><li>Laragon</li><li>phpMyAdmin</li><li>Git and GitHub</li><li>Figma</li><li>Canva</li></ul>
-              <p class="card__k">How I work</p>
-              <ul class="chips chips--line"><li>Communication</li><li>Problem-solving</li><li>Teamwork</li><li>Time management</li><li>Adaptability</li></ul>
-            </div>
-            <div class="card">
-              <p class="card__k">References</p>
-              <div class="ref"><b>Dr. Salem Laylo</b><span>IT Program Chair, La Consolacion College Tanauan</span><a href="tel:+639178898876">0917 889 8876</a></div>
-              <div class="ref"><b>Ms. Regine Lopez</b><span>SHS Teacher, La Consolacion College Tanauan</span><a href="tel:+639677966337">0967 796 6337</a></div>
-            </div>
+          <div class="mini">
+            <p class="mini__k">References</p>
+            <div class="ref"><b>Dr. Salem Laylo</b><span>IT Program Chair, LCCT</span><a href="tel:+639178898876">0917 889 8876</a></div>
+            <div class="ref"><b>Ms. Regine Lopez</b><span>SHS Teacher, LCCT</span><a href="tel:+639677966337">0967 796 6337</a></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== 04 RESUME ========== -->
-    <section class="sec" id="resume">
-      <div class="wrap">
-        <header class="sec__head" data-cmd="open resume.pdf"><span class="sec__num">04</span><h2>Resume</h2><p>One A4 page, ready to print or save as PDF.</p></header>
-        <div class="rcard rv">
-          <div>
-            <h3>Everything on one sheet.</h3>
-            <p class="muted">Education, skills, projects, certifications and references for applications and OJT requirements. Printing gives you only the resume, not the website.</p>
-            <div class="prow__actions"><button type="button" class="btn btn--solid" data-open-resume>Preview and print</button></div>
-          </div>
-          <button type="button" class="rcard__paper" data-open-resume aria-label="Open resume preview"><span class="mini-sheet" id="miniSheet"></span></button>
+    <!-- CONTACT -->
+    <section class="sec" id="contact">
+      <div class="contact rv">
+        <p class="cmd cmd--light">$ git commit -m "let's work together"</p>
+        <h2>Have an OJT slot or a project?</h2>
+        <p class="contact__lead">Send me a message and I'll reply as soon as I can.</p>
+        <div class="contact__row">
+          <a class="contact__mail" href="mailto:liriocher25@gmail.com">liriocher25@gmail.com</a>
+          <button type="button" class="btn btn--light" id="copyEmail">Copy email</button>
         </div>
+        <p class="contact__more"><a href="tel:+639764332931">0976 433 2931</a><span>Balele, Tanauan City, Batangas</span></p>
       </div>
-    </section>
-
-    <!-- ========== 05 CONTACT ========== -->
-    <section class="sec sec--contact" id="contact">
-      <div class="wrap">
-        <header class="sec__head" data-cmd="ping liriocher25@gmail.com"><span class="sec__num">05</span><h2>Contact</h2><p>Open to OJT and internships.</p></header>
-        <div class="contact rv">
-          <h3>Let's build something.</h3>
-          <div class="contact__mail"><a href="mailto:liriocher25@gmail.com">liriocher25@gmail.com</a><button type="button" class="btn btn--line" id="copyEmail">Copy email</button></div>
-          <dl class="contact__more">
-            <div><dt>Phone</dt><dd><a href="tel:+639764332931">0976 433 2931</a></dd></div>
-            <div><dt>Address</dt><dd>Balele, Tanauan City, Batangas</dd></div>
-            <div><dt>GitHub</dt><dd><a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">lcct-24-13152</a></dd></div>
-          </dl>
-        </div>
-      </div>
+      <footer class="foot"><p>© <span id="year"></span> Cher Micole P. Lirio</p><p class="mono">Built with HTML, CSS and JavaScript</p></footer>
     </section>
   </main>
-
-  <footer class="foot wrap"><p>© <span id="year"></span> Cher Micole P. Lirio</p><p class="foot__built">Built with HTML, CSS and JavaScript. Hosted on GitHub Pages.</p><a href="#top">Back to top</a></footer>
+</div>
 
   <!-- ========== PROJECT DETAILS (shown in the modal) ========== -->
   <template id="tpl-sportzle">
@@ -410,6 +439,6 @@
 
   <div id="printArea" aria-hidden="true"></div>
 
-  <script type="module" src="main.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
