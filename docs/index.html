@@ -160,8 +160,9 @@
         <article class="rv work work--sportzle">
           <a class="work__visual" href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener" aria-label="Play Intel Sportzle">
             <span class="spark s1" aria-hidden="true"></span><span class="spark s2" aria-hidden="true"></span><span class="spark s3" aria-hidden="true"></span>
+            <span class="orbit" aria-hidden="true"><i class="ball ball--b"></i><i class="ball ball--s"></i><i class="ball ball--v"></i></span>
             <img class="work__logo" src="assets/sportzle-logo.png" alt="Intel Sportzle logo" width="360" height="360">
-            <span class="work__caption">Sports Word Challenge</span>
+            <span class="tiles" aria-hidden="true"><b style="--i:0;--c:#3ddc97">S</b><b style="--i:1;--c:#f5b83d">P</b><b style="--i:2;--c:#3ddc97">O</b><b style="--i:3;--c:#5b5470">R</b><b style="--i:4;--c:#3ddc97">T</b><b style="--i:5;--c:#f5b83d">Z</b><b style="--i:6;--c:#3ddc97">L</b><b style="--i:7;--c:#3ddc97">E</b></span>
           </a>
           <div class="work__body">
             <p class="work__kind">Educational game system</p>
@@ -180,6 +181,7 @@
         <!-- Laundry -->
         <article class="rv work work--laundry">
           <a class="work__visual work__visual--shot" href="#screens" aria-label="See all screenshots of the laundry system">
+            <span class="bubbles" aria-hidden="true"><i style="--x:6%;--s:18px;--d:7s;--delay:0s"></i><i style="--x:18%;--s:10px;--d:6s;--delay:1.5s"></i><i style="--x:30%;--s:26px;--d:9s;--delay:3s"></i><i style="--x:46%;--s:14px;--d:7.5s;--delay:0.6s"></i><i style="--x:62%;--s:22px;--d:8s;--delay:2.2s"></i><i style="--x:74%;--s:12px;--d:6.5s;--delay:4s"></i><i style="--x:86%;--s:20px;--d:9s;--delay:1s"></i><i style="--x:94%;--s:10px;--d:7s;--delay:3.4s"></i></span>
             <div class="browser">
               <div class="browser__bar" aria-hidden="true"><i></i><i></i><i></i><span>CML Laundry Management System</span></div>
               <img src="assets/laundry/dashboard.jpg" alt="CML Laundry dashboard showing sales totals and inventory status" loading="lazy">
@@ -215,37 +217,56 @@
           <div class="shots" id="laundryShots"></div>
         </section>
 
-        <!-- SALRC -->
-        <article class="rv work work--salrc">
-          <a class="work__visual" href="https://salrc-lcctanauan.infinityfree.io/" target="_blank" rel="noopener" aria-label="Open the SALRC system">
-            <span class="spark s1" aria-hidden="true"></span><span class="spark s2" aria-hidden="true"></span><span class="spark s3" aria-hidden="true"></span>
-            <img class="work__logo" src="assets/salrc-logo.svg" alt="SALRC logo" width="360" height="360">
-            <span class="work__caption">St. Augustine Learning Resource Center</span>
+        <!-- SALRC: wide banner layout -->
+        <article class="rv work-wide work--salrc">
+          <a class="wide__banner" href="https://salrc-lcctanauan.infinityfree.io/" target="_blank" rel="noopener" aria-label="Open the SALRC system">
+            <span class="wide__seal"><img src="assets/salrc-logo.svg" alt="SALRC logo" width="220" height="220"></span>
+            <span class="shelf" aria-hidden="true">
+              <span class="bk" style="--i:0;--h:70%;--c:#a58bf5"></span><span class="bk" style="--i:1;--h:88%;--c:#f5b83d"></span><span class="bk" style="--i:2;--h:62%;--c:#3ddc97"></span><span class="bk" style="--i:3;--h:94%;--c:#5fa8ff"></span>
+              <span class="flip"><i class="pg l"></i><i class="pg r"></i><i class="pg turn"></i></span>
+              <span class="bk" style="--i:5;--h:80%;--c:#ff8a8a"></span><span class="bk" style="--i:6;--h:66%;--c:#c4b2ff"></span><span class="bk" style="--i:7;--h:90%;--c:#f5b83d"></span><span class="bk" style="--i:8;--h:72%;--c:#3ddc97"></span>
+            </span>
           </a>
-          <div class="work__body">
-            <p class="work__kind">Library resource system</p>
-            <h3>SALRC</h3>
-            <p class="work__summary">An online home for the St. Augustine Learning Resource Center, where students and staff can find the library's books, files and learning materials in one place.</p>
-            <ul class="work__list">
-              <li>Library books and files organized so resources are easy to find</li>
-              <li>Accessible online anytime, without visiting the library in person</li>
-              <li>Clean, responsive pages that work on desktop and mobile</li>
-            </ul>
-            <p class="stack">PHP, MySQL, JavaScript, HTML, CSS</p>
-            <a href="https://salrc-lcctanauan.infinityfree.io/" target="_blank" rel="noopener" class="btn btn--solid">Open SALRC</a>
+          <div class="wide__body">
+            <div>
+              <p class="work__kind">Library resource system</p>
+              <h3>SALRC: St. Augustine Learning Resource Center</h3>
+              <p class="work__summary">An online home for the St. Augustine Learning Resource Center, where students and staff can find the library's books, files and learning materials in one place.</p>
+            </div>
+            <div>
+              <ul class="work__list">
+                <li>Library books and files organized so resources are easy to find</li>
+                <li>Accessible online anytime, without visiting the library in person</li>
+                <li>Clean, responsive pages that work on desktop and mobile</li>
+              </ul>
+              <p class="stack">PHP, MySQL, JavaScript, HTML, CSS</p>
+              <a href="https://salrc-lcctanauan.infinityfree.io/" target="_blank" rel="noopener" class="btn btn--solid">Open SALRC</a>
+            </div>
           </div>
         </article>
 
-        <!-- Academic Helpdesk -->
+        <!-- Academic Helpdesk: ticket board -->
         <article class="rv work work--help">
           <a class="work__visual" href="https://lcct-academic-helpdesk.infinityfree.io/?i=1" target="_blank" rel="noopener" aria-label="Open the LCCT Academic Helpdesk">
-            <span class="spark s1" aria-hidden="true"></span><span class="spark s2" aria-hidden="true"></span><span class="spark s3" aria-hidden="true"></span>
-            <img class="work__logo" src="assets/helpdesk-logo.svg" alt="LCCT Academic Helpdesk logo" width="360" height="360">
-            <span class="work__caption">Academic Ticketing System</span>
+            <span class="kanban" aria-hidden="true">
+              <span class="kb-col"><b>Open</b><span class="kb-slot"></span><span class="kb-card"></span><span class="kb-card"></span></span>
+              <span class="kb-col"><b>In progress</b><span class="kb-slot"></span><span class="kb-card"></span></span>
+              <span class="kb-col"><b>Resolved</b><span class="kb-slot"></span><span class="kb-card done"></span><span class="kb-card done"></span></span>
+              <span class="kb-mover">
+                <em>#1042</em>
+                <span class="kb-line"></span><span class="kb-line s"></span>
+                <span class="kb-pill p1">Open</span><span class="kb-pill p2">In progress</span><span class="kb-pill p3">Resolved</span>
+              </span>
+            </span>
           </a>
           <div class="work__body">
-            <p class="work__kind">Ticketing system</p>
-            <h3>LCCT Academic Helpdesk</h3>
+            <div class="work__title-row">
+              <span class="work__badge"><img src="assets/helpdesk-logo.svg" alt="LCCT Academic Helpdesk logo" width="72" height="72"></span>
+              <div>
+                <p class="work__kind">Ticketing system</p>
+                <h3>LCCT Academic Helpdesk</h3>
+              </div>
+            </div>
             <p class="work__summary">A helpdesk where students send their academic concerns as tickets, and the school tracks and answers each one until it is resolved.</p>
             <ul class="work__list">
               <li>Students submit concerns as tickets instead of lining up at the office</li>
