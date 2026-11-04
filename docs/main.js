@@ -1,3 +1,4 @@
+/* Micole's Desk — page logic */
 const LAUNDRY_SHOTS = [
   { name: 'login',       caption: 'Admin login' },
   { name: 'dashboard',   caption: 'Dashboard with sales and stock status' },
@@ -24,9 +25,6 @@ const certificates = [
   { group: 'School and events', title: 'Design, Build, Innovate: The Robotics Experience', issuer: 'Certificate of Participation, LCCT ICT Week 2026, First Eduspec Inc.', date: 'Mar 19, 2026', image: 'robotics-experience-2026.jpg', thumb: 'robotics-experience-2026-thumb.jpg' }
 ];
 
-/* ==========================================================
-   Cher Micole P. Lirio — portfolio scripts
-   ========================================================== */
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -69,8 +67,7 @@ function swipe(el, fn) {
   });
 }
 
-/* ---------- Theme ---------- */
-function setupTheme() {
+function setupThemeUnused() {
   $('#themeToggle').addEventListener('click', () => {
     const root = document.documentElement;
     const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -125,7 +122,7 @@ function scrollToScreens() {
   if (t) body.scrollTo({ top: t.offsetTop - 10, behavior: reduceMotion() ? 'auto' : 'smooth' });
 }
 function setupProjects() {
-  $$('[data-project]').forEach(t => t.addEventListener('click', () => openProject(t.dataset.project)));
+  $$('[data-project-open]').forEach(t => t.addEventListener('click', () => openProject(t.dataset.projectOpen)));
 }
 
 /* ---------- Screenshot lightbox ---------- */
@@ -151,53 +148,6 @@ const Lightbox = (() => {
   };
   return { init, open: (i) => { show(i); Modal.open(lb()); } };
 })();
-
-/* ---------- Certificates ---------- */
-function setupCertificates() {
-  const strip = $('#certStrip');
-  $('#certTotal').textContent = certificates.length;
-  let filter = 'all';
-  const render = () => {
-    const list = certificates.filter(c => filter === 'all' || c.group === filter);
-    strip.innerHTML = list.map((c, i) => `
-      <button type="button" class="cert" data-cert="${certificates.indexOf(c)}" style="animation-delay:${i * 40}ms">
-        <span class="cert__img"><img src="${CERT_PATH + c.thumb}" alt="" loading="lazy"></span>
-        <span class="cert__body"><span class="cert__date">${escapeHtml(c.date)}</span><span class="cert__title">${escapeHtml(c.title)}</span></span>
-      </button>`).join('');
-    strip.scrollLeft = 0;
-  };
-  render();
-  $$('.tab').forEach(tab => tab.addEventListener('click', () => {
-    $$('.tab').forEach(t => { t.classList.toggle('is-active', t === tab); t.setAttribute('aria-selected', t === tab); });
-    filter = tab.dataset.filter; render();
-  }));
-
-  const modal = $('#certModal'), img = $('#certImg');
-  let items = [], cur = 0;
-  const show = (i) => {
-    cur = (i + items.length) % items.length;
-    const c = items[cur];
-    img.classList.remove('is-ready'); img.onload = () => img.classList.add('is-ready');
-    img.src = CERT_PATH + c.image; img.alt = c.title + ' certificate';
-    $('#certTitle').textContent = c.title;
-    $('#certMeta').textContent = c.issuer + (c.date ? ', ' + c.date : '');
-    $('#certCount').textContent = `${cur + 1} of ${items.length}`;
-  };
-  strip.addEventListener('click', (e) => {
-    const card = e.target.closest('.cert'); if (!card) return;
-    const cards = $$('.cert', strip);
-    items = cards.map(el => certificates[+el.dataset.cert]);
-    show(cards.indexOf(card)); Modal.open(modal);
-  });
-  $('#certPrev').addEventListener('click', () => show(cur - 1));
-  $('#certNext').addEventListener('click', () => show(cur + 1));
-  document.addEventListener('keydown', (e) => {
-    if (Modal.top() !== modal) return;
-    if (e.key === 'ArrowLeft') show(cur - 1);
-    if (e.key === 'ArrowRight') show(cur + 1);
-  });
-  swipe(modal, d => show(cur + d));
-}
 
 /* ---------- Resume: preview modal + print ---------- */
 function setupResume() {
@@ -240,19 +190,142 @@ function setupContact() {
 function openFromHash() {
   const h = location.hash.slice(1);
   if (h === 'screens') openProject('laundry', true);
-  else if (h === 'resume') $('[data-open-resume]').click();
   else if (['sportzle', 'laundry', 'salrc', 'helpdesk'].includes(h)) openProject(h);
 }
 
+
+/* ---------- Certificates grid + viewer ---------- */
+function setupCertificates() {
+  const grid = $('#certStrip');
+  $('#certTotal').textContent = certificates.length;
+  let filter = 'all';
+  const render = () => {
+    const list = certificates.filter(c => filter === 'all' || c.group === filter);
+    grid.innerHTML = list.map((c, i) => `
+      <button type="button" class="cert" data-cert="${certificates.indexOf(c)}" style="animation-delay:${i * 45}ms">
+        <span class="cert__img"><img src="${CERT_PATH + c.thumb}" alt="" loading="lazy"></span>
+        <span class="cert__body"><span class="cert__date">${escapeHtml(c.date)}</span><span class="cert__title">${escapeHtml(c.title)}</span><span class="cert__issuer">${escapeHtml(c.issuer)}</span></span>
+      </button>`).join('');
+  };
+  render();
+  $$('.tab').forEach(tab => tab.addEventListener('click', () => {
+    $$('.tab').forEach(t => { t.classList.toggle('is-active', t === tab); t.setAttribute('aria-selected', t === tab); });
+    filter = tab.dataset.filter; render();
+  }));
+  const modal = $('#certModal'), img = $('#certImg');
+  let items = [], cur = 0;
+  const show = (i) => {
+    cur = (i + items.length) % items.length;
+    const c = items[cur];
+    img.classList.remove('is-ready'); img.onload = () => img.classList.add('is-ready');
+    img.src = CERT_PATH + c.image; img.alt = c.title + ' certificate';
+    $('#certTitle').textContent = c.title;
+    $('#certMeta').textContent = c.issuer + (c.date ? ', ' + c.date : '');
+    $('#certCount').textContent = `${cur + 1} of ${items.length}`;
+  };
+  grid.addEventListener('click', (e) => {
+    const card = e.target.closest('.cert'); if (!card) return;
+    const cards = $$('.cert', grid);
+    items = cards.map(el => certificates[+el.dataset.cert]);
+    show(cards.indexOf(card)); Modal.open(modal);
+  });
+  $('#certPrev').addEventListener('click', () => show(cur - 1));
+  $('#certNext').addEventListener('click', () => show(cur + 1));
+  document.addEventListener('keydown', (e) => {
+    if (Modal.top() !== modal) return;
+    if (e.key === 'ArrowLeft') show(cur - 1);
+    if (e.key === 'ArrowRight') show(cur + 1);
+  });
+  swipe(modal, d => show(cur + d));
+}
+
+/* ---------- Mini resume preview in the Resume section ---------- */
+function setupMiniSheet() {
+  const holder = $('#miniSheet'), sheet = $('#resumeSheet');
+  const copy = sheet.cloneNode(true);
+  copy.removeAttribute('id'); copy.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+  copy.setAttribute('aria-hidden', 'true');
+  holder.appendChild(copy);
+  const fit = () => { copy.style.transform = `scale(${holder.clientWidth / 793.7})`; };
+  new ResizeObserver(fit).observe(holder); fit();
+}
+
+/* ---------- HUD uptime ---------- */
+function setupHud() {
+  const el = $('#hudUptime'), t0 = Date.now();
+  const p = n => String(n).padStart(2, '0');
+  setInterval(() => { const s = Math.floor((Date.now() - t0) / 1000); el.textContent = `${p(Math.floor(s / 3600))}:${p(Math.floor(s / 60) % 60)}:${p(s % 60)}`; }, 1000);
+}
+
+/* ---------- Nav: solid after the hero, active section ---------- */
+function setupNav() {
+  const nav = $('#nav'), hero = $('#top');
+  const links = $$('.nav__links a');
+  const secs = links.map(a => $(a.getAttribute('href')));
+  const onScroll = () => {
+    nav.classList.toggle('is-solid', scrollY > hero.offsetHeight - 80);
+    let cur = null;
+    secs.forEach(s => { if (s && scrollY + 140 >= s.offsetTop) cur = s.id; });
+    links.forEach(a => a.classList.toggle('is-active', a.getAttribute('href') === '#' + cur));
+  };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+}
+
+/* ---------- Reveal on scroll ---------- */
+function setupReveal() {
+  const els = $$('.rv');
+  if (reduceMotion() || !('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('is-in')); return; }
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }), { threshold: .15 });
+  els.forEach(e => io.observe(e));
+}
+
+/* ---------- Loader + 3D desk ---------- */
+async function setupDesk() {
+  const loader = $('#loader'), pct = $('#loaderPct'), bar = $('#loaderBar'), tip = $('#tip');
+  let shown = 0, target = 8, done = false;
+  const anim = setInterval(() => {
+    shown += Math.max(1, Math.round((target - shown) * .2));
+    if (shown > target) shown = target;
+    pct.textContent = shown; bar.style.width = shown + '%';
+    if (shown >= 100) { clearInterval(anim); setTimeout(hide, 250); }
+  }, 40);
+  const hide = () => { if (done) return; done = true; loader.classList.add('is-done'); setTimeout(() => loader.remove(), 700); };
+  const progress = (p) => { target = Math.max(target, Math.min(100, p)); };
+  setTimeout(() => progress(100), 7000); // never block the page
+
+  let desk = null;
+  try {
+    const { initDesk } = await import('./scene.js');
+    desk = initDesk({
+      canvas: $('#deskCanvas'),
+      onProgress: (p) => progress(10 + p * .9),
+      onReady: () => progress(100),
+      onPick: (where) => { if (where === 'photo') { Modal.open($('#photoModal')); return; } const el = $('#' + where); if (el) el.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth' }); },
+      onHover: (label, e) => {
+        if (!label) { tip.hidden = true; return; }
+        tip.hidden = false; tip.textContent = label;
+        tip.style.transform = `translate(${e.clientX + 14}px, ${e.clientY + 14}px)`;
+      }
+    });
+  } catch (e) { desk = null; }
+  if (!desk) { document.documentElement.classList.add('no-webgl'); progress(100); return; }
+
+  // pause rendering while the hero is off screen
+  new IntersectionObserver(([e]) => { e.isIntersecting ? desk.resume() : desk.pause(); }).observe($('#top'));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  setupTheme();
-  setupClock();
-  setupRole();
+  setupDesk();
+  setupHud();
+  setupNav();
+  setupReveal();
   setupProjects();
   Lightbox.init();
   setupCertificates();
   setupResume();
+  setupMiniSheet();
   setupContact();
+  $('#openPhoto').addEventListener('click', () => Modal.open($('#photoModal')));
   $('#year').textContent = new Date().getFullYear();
   openFromHash();
   window.addEventListener('hashchange', openFromHash);
