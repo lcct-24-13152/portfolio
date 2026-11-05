@@ -581,6 +581,38 @@ body.in-view .home { filter: blur(6px) brightness(.55); transform: scale(.97); }
 }
 @media (max-width: 600px) { .ctrl { width: 34px; height: 34px; } .view__path { display: none; } .back { font-size: .8rem; padding: .45rem .8rem; } .dock { bottom: 40px; } }
 @media (prefers-reduced-motion: reduce) { .rp { transition: none; } }
+
+/* ---------- v6: bigger type, bigger badge, bigger device and robot ---------- */
+html { font-size: 106.25%; }
+.view h2 { font-size: clamp(2.8rem, 5.2vw, 4.8rem); }
+.vhead__sub, .a3-text { font-size: clamp(1.08rem, 1.3vw, 1.22rem); }
+.kicker, .sec-k { font-size: .86rem; }
+.pcard h3 { font-size: 1.75rem; } .pcard p { font-size: 1.05rem; } .pcard__kind { font-size: .82rem; }
+.cert__title { font-size: 1.08rem; } .cert__issuer { font-size: .9rem; }
+.info dd { font-size: 1.15rem; } .refc b { font-size: 1.2rem; }
+.ccard div a, .ccard div > span:last-child { font-size: 1.12rem; }
+.view__path { font-size: .86rem; }
+.stage__hint { font-size: .8rem; }
+.badge-zone { min-height: 560px; }
+.badge { width: 300px; height: 450px; }
+.badge__face { padding: 28px 24px 22px; border-radius: 24px; }
+.badge__top b { font-size: 17px; } .badge__top em { font-size: 10.5px; }
+.badge__photo { width: 156px; height: 156px; margin-bottom: 14px; }
+.badge__name { font-size: 22px; } .badge__role { font-size: 13.5px; }
+.badge__chips i { font-size: 11px; padding: 4px 9px; }
+.badge__code { margin-top: auto; width: 100%; display: grid; gap: 1px; padding: 10px 12px; border-radius: 10px; background: #0b1426; color: #cfe9ff; font-family: var(--mono); font-size: 11px; line-height: 1.5; text-align: left; box-shadow: inset 0 0 0 1px #1f3a60; }
+.badge__code i { font-style: normal; color: #64748b; }
+.badge__code b { font-weight: 500; color: #c084fc; }
+.badge__code span:nth-child(3) { color: #67e8f9; }
+.badge__back .badge__k { font-size: 20px; } .badge__row { font-size: 14.5px; padding: 10px 0; } .badge__row small { font-size: 10.5px; }
+.robo__stage { transform: scale(1.4); margin: 64px 0 56px; }
+.robo__log { font-size: 1rem; } .robo__bar { width: 320px; }
+@media (max-width: 600px) { .robo__stage { transform: scale(1.1); margin: 20px 0 16px; } .badge { width: 270px; height: 410px; } .badge__photo { width: 130px; height: 130px; } .badge-zone { min-height: 520px; } }
+.badge { height: 490px; }
+.badge__photo { width: 140px; height: 140px; }
+.badge-zone { min-height: 600px; }
+@media (max-width: 600px) { .badge { height: 450px; } .badge__photo { width: 120px; height: 120px; } .badge-zone { min-height: 560px; } }
+@media (max-width: 600px) { .badge__code { font-size: 9.6px; } }
 /* ---------- Modals ---------- */
 .modal { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: clamp(10px, 3vw, 32px); background: rgba(13,10,23,.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); opacity: 0; transition: opacity .25s; }
 .modal.is-open { opacity: 1; }

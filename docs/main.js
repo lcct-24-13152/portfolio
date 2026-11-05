@@ -240,7 +240,7 @@ function setupRig() {
   const stage = $('#stage'), rig = $('#rig'), read = $('#padRead span'), out = $('#padReadOut');
   const fit = () => {
     const phone = innerWidth <= 600, mid = innerWidth <= 1000;
-    const s = Math.min(stage.clientWidth / (phone ? 600 : mid ? 1000 : 860), stage.clientHeight / (phone ? 470 : 560), 1.3);
+    const s = Math.min(stage.clientWidth / (phone ? 540 : mid ? 920 : 770), stage.clientHeight / (phone ? 430 : 500), 1.5);
     rig.style.setProperty('--s', Math.max(.36, s).toFixed(3));
   };
   new ResizeObserver(fit).observe(stage); fit();
@@ -489,6 +489,41 @@ function setupResumeView() {
   new ResizeObserver(fit).observe(box); fit();
 }
 
+/* ---------- Sending messages to Micole's inbox ----------
+   1) Web3Forms when an access key is set (most reliable)
+   2) FormSubmit AJAX
+   3) FormSubmit classic POST through a hidden iframe (works even when AJAX is blocked) */
+const MAIL_TO = 'liriocher25@gmail.com';
+const WEB3FORMS_KEY = '';
+async function sendMail(m) {
+  const subject = 'Portfolio message: ' + m.topic + ' from ' + m.name;
+  if (WEB3FORMS_KEY) {
+    const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ access_key: WEB3FORMS_KEY, subject, from_name: m.name + ' (portfolio)', name: m.name, email: m.email, replyto: m.email, topic: m.topic, message: m.message, botcheck: '' }) });
+    const d = await r.json().catch(() => ({}));
+    if (d.success) return; console.warn('Web3Forms:', d.message);
+  }
+  try {
+    const r = await fetch('https://formsubmit.co/ajax/' + MAIL_TO, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ name: m.name, email: m.email, topic: m.topic, message: m.message, _subject: subject, _replyto: m.email, _template: 'table', _captcha: 'false' }) });
+    const d = await r.json().catch(() => ({}));
+    if (d.success === true || d.success === 'true') return;
+    console.warn('FormSubmit AJAX:', r.status, d.message);
+  } catch (e) { console.warn('FormSubmit AJAX blocked:', e.message); }
+  await new Promise((resolve) => { // classic form post in a hidden frame
+    const name = 'mailframe' + Date.now(), fr = document.createElement('iframe'), f = document.createElement('form');
+    fr.name = name; fr.hidden = true; fr.setAttribute('aria-hidden', 'true'); document.body.appendChild(fr);
+    f.action = 'https://formsubmit.co/' + MAIL_TO; f.method = 'POST'; f.target = name; f.hidden = true;
+    const add = (k, v) => { const i = document.createElement('input'); i.type = 'hidden'; i.name = k; i.value = v; f.appendChild(i); };
+    add('name', m.name); add('email', m.email); add('topic', m.topic); add('message', m.message);
+    add('_subject', subject); add('_replyto', m.email); add('_template', 'table'); add('_captcha', 'false');
+    document.body.appendChild(f);
+    let done = false; const end = () => { if (done) return; done = true; resolve(); setTimeout(() => { fr.remove(); f.remove(); }, 4000); };
+    fr.addEventListener('load', end); setTimeout(end, 5000);
+    f.submit();
+  });
+}
+
 /* ---------- Contact: live PH time + message composer ---------- */
 function setupContactView() {
   const t = $('#phTime');
@@ -508,19 +543,12 @@ function setupContactView() {
     if (!name || !okEmail || !msg) { hint.textContent = 'Please add your name, a valid email and a message.'; return; }
     btn.disabled = true; btn.classList.add('is-flying'); label.textContent = 'Sending…'; hint.textContent = 'Sending your message…';
     try {
-      const r = await fetch('https://formsubmit.co/ajax/liriocher25@gmail.com', {
-        method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ name, email, topic, message: msg, _subject: 'Portfolio message: ' + topic + ' from ' + name, _replyto: email, _template: 'table', _captcha: 'false' })
-      });
-      const data = await r.json().catch(() => ({}));
-      if (!r.ok || data.success === false || data.success === 'false') throw new Error(data.message || 'failed');
+      await sendMail({ name, email, topic, message: msg });
       Sound.chime();
       f.reset(); f.classList.add('is-sent'); label.textContent = 'Sent'; hint.textContent = 'Message sent! Thank you, ' + name.split(' ')[0] + '. I\'ll reply to ' + email + '.';
       setTimeout(() => { f.classList.remove('is-sent'); label.textContent = 'Send message'; }, 5000);
     } catch (err) {
       label.textContent = 'Send message';
-      const why = String(err && err.message || '');
-      if (/activat/i.test(why)) { hint.textContent = 'Almost there: the inbox is waiting for a one-time activation. Please try again later.'; return; }
       hint.innerHTML = 'Couldn\'t send right now. <a href="mailto:liriocher25@gmail.com?subject=' + encodeURIComponent(topic + ' from ' + name) + '&body=' + encodeURIComponent(msg) + '">Email me directly</a> instead.';
     } finally { btn.disabled = false; btn.classList.remove('is-flying'); }
   });
@@ -549,7 +577,7 @@ const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { ret
 /* ---------- Sound engine (Web Audio, no files) ---------- */
 const Sound = (() => {
   let ctx = null, master, sfx, music, echo, muted = store.get('cml-muted') === '1', musicOn = store.get('cml-music') !== '0';
-  let timer = null, nextT = 0, step = 0, bar = 0;
+  let timer = null;
   const unlock = () => {
     if (!ctx) {
       const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
@@ -597,38 +625,56 @@ const Sound = (() => {
     beep: () => tone(1250, .09, { type: 'square', v: .06 }),
     chime: () => [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => tone(f, .7, { v: .1, at: i * .09 })),
   };
-  // ---- ambient music: Am - F - C - G with a soft arpeggio
-  const CH = [[220, 261.63, 329.63], [174.61, 220, 261.63], [196, 261.63, 329.63], [196, 246.94, 293.66]];
-  const ARP = [0, 1, 2, 1, 0, 2, 1, 2], STEP = .36;
+  // ---- tech ambience (no melody): machine hum, data blips, scan sweeps, a soft pulse
+  let drone = null, nextBlip = 0, nextPulse = 0, nextScan = 0;
+  const HI = [1318.5, 1567.98, 1760, 2093, 2349.3, 2637, 3135.96];
+  const mtone = (f, t, d, v, type = 'sine', toEcho = false) => {
+    const o = ctx.createOscillator(), g = ctx.createGain(); o.type = type; o.frequency.setValueAtTime(f, t);
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(v, t + .004); g.gain.exponentialRampToValueAtTime(.0001, t + d);
+    o.connect(g); g.connect(music); if (toEcho) g.connect(echo); o.start(t); o.stop(t + d + .05);
+  };
   const schedule = () => {
-    while (nextT < ctx.currentTime + .25) {
-      const chord = CH[bar % 4], t = nextT;
-      if (step === 0) {
-        chord.forEach(f => { // pad
-          const o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'triangle'; o.frequency.value = f; o.detune.value = (Math.random() - .5) * 8;
-          g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(.05, t + 1.1); g.gain.linearRampToValueAtTime(.0001, t + STEP * 8 + .4);
-          o.connect(g); g.connect(music); o.start(t); o.stop(t + STEP * 8 + .5);
-        });
-        const b = ctx.createOscillator(), bg = ctx.createGain(); b.frequency.value = chord[0] / 2;
-        bg.gain.setValueAtTime(0.0001, t); bg.gain.linearRampToValueAtTime(.12, t + .05); bg.gain.exponentialRampToValueAtTime(.0001, t + STEP * 4);
-        b.connect(bg); bg.connect(music); b.start(t); b.stop(t + STEP * 4 + .1);
-      }
-      const f = chord[ARP[step]] * 2, o = ctx.createOscillator(), g = ctx.createGain(); o.type = 'sine'; o.frequency.value = f;
-      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(.045, t + .01); g.gain.exponentialRampToValueAtTime(.0001, t + .32);
-      o.connect(g); g.connect(music); g.connect(echo); o.start(t); o.stop(t + .4);
-      nextT += STEP; step = (step + 1) % 8; if (step === 0) bar++;
+    const now = ctx.currentTime;
+    while (nextBlip < now + .25) { // data chirps, sometimes in quick bursts
+      const n = Math.random() < .3 ? 3 : 1;
+      for (let i = 0; i < n; i++) mtone(HI[Math.floor(Math.random() * HI.length)], nextBlip + i * .07, .06, .02, Math.random() < .5 ? 'square' : 'sine', true);
+      nextBlip += .35 + Math.random() * 1.1;
     }
+    while (nextPulse < now + .25) { // low machine pulse
+      const o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.setValueAtTime(70, nextPulse); o.frequency.exponentialRampToValueAtTime(42, nextPulse + .25);
+      g.gain.setValueAtTime(0.0001, nextPulse); g.gain.linearRampToValueAtTime(.09, nextPulse + .01); g.gain.exponentialRampToValueAtTime(.0001, nextPulse + .35);
+      o.connect(g); g.connect(music); o.start(nextPulse); o.stop(nextPulse + .4);
+      nextPulse += 1.6;
+    }
+    while (nextScan < now + .25) { // slow scanner sweep
+      if (!nbuf) { nbuf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate); const ch = nbuf.getChannelData(0); for (let i = 0; i < ch.length; i++) ch[i] = Math.random() * 2 - 1; }
+      const src = ctx.createBufferSource(), fl = ctx.createBiquadFilter(), g = ctx.createGain(), t = nextScan;
+      src.buffer = nbuf; src.loop = true; fl.type = 'bandpass'; fl.Q.value = 6; fl.frequency.setValueAtTime(500, t); fl.frequency.exponentialRampToValueAtTime(3800, t + 2.4);
+      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(.035, t + 1.2); g.gain.linearRampToValueAtTime(.0001, t + 2.4);
+      src.connect(fl); fl.connect(g); g.connect(music); src.start(t); src.stop(t + 2.5);
+      nextScan += 9 + Math.random() * 5;
+    }
+  };
+  const startDrone = () => {
+    const t = ctx.currentTime, out = ctx.createGain(); out.gain.value = .055;
+    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 240; lp.Q.value = 4;
+    const lfo = ctx.createOscillator(), lfoG = ctx.createGain(); lfo.frequency.value = .07; lfoG.gain.value = 140; lfo.connect(lfoG); lfoG.connect(lp.frequency);
+    const oscs = [55, 55.35, 110.2].map((f, i) => { const o = ctx.createOscillator(); o.type = i === 2 ? 'triangle' : 'sawtooth'; o.frequency.value = f; o.connect(lp); o.start(t); return o; });
+    lp.connect(out); out.connect(music); lfo.start(t);
+    drone = { stop: () => { const e = ctx.currentTime + 1; oscs.forEach(o => o.stop(e)); lfo.stop(e); } };
   };
   const startMusic = () => {
     if (!ctx || timer) return;
-    nextT = ctx.currentTime + .1; step = 0;
+    const t = ctx.currentTime; nextBlip = t + .6; nextPulse = t + .2; nextScan = t + 3;
+    if (!drone) startDrone();
     timer = setInterval(schedule, 90); schedule();
-    music.gain.cancelScheduledValues(ctx.currentTime); music.gain.setTargetAtTime(.85, ctx.currentTime, .8);
+    music.gain.cancelScheduledValues(t); music.gain.setTargetAtTime(.9, t, 1);
   };
   const stopMusic = () => {
     if (!ctx || !timer) return;
     music.gain.cancelScheduledValues(ctx.currentTime); music.gain.setTargetAtTime(0, ctx.currentTime, .3);
-    const t = timer; timer = null; setTimeout(() => { if (!timer) clearInterval(t); else clearInterval(t); }, 900);
+    clearInterval(timer); timer = null;
+    const d = drone; drone = null; setTimeout(() => d && d.stop(), 1200);
   };
   const ui = () => {
     $$('[data-mute]').forEach(b => { b.setAttribute('aria-pressed', muted); b.title = muted ? 'Unmute sound' : 'Mute sound'; });
@@ -682,8 +728,8 @@ function setupBoot(done) {
   if (location.hash.length > 1 || reduceMotion()) { boot.remove(); done(); return; }
   const wait = (ms) => new Promise(r => setTimeout(r, ms));
   const spark = (el) => {
-    const s = el.getBoundingClientRect(), st = $('.robo__stage').getBoundingClientRect();
-    weld.style.left = (s.left - st.left + s.width / 2) + 'px'; weld.style.top = (s.top - st.top + s.height / 2) + 'px';
+    const s = el.getBoundingClientRect(), st = $('.robo__stage').getBoundingClientRect(), k = st.width / 240;
+    weld.style.left = (s.left - st.left + s.width / 2) / k + 'px'; weld.style.top = (s.top - st.top + s.height / 2) / k + 'px';
     weld.classList.remove('is-spark'); void weld.offsetWidth; weld.classList.add('is-spark');
   };
   const STEPS = [
@@ -745,7 +791,7 @@ function setupBadge() {
     requestAnimationFrame(loop);
   };
   loop();
-  document.addEventListener('viewopen', (e) => { if (e.detail === 'about') { v = reduceMotion() ? 0 : 5; } });
+  document.addEventListener('viewopen', (e) => { if (e.detail === 'about') { v = reduceMotion() ? 0 : 2.2; } });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
