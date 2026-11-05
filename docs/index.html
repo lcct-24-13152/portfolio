@@ -25,31 +25,36 @@
     </nav>
   </header>
 
-  <!-- ========== HERO: particles (sticky while you scroll) ========== -->
+  <!-- ========== HERO ========== -->
   <section class="hero" id="home">
-    <div class="hero__stick">
-      <canvas class="hero__canvas" id="dots" aria-hidden="true"></canvas>
-      <h1 class="sr">Cher Micole Plete Lirio, BS Information Technology student</h1>
+    <canvas class="hero__canvas" id="dots" aria-hidden="true"></canvas>
+    <h1 class="hero__title">CHER MICOLE P. LIRIO</h1>
 
-      <div class="cap cap--0 is-on" data-stage="0">
-        <p class="cap__k">BS Information Technology · La Consolacion College Tanauan</p>
-        <p class="cap__big">Cher Micole Plete Lirio</p>
-        <p class="cap__small">Move your cursor through the dots. Scroll to rebuild them.</p>
-      </div>
-      <div class="cap cap--1" data-stage="1">
-        <p class="cap__k">01 / for the web</p>
-        <p class="cap__big">I build web systems people actually use.</p>
-        <p class="cap__small">PHP, MySQL and JavaScript, from login page to leaderboard.</p>
-      </div>
-      <div class="cap cap--2" data-stage="2">
-        <p class="cap__k">02 / from the data up</p>
-        <p class="cap__big">Every screen starts with a solid database.</p>
-        <p class="cap__small"><a href="#work">See the four systems I built</a></p>
-      </div>
+    <div class="hero__ui">
+      <p class="hero__kicker"><span class="dot"></span>BS Information Technology Student · La Consolacion College Tanauan</p>
 
-      <div class="meter" aria-hidden="true"><span>name</span><i><b id="meter"></b></i><span>wave</span></div>
-      <p class="hero__status"><i></i>Open to OJT and internships</p>
+      <button type="button" class="scan" id="heroPhoto" aria-label="View my photo larger">
+        <span class="scan__frame">
+          <img src="profile-photo.jpg" alt="Photo of Cher Micole P. Lirio" width="292" height="277">
+          <i class="scan__line" aria-hidden="true"></i>
+          <i class="scan__c tl"></i><i class="scan__c tr"></i><i class="scan__c bl"></i><i class="scan__c br"></i>
+        </span>
+        <span class="scan__meta"><b>Cher Micole P. Lirio</b><span id="scanStatus">scanning profile…</span></span>
+      </button>
+
+      <div class="console" id="console">
+        <div class="console__out" id="consoleOut" aria-live="polite"><span class="c-dim">Try it: type any word and the dots will build it.</span></div>
+        <form class="console__form" id="consoleForm" autocomplete="off">
+          <label for="consoleIn"><span class="c-user">visitor@micole</span>:~$</label>
+          <input id="consoleIn" maxlength="24" spellcheck="false" autocapitalize="off" placeholder="type your name…" aria-label="Type a word or a command">
+          <button type="submit" class="console__go" aria-label="Run">↵</button>
+        </form>
+        <div class="console__chips" aria-label="Quick commands">
+          <button data-cmd="hello">hello</button><button data-cmd="globe">globe</button><button data-cmd="wave">wave</button><button data-cmd="projects">projects</button><button data-cmd="resume">resume</button><button data-cmd="hire">hire</button><button data-cmd="reset">reset</button>
+        </div>
+      </div>
     </div>
+    <p class="hero__hint">Move through the dots · click to scatter</p>
   </section>
 
   <main>

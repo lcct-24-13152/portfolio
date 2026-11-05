@@ -1,23 +1,37 @@
 /* ==========================================================
-   Particle hero: dots form the name, then a globe, then a wave
+   Interactive particle field
+   Dots can form any text, a globe or a moving wave.
    ========================================================== */
 import * as THREE from 'three';
 
-function textPoints(lines, count) {
+const FONT = '700 160px "Space Grotesk", Arial, sans-serif';
+
+function textPoints(lines, count, maxW, maxH) {
   const c = document.createElement('canvas');
-  const W = 1200, H = 520; c.width = W; c.height = H;
+  const W = 1600, H = 900; c.width = W; c.height = H;
   const g = c.getContext('2d');
-  g.fillStyle = '#000'; g.textAlign = 'center'; g.textBaseline = 'middle';
-  g.font = '800 190px "Space Grotesk", Arial, sans-serif';
-  g.fillText(lines[0], W / 2, H * 0.3);
-  g.fillText(lines[1], W / 2, H * 0.72);
-  const data = g.getImageData(0, 0, W, H).data, pts = [];
-  for (let y = 0; y < H; y += 3) for (let x = 0; x < W; x += 3) if (data[(y * W + x) * 4 + 3] > 128) pts.push([x, y]);
+  g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#000';
+  // fit every line to the canvas width
+  g.font = FONT;
+  const widest = Math.max(...lines.map(l => g.measureText(l).width), 1);
+  const lineH = 175;
+  const scale = Math.min(1, (W * .94) / widest, (H * .92) / (lines.length * lineH));
+  g.font = FONT.replace('160px', Math.floor(160 * scale) + 'px');
+  const lh = lineH * scale, y0 = H / 2 - (lines.length - 1) * lh / 2;
+  lines.forEach((l, i) => g.fillText(l, W / 2, y0 + i * lh));
+  const d = g.getImageData(0, 0, W, H).data, pts = [];
+  let minX = W, maxX = 0, minY = H, maxY = 0;
+  for (let y = 0; y < H; y += 3) for (let x = 0; x < W; x += 3) if (d[(y * W + x) * 4 + 3] > 128) {
+    pts.push([x, y]); if (x < minX) minX = x; if (x > maxX) maxX = x; if (y < minY) minY = y; if (y > maxY) maxY = y;
+  }
   const out = new Float32Array(count * 3);
+  if (!pts.length) return out;
+  const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
+  const s = Math.min(maxW / Math.max(1, maxX - minX), maxH / Math.max(1, maxY - minY));
   for (let i = 0; i < count; i++) {
-    const p = pts[Math.floor(Math.random() * pts.length)] || [W / 2, H / 2];
-    out[i * 3] = (p[0] - W / 2) / 110;
-    out[i * 3 + 1] = -(p[1] - H / 2) / 110;
+    const p = pts[Math.floor(Math.random() * pts.length)];
+    out[i * 3] = (p[0] - cx) * s;
+    out[i * 3 + 1] = -(p[1] - cy) * s;
     out[i * 3 + 2] = (Math.random() - .5) * .25;
   }
   return out;
@@ -30,35 +44,29 @@ function spherePoints(count, r) {
   }
   return out;
 }
-function gridPoints(count) {
+function gridPoints(count, w, d) {
   const out = new Float32Array(count * 3), side = Math.ceil(Math.sqrt(count));
   for (let i = 0; i < count; i++) {
-    const gx = i % side, gz = Math.floor(i / side);
-    out[i * 3] = (gx / side - .5) * 11; out[i * 3 + 1] = 0; out[i * 3 + 2] = (gz / side - .5) * 7;
+    out[i * 3] = ((i % side) / side - .5) * w; out[i * 3 + 1] = 0; out[i * 3 + 2] = (Math.floor(i / side) / side - .5) * d;
   }
   return out;
 }
 
-export function initParticles(canvas, opts = {}) {
+export function initParticles(canvas, layout) {
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     if (!renderer.getContext()) throw 0;
   } catch (e) { return null; }
 
-  const small = innerWidth < 700;
-  const COUNT = small ? 4200 : 9000;
+  const small = () => canvas.clientWidth < 700;
+  const COUNT = innerWidth < 700 ? 4500 : 9000;
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, 1, .1, 100);
-  camera.position.set(0, 0, small ? 15 : 11);
+  camera.position.set(0, 0, 12);
 
-  const nameLines = opts.name || ['MICOLE', 'LIRIO'];
-  const shapes = [textPoints(nameLines, COUNT), spherePoints(COUNT, 3.2), gridPoints(COUNT)];
-  if (small) for (let i = 0; i < COUNT * 3; i++) shapes[0][i] *= .62;
-
-  const pos = new Float32Array(COUNT * 3);
-  const seeds = new Float32Array(COUNT);
+  const pos = new Float32Array(COUNT * 3), seeds = new Float32Array(COUNT);
   for (let i = 0; i < COUNT; i++) {
     pos[i * 3] = (Math.random() - .5) * 30; pos[i * 3 + 1] = (Math.random() - .5) * 18; pos[i * 3 + 2] = (Math.random() - .5) * 10;
     seeds[i] = Math.random();
@@ -66,78 +74,84 @@ export function initParticles(canvas, opts = {}) {
   const geo = new THREE.BufferGeometry();
   geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
   geo.setAttribute('seed', new THREE.BufferAttribute(seeds, 1));
-
   const mat = new THREE.ShaderMaterial({
     transparent: true, depthWrite: false,
-    uniforms: { uSize: { value: (small ? 2.6 : 2.4) * renderer.getPixelRatio() }, uA: { value: new THREE.Color('#141a33') }, uB: { value: new THREE.Color('#3355ff') } },
-    vertexShader: `attribute float seed; uniform float uSize; varying float vSeed; varying float vDepth;
-      void main(){ vSeed = seed; vec4 mv = modelViewMatrix * vec4(position,1.0); vDepth = -mv.z;
+    uniforms: { uSize: { value: 2.4 * renderer.getPixelRatio() }, uA: { value: new THREE.Color('#141a33') }, uB: { value: new THREE.Color('#3355ff') } },
+    vertexShader: `attribute float seed; uniform float uSize; varying float vSeed;
+      void main(){ vSeed = seed; vec4 mv = modelViewMatrix * vec4(position,1.0);
         gl_PointSize = uSize * (12.0 / -mv.z) * (0.7 + seed * 0.6); gl_Position = projectionMatrix * mv; }`,
-    fragmentShader: `uniform vec3 uA; uniform vec3 uB; varying float vSeed; varying float vDepth;
+    fragmentShader: `uniform vec3 uA; uniform vec3 uB; varying float vSeed;
       void main(){ vec2 c = gl_PointCoord - 0.5; if (dot(c,c) > 0.25) discard;
-        vec3 col = mix(uA, uB, step(0.82, vSeed)); gl_FragColor = vec4(col, 0.9); }`
+        gl_FragColor = vec4(mix(uA, uB, step(0.82, vSeed)), 0.92); }`
   });
   const points = new THREE.Points(geo, mat);
   scene.add(points);
 
-  // pointer in world space (z=0 plane)
+  // the visible area at z=0, in world units
+  const view = () => { const h = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z; return { w: h * camera.aspect, h }; };
+
+  let shape = new Float32Array(COUNT * 3), mode = 'text', lastText = null;
+  const box = () => { // where the text should sit, from the page layout (fractions of the canvas)
+    const v = view(), b = layout();
+    return { w: v.w * b.w, h: v.h * b.h, x: (b.cx - .5) * v.w, y: -(b.cy - .5) * v.h };
+  };
+  const setText = (lines) => {
+    lastText = lines; mode = 'text';
+    const b = box();
+    shape = textPoints(lines, COUNT, b.w, b.h);
+    for (let i = 0; i < COUNT; i++) { shape[i * 3] += b.x; shape[i * 3 + 1] += b.y; }
+  };
+  const setGlobe = () => { mode = 'globe'; const b = box(); shape = spherePoints(COUNT, Math.min(b.h * .62, b.w * .4)); for (let i = 0; i < COUNT; i++) { shape[i * 3] += b.x; shape[i * 3 + 1] += b.y; } };
+  const setWave = () => { mode = 'wave'; const b = box(); shape = gridPoints(COUNT, b.w * 1.1, b.h * 1.4); for (let i = 0; i < COUNT; i++) { shape[i * 3] += b.x; shape[i * 3 + 1] += b.y - b.h * .1; } };
+  const scatter = () => { for (let i = 0; i < COUNT * 3; i++) geo.attributes.position.array[i] += (Math.random() - .5) * 6; };
+
+  // pointer in world space
   const mouse = new THREE.Vector3(999, 999, 0), ndc = new THREE.Vector2(), ray = new THREE.Raycaster(), plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
-  addEventListener('pointermove', (e) => {
+  canvas.addEventListener('pointermove', (e) => {
     const r = canvas.getBoundingClientRect();
-    if (e.clientY < r.top || e.clientY > r.bottom) { mouse.set(999, 999, 0); return; }
     ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ndc, camera); ray.ray.intersectPlane(plane, mouse);
-  }, { passive: true });
+  });
   canvas.addEventListener('pointerleave', () => mouse.set(999, 999, 0));
+  canvas.addEventListener('click', () => scatter());
 
   const resize = () => {
     const w = canvas.clientWidth, h = canvas.clientHeight; if (!w || !h) return;
     renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+    if (mode === 'text' && lastText) setText(lastText); else if (mode === 'globe') setGlobe(); else if (mode === 'wave') setWave();
   };
-  new ResizeObserver(resize).observe(canvas); resize();
+  new ResizeObserver(resize).observe(canvas);
 
-  let progress = 0, running = true;
+  let running = true;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-  const target = new Float32Array(3);
-  const clock = new THREE.Clock();
-
+  const clock = new THREE.Clock(), tgt = [0, 0, 0];
   const tick = () => {
     if (!running) return;
     requestAnimationFrame(tick);
-    const t = clock.getElapsedTime();
-    // progress 0..1 -> stage 0 (name) .. 1 (globe) .. 2 (wave)
-    const s = Math.min(1.999, progress * 2), a = Math.floor(s), k = ease(s - a);
-    const A = shapes[a], B = shapes[a + 1];
-    const p = geo.attributes.position.array;
-    const lerp = reduce ? 1 : 0.075;
+    const t = clock.getElapsedTime(), p = geo.attributes.position.array, b = box();
+    const lerp = reduce ? 1 : .08, cos = Math.cos(t * .35), sin = Math.sin(t * .35);
     for (let i = 0; i < COUNT; i++) {
       const j = i * 3;
-      for (let d = 0; d < 3; d++) target[d] = A[j + d] + (B[j + d] - A[j + d]) * k;
-      if (a + k > 1.02) { // wave stage
-        const w = Math.min(1, a + k - 1);
-        target[1] += Math.sin(target[0] * .9 + t * 1.6) * Math.cos(target[2] * .9 + t * 1.2) * .55 * w - 1.1 * w;
+      tgt[0] = shape[j]; tgt[1] = shape[j + 1]; tgt[2] = shape[j + 2];
+      if (mode === 'globe' && !reduce) { // spin around the globe's own center
+        const lx = tgt[0] - b.x, lz = tgt[2];
+        tgt[0] = b.x + lx * cos - lz * sin; tgt[2] = lx * sin + lz * cos;
       }
-      if (!reduce) target[2] += Math.sin(t * .8 + seeds[i] * 6.28) * .04;
-      // pointer repulsion
+      if (mode === 'wave') {
+        const lx = tgt[0] - b.x, lz = tgt[2];
+        tgt[1] += Math.sin(lx * .9 + t * 1.6) * Math.cos(lz * .9 + t * 1.2) * .5;
+        tgt[1] += lz * .35; tgt[2] = lz * .6; // tilt toward the viewer
+      }
+      if (!reduce) tgt[2] += Math.sin(t * .8 + seeds[i] * 6.28) * .04;
       const dx = p[j] - mouse.x, dy = p[j + 1] - mouse.y, dd = dx * dx + dy * dy;
-      if (dd < 1.6) { const f = (1.6 - dd) * .35; target[0] += dx * f; target[1] += dy * f; }
-      p[j] += (target[0] - p[j]) * lerp; p[j + 1] += (target[1] - p[j + 1]) * lerp; p[j + 2] += (target[2] - p[j + 2]) * lerp;
+      if (dd < 1.6) { const f = (1.6 - dd) * .35; tgt[0] += dx * f; tgt[1] += dy * f; }
+      p[j] += (tgt[0] - p[j]) * lerp; p[j + 1] += (tgt[1] - p[j + 1]) * lerp; p[j + 2] += (tgt[2] - p[j + 2]) * lerp;
     }
     geo.attributes.position.needsUpdate = true;
-    // globe spins, wave tilts
-    const globe = Math.max(0, 1 - Math.abs(s - 1));
-    points.rotation.y = reduce ? 0 : t * .25 * globe;
-    points.rotation.x = (s > 1 ? (s - 1) * .55 : 0);
-    points.position.x = small ? 0 : Math.min(1, s) * 2.6;
-    points.position.y = small ? Math.min(1, s) * 1.2 : 0;
     renderer.render(scene, camera);
   };
-  tick();
+  resize(); tick();
 
-  return {
-    setProgress(v) { progress = Math.max(0, Math.min(1, v)); },
-    pause() { running = false; },
-    resume() { if (!running) { running = true; tick(); } }
-  };
+  return { setText, setGlobe, setWave, scatter,
+    pause() { running = false; }, resume() { if (!running) { running = true; tick(); } } };
 }

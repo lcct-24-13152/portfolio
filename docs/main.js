@@ -234,26 +234,51 @@ function setupReveal() {
 
 
 
-/* ---------- Hero: particles driven by scroll ---------- */
+/* ---------- Hero: particle name + visitor console ---------- */
+const NAME = ['CHER MICOLE', 'P. LIRIO'];
 async function setupHero() {
-  const hero = $('#home'), caps = $$('.cap'), meter = $('#meter');
-  let ctrl = null;
+  const canvas = $('#dots'), out = $('#consoleOut'), input = $('#consoleIn');
+  const scan = $('#heroPhoto');
+  setTimeout(() => { scan.classList.add('is-done'); $('#scanStatus').textContent = 'profile verified · open to OJT'; }, reduceMotion() ? 0 : 3600);
+
+  // where the name sits, as fractions of the canvas
+  const layout = () => innerWidth <= 760 ? { cx: .5, cy: .5, w: .9, h: .8 }
+    : { cx: .43, cy: .44, w: Math.min(.62, 1 - (330 / innerWidth) - .12), h: .42 };
+  let dots = null;
   try {
-    if (document.fonts && document.fonts.load) await document.fonts.load('800 100px "Space Grotesk"').catch(() => {});
+    if (document.fonts && document.fonts.load) await document.fonts.load('700 100px "Space Grotesk"').catch(() => {});
     const { initParticles } = await import('./particles.js');
-    ctrl = initParticles($('#dots'), { name: innerWidth < 700 ? ['MICOLE', 'LIRIO'] : ['MICOLE', 'LIRIO'] });
-  } catch (e) { ctrl = null; }
-  if (!ctrl) { document.documentElement.classList.add('no-webgl'); return; }
-  const onScroll = () => {
-    const max = hero.offsetHeight - innerHeight;
-    const p = Math.max(0, Math.min(1, -hero.getBoundingClientRect().top / max));
-    ctrl.setProgress(p);
-    meter.style.width = (p * 100) + '%';
-    const stage = p < .28 ? 0 : p < .72 ? 1 : 2;
-    caps.forEach(c => c.classList.toggle('is-on', +c.dataset.stage === stage));
+    dots = initParticles(canvas, layout);
+  } catch (e) { dots = null; }
+  if (!dots) document.documentElement.classList.add('no-webgl');
+  else { dots.setText(NAME); new IntersectionObserver(([e]) => e.isIntersecting ? dots.resume() : dots.pause()).observe($('#home')); }
+
+  const say = (html) => { out.innerHTML = html; };
+  const go = (id) => setTimeout(() => $('#' + id).scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth' }), 500);
+  const commands = {
+    help: () => say('<span class="c-hi">commands:</span> hello · globe · wave · projects · resume · hire · reset · <span class="c-dim">or type any word</span>'),
+    hello: () => { dots?.setText(['HELLO', 'VISITOR']); say('<span class="c-ok">Hi! Thanks for visiting.</span> Type your own name to see it in dots.'); },
+    globe: () => { dots?.setGlobe(); say('<span class="c-ok">rendering globe…</span> <span class="c-dim">because I build for the web.</span>'); },
+    wave: () => { dots?.setWave(); say('<span class="c-ok">rendering data wave…</span> <span class="c-dim">every screen starts with a database.</span>'); },
+    reset: () => { dots?.setText(NAME); say('<span class="c-dim">back to</span> CHER MICOLE P. LIRIO'); },
+    projects: () => { dots?.setText(['4 SYSTEMS']); say('<span class="c-ok">cd ~/projects</span> <span class="c-dim">opening…</span>'); go('work'); },
+    resume: () => { say('<span class="c-ok">open resume.pdf</span>'); setTimeout(() => $('[data-open-resume]').click(), 300); },
+    hire: () => { dots?.setText(['HIRE', 'MICOLE']); say('<span class="c-ok">permission granted.</span> <a href="#contact">Send me a message →</a>'); go('contact'); },
+    photo: () => scan.click(),
+    clear: () => say('')
   };
-  addEventListener('scroll', onScroll, { passive: true }); onScroll();
-  new IntersectionObserver(([e]) => e.isIntersecting ? ctrl.resume() : ctrl.pause()).observe(hero);
+  const run = (raw) => {
+    const v = raw.trim(); if (!v) return;
+    const cmd = commands[v.toLowerCase()];
+    if (cmd) { cmd(); return; }
+    const word = v.toUpperCase().replace(/[^A-Z0-9Ñ .,!?'-]/g, '').slice(0, 24);
+    if (!word) { say('<span class="c-dim">Try letters or numbers.</span>'); return; }
+    const parts = word.length > 12 && word.includes(' ') ? [word.slice(0, word.lastIndexOf(' ', 12) > 0 ? word.lastIndexOf(' ', 12) : 12).trim(), word.slice(word.lastIndexOf(' ', 12) > 0 ? word.lastIndexOf(' ', 12) : 12).trim()] : [word];
+    dots?.setText(parts);
+    say(`<span class="c-ok">built "${escapeHtml(word)}" from ${innerWidth < 700 ? '4,500' : '9,000'} dots.</span> <span class="c-dim">Type "reset" to go back.</span>`);
+  };
+  $('#consoleForm').addEventListener('submit', (e) => { e.preventDefault(); run(input.value); input.value = ''; });
+  $$('.console__chips [data-cmd]').forEach(b => b.addEventListener('click', () => run(b.dataset.cmd)));
 }
 
 /* ---------- Work: vertical scroll moves the track sideways ---------- */
@@ -285,7 +310,7 @@ function setupTilt() {
 
 function setupTop() {
   const top = $('.top');
-  const f = () => top.classList.toggle('is-solid', scrollY > innerHeight * 2.6 || $('html').classList.contains('no-webgl') && scrollY > 40);
+  const f = () => top.classList.toggle('is-solid', scrollY > 40);
   addEventListener('scroll', f, { passive: true }); f();
 }
 
