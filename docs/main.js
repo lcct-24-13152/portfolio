@@ -495,7 +495,7 @@ function setupResumeView() {
    3) FormSubmit classic POST through a hidden iframe (works even when AJAX is blocked) */
 const MAIL_TO = 'liriocher25@gmail.com';
 // Fill these in to send the designed email template through EmailJS (falls back to Web3Forms)
-const EMAILJS = { service: 'service_pgjuzqr', template: 'template_u70o1a5', publicKey: '69iLDvXkdalzF6d88soC2' };
+const EMAILJS = { service: 'service_pgjuzqr', template: 'template_u70o1a5', publicKey: 'NM4W1DD9vhp62mRKb' };
 const WEB3FORMS_KEY = 'b148b811-9d19-457f-bf53-dd725301fbbb';
 async function sendMail(m) {
   const subject = 'Portfolio message: ' + m.topic + ' from ' + m.name;
