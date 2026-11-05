@@ -494,12 +494,12 @@ function setupResumeView() {
    2) FormSubmit AJAX
    3) FormSubmit classic POST through a hidden iframe (works even when AJAX is blocked) */
 const MAIL_TO = 'liriocher25@gmail.com';
-const WEB3FORMS_KEY = '';
+const WEB3FORMS_KEY = 'b148b811-9d19-457f-bf53-dd725301fbbb';
 async function sendMail(m) {
   const subject = 'Portfolio message: ' + m.topic + ' from ' + m.name;
   if (WEB3FORMS_KEY) {
     const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({ access_key: WEB3FORMS_KEY, subject, from_name: m.name + ' (portfolio)', name: m.name, email: m.email, replyto: m.email, topic: m.topic, message: m.message, botcheck: '' }) });
+      body: JSON.stringify({ access_key: WEB3FORMS_KEY, subject, from_name: m.name + ' (portfolio)', name: m.name, email: m.email, replyto: m.email, topic: m.topic, message: m.message }) });
     const d = await r.json().catch(() => ({}));
     if (d.success) return; console.warn('Web3Forms:', d.message);
   }
