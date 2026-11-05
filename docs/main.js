@@ -494,9 +494,20 @@ function setupResumeView() {
    2) FormSubmit AJAX
    3) FormSubmit classic POST through a hidden iframe (works even when AJAX is blocked) */
 const MAIL_TO = 'liriocher25@gmail.com';
+// Fill these in to send the designed email template through EmailJS (falls back to Web3Forms)
+const EMAILJS = { service: '', template: '', publicKey: '' };
 const WEB3FORMS_KEY = 'b148b811-9d19-457f-bf53-dd725301fbbb';
 async function sendMail(m) {
   const subject = 'Portfolio message: ' + m.topic + ' from ' + m.name;
+  if (EMAILJS.service && EMAILJS.template && EMAILJS.publicKey) { // designed HTML email
+    try {
+      const r = await fetch('https://api.emailjs.com/api/v1.0/email/send', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ service_id: EMAILJS.service, template_id: EMAILJS.template, user_id: EMAILJS.publicKey,
+          template_params: { from_name: m.name, reply_to: m.email, topic: m.topic, message: m.message,
+            sent_at: new Intl.DateTimeFormat('en-PH', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Manila' }).format(new Date()) + ' (PH time)' } }) });
+      if (r.ok) return; console.warn('EmailJS:', r.status, await r.text());
+    } catch (e) { console.warn('EmailJS blocked:', e.message); }
+  }
   if (WEB3FORMS_KEY) {
     const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({
