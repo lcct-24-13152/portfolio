@@ -499,7 +499,18 @@ async function sendMail(m) {
   const subject = 'Portfolio message: ' + m.topic + ' from ' + m.name;
   if (WEB3FORMS_KEY) {
     const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({ access_key: WEB3FORMS_KEY, subject, from_name: m.name + ' (portfolio)', name: m.name, email: m.email, replyto: m.email, topic: m.topic, message: m.message }) });
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: '📬 New ' + m.topic + ' message from ' + m.name,
+        from_name: "Micole's Portfolio",
+        replyto: m.email,
+        '👤 Name': m.name,
+        '📧 Email': m.email,
+        '🏷️ Topic': m.topic,
+        '💬 Message': m.message,
+        '🕒 Sent': new Intl.DateTimeFormat('en-PH', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Manila' }).format(new Date()) + ' (PH time)',
+        '↩️ How to reply': 'Just press Reply. It goes straight to ' + m.email,
+      }) });
     const d = await r.json().catch(() => ({}));
     if (d.success) return; console.warn('Web3Forms:', d.message);
   }
