@@ -116,19 +116,62 @@
   </main>
 
   <!-- ========== PORTAL (transition when a module opens) ========== -->
-  <button type="button" data-open-resume hidden></button>
   <div class="portal" id="portal" aria-hidden="true"><div class="portal__inner"><p class="portal__cmd" id="portalCmd"></p><div class="portal__bar"><i></i></div></div></div>
 
   <!-- ========== VIEWS ========== -->
   <section class="view" id="view-projects" data-title="Projects" hidden>
     <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/projects</span></header>
     <div class="view__body">
-      <p class="kicker">Projects</p><h2>Four systems, built end to end.</h2>
-      <div class="pgrid">
-        <button type="button" class="pcard" data-project-open="sportzle" style="--c1:#0c1a2e;--c2:rgba(32,160,180,.55);--i:0"><span class="pcard__vis"><img src="assets/sportzle-logo.png" alt="" width="180" height="180"></span><span class="pcard__body"><span class="pcard__kind">01 · Educational game</span><b>Intel Sportzle</b><span>Sports word game for solo and multiplayer, with scoring and leaderboards.</span><em>PHP · MySQL · JavaScript</em></span></button>
-        <button type="button" class="pcard" data-project-open="laundry" style="--c1:#1b1433;--c2:rgba(165,139,245,.55);--i:1"><span class="pcard__vis pcard__vis--shot"><img src="assets/laundry/dashboard.jpg" alt="" loading="lazy"></span><span class="pcard__body"><span class="pcard__kind">02 · Management system</span><b>CML Laundry System</b><span>Laundry shop from drop-off to payment, with inventory alerts and QR tracking.</span><em>PHP · MySQL · PHPMailer · Dompdf</em></span></button>
-        <button type="button" class="pcard" data-project-open="salrc" style="--c1:#0f1a30;--c2:rgba(245,184,61,.45);--i:2"><span class="pcard__vis"><img src="assets/salrc-logo.svg" alt="" width="170" height="170"></span><span class="pcard__body"><span class="pcard__kind">03 · Library system</span><b>SALRC</b><span>St. Augustine Learning Resource Center online: books, files and materials.</span><em>PHP · MySQL · JavaScript</em></span></button>
-        <button type="button" class="pcard" data-project-open="helpdesk" style="--c1:#161028;--c2:rgba(61,220,151,.4);--i:3"><span class="pcard__vis"><img src="assets/helpdesk-logo.svg" alt="" width="170" height="170"></span><span class="pcard__body"><span class="pcard__kind">04 · Ticketing system</span><b>Academic Helpdesk</b><span>Students send concerns as tickets; the school tracks each one to resolved.</span><em>PHP · MySQL · JavaScript</em></span></button>
+      <div class="vhead">
+        <div><p class="kicker">Projects</p><h2>Four systems,<br>built end to end.</h2><p class="vhead__sub">Each one has a database, an admin side and a real user flow. Open a card to see the details and screenshots.</p></div>
+        <ul class="status" aria-label="Project status">
+          <li><i class="up"></i><span>intel-sportzle</span><em>live</em></li>
+          <li><i></i><span>cml-laundry</span><em>on GitHub</em></li>
+          <li><i class="up"></i><span>salrc</span><em>live</em></li>
+          <li><i class="up"></i><span>academic-helpdesk</span><em>live</em></li>
+        </ul>
+      </div>
+      <div class="pgrid spot">
+        <article class="pcard" style="--c1:#0c1a2e;--c2:rgba(32,160,180,.55);--i:0">
+          <div class="pcard__vis"><img src="assets/sportzle-logo.png" alt="" width="180" height="180"><span class="pcard__num">01</span></div>
+          <div class="pcard__body">
+            <span class="pcard__kind">Educational game</span>
+            <h3>Intel Sportzle</h3>
+            <p>Sports word game for solo and multiplayer play, with scoring and leaderboards.</p>
+            <ul class="stack"><li>PHP</li><li>MySQL</li><li>JavaScript</li></ul>
+            <div class="pcard__foot"><button type="button" class="pcard__open" data-project-open="sportzle">View details <span aria-hidden="true">→</span></button><a href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener">Live site ↗</a></div>
+          </div>
+        </article>
+        <article class="pcard" style="--c1:#1b1433;--c2:rgba(165,139,245,.55);--i:1">
+          <div class="pcard__vis"><img class="shot" src="assets/laundry/dashboard.jpg" alt="" loading="lazy"><span class="pcard__num">02</span></div>
+          <div class="pcard__body">
+            <span class="pcard__kind">Management system</span>
+            <h3>CML Laundry System</h3>
+            <p>A laundry shop from drop-off to payment, with inventory alerts and QR tracking.</p>
+            <ul class="stack"><li>PHP</li><li>MySQL</li><li>PHPMailer</li><li>Dompdf</li></ul>
+            <div class="pcard__foot"><button type="button" class="pcard__open" data-project-open="laundry">View details <span aria-hidden="true">→</span></button><a href="https://github.com/lcct-24-13152/laundry-system" target="_blank" rel="noopener">Source code ↗</a></div>
+          </div>
+        </article>
+        <article class="pcard" style="--c1:#0f1a30;--c2:rgba(245,184,61,.45);--i:2">
+          <div class="pcard__vis"><img src="assets/salrc-logo.svg" alt="" width="170" height="170"><span class="pcard__num">03</span></div>
+          <div class="pcard__body">
+            <span class="pcard__kind">Library system</span>
+            <h3>SALRC</h3>
+            <p>St. Augustine Learning Resource Center online: books, files and learning materials.</p>
+            <ul class="stack"><li>PHP</li><li>MySQL</li><li>JavaScript</li></ul>
+            <div class="pcard__foot"><button type="button" class="pcard__open" data-project-open="salrc">View details <span aria-hidden="true">→</span></button><a href="https://salrc-lcctanauan.infinityfree.io/" target="_blank" rel="noopener">Live site ↗</a></div>
+          </div>
+        </article>
+        <article class="pcard" style="--c1:#161028;--c2:rgba(61,220,151,.4);--i:3">
+          <div class="pcard__vis"><img src="assets/helpdesk-logo.svg" alt="" width="170" height="170"><span class="pcard__num">04</span></div>
+          <div class="pcard__body">
+            <span class="pcard__kind">Ticketing system</span>
+            <h3>Academic Helpdesk</h3>
+            <p>Students send concerns as tickets, and the school tracks each one until it is resolved.</p>
+            <ul class="stack"><li>PHP</li><li>MySQL</li><li>JavaScript</li></ul>
+            <div class="pcard__foot"><button type="button" class="pcard__open" data-project-open="helpdesk">View details <span aria-hidden="true">→</span></button><a href="https://lcct-academic-helpdesk.infinityfree.io/?i=1" target="_blank" rel="noopener">Live site ↗</a></div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -136,67 +179,106 @@
   <section class="view" id="view-certificates" data-title="Certificates" hidden>
     <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/certificates</span></header>
     <div class="view__body">
-      <p class="kicker">Certificates</p><h2><span id="certTotal">10</span> proofs of learning.</h2>
-      <div class="tabs" role="tablist" aria-label="Filter certificates">
-        <button class="tab is-active" role="tab" aria-selected="true" data-filter="all">All</button>
-        <button class="tab" role="tab" aria-selected="false" data-filter="Cisco Networking Academy">Cisco</button>
-        <button class="tab" role="tab" aria-selected="false" data-filter="School and events">School and events</button>
+      <div class="vhead">
+        <div><p class="kicker">Certificates</p><h2><span id="certTotal">10</span> proofs<br>of learning.</h2><p class="vhead__sub">Courses from Cisco Networking Academy, plus school and IT Week events. Tap any certificate to view it full size.</p></div>
+        <button type="button" class="fan" id="certFan" aria-label="Open the latest certificate"></button>
       </div>
-      <div class="cgrid" id="certStrip"></div>
+      <div class="tabs" role="tablist" aria-label="Filter certificates">
+        <button class="tab is-active" role="tab" aria-selected="true" data-filter="all">All <b data-n="all"></b></button>
+        <button class="tab" role="tab" aria-selected="false" data-filter="Cisco Networking Academy">Cisco <b data-n="Cisco Networking Academy"></b></button>
+        <button class="tab" role="tab" aria-selected="false" data-filter="School and events">School and events <b data-n="School and events"></b></button>
+      </div>
+      <div class="cgrid spot" id="certStrip"></div>
     </div>
   </section>
 
   <section class="view" id="view-about" data-title="About" hidden>
     <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/about.md</span></header>
-    <div class="view__body view__body--wide about3">
-      <div class="a3-intro">
-        <p class="kicker">About</p>
-        <h2 class="a3-title">Hi, I'm <span class="grad">Micole.</span></h2>
-        <p class="a3-lead">A motivated and responsible IT student with knowledge in web development, databases and system development.</p>
-        <p class="a3-text">I communicate well, keep my tasks organized and enjoy solving technical problems. I work well alone or with a team, and I'm always willing to learn. I'm looking for a chance to gain experience, improve my skills and contribute to an organization.</p>
-        <dl class="facts facts--big"><div><dt>Course</dt><dd>BS Information Technology</dd></div><div><dt>School</dt><dd>La Consolacion College Tanauan</dd></div><div><dt>Since</dt><dd>2017 to present</dd></div><div><dt>Based in</dt><dd>Balele, Tanauan City, Batangas</dd></div></dl>
-      </div>
-
-      <div class="term" aria-label="Interactive terminal">
-        <div class="term__bar"><i></i><i></i><i></i><span>micole@portfolio: ~</span></div>
-        <div class="term__out" id="termOut" aria-live="polite"></div>
-        <div class="term__cmds"><span>try a command:</span>
-          <button type="button" data-cmd="whoami">whoami</button><button type="button" data-cmd="stack">ls stack/</button><button type="button" data-cmd="projects">ls projects/</button><button type="button" data-cmd="certs">cat certs.log</button><button type="button" data-cmd="goal">cat goal.txt</button><button type="button" data-cmd="clear">clear</button>
+    <div class="view__body about4">
+      <div class="vhead vhead--about">
+        <div>
+          <p class="kicker">About</p>
+          <h2>Hi, I'm <span class="grad">Micole.</span></h2>
+          <p class="a4-lead">A motivated and responsible IT student with knowledge in web development, databases and system development.</p>
+          <p class="vhead__sub">I communicate well, keep my tasks organized and enjoy solving technical problems. I work well alone or with a team, and I'm always willing to learn. I'm looking for a chance to gain experience, improve my skills and contribute to an organization.</p>
+        </div>
+        <div class="term" aria-label="Interactive terminal">
+          <div class="term__bar"><i></i><i></i><i></i><span>micole@portfolio: ~</span></div>
+          <div class="term__out" id="termOut" aria-live="polite"></div>
+          <div class="term__cmds"><span>run:</span><button type="button" data-cmd="whoami">whoami</button><button type="button" data-cmd="stack">ls stack/</button><button type="button" data-cmd="projects">ls projects/</button><button type="button" data-cmd="goal">cat goal.txt</button><button type="button" data-cmd="clear">clear</button></div>
         </div>
       </div>
+      <dl class="info">
+        <div><dt>Course</dt><dd>BS Information Technology</dd></div>
+        <div><dt>School</dt><dd>La Consolacion College Tanauan</dd></div>
+        <div><dt>Since</dt><dd>2017 to present</dd></div>
+        <div><dt>Based in</dt><dd>Balele, Tanauan City, Batangas</dd></div>
+      </dl>
+      <div class="sec-k">What I work with</div>
+      <div class="trio">
+        <div class="box"><p class="box__k"><span>01</span> Skills</p><ul class="chips chips--big"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>PHP</li><li>MySQL</li><li>Web development</li><li>Database management</li><li>System testing</li><li>UI/UX design</li></ul></div>
+        <div class="box"><p class="box__k"><span>02</span> Tools</p><ul class="chips chips--big"><li>VS Code</li><li>Laragon</li><li>phpMyAdmin</li><li>Git and GitHub</li><li>Figma</li><li>Canva</li></ul></div>
+        <div class="box"><p class="box__k"><span>03</span> How I work</p><ul class="chips chips--big"><li>Communication</li><li>Problem-solving</li><li>Teamwork</li><li>Time management</li><li>Adaptability</li></ul></div>
+      </div>
+      <div class="sec-k">References</div>
+      <div class="refs">
+        <div class="refc"><span class="refc__av">SL</span><div><b>Dr. Salem Laylo</b><span>IT Program Chair, La Consolacion College Tanauan</span><a href="tel:+639178898876">0917 889 8876</a></div></div>
+        <div class="refc"><span class="refc__av">RL</span><div><b>Ms. Regine Lopez</b><span>SHS Teacher, La Consolacion College Tanauan</span><a href="tel:+639677966337">0967 796 6337</a></div></div>
+      </div>
+    </div>
+  </section>
 
-      <ul class="stats">
-        <li><b data-count="4">0</b><span>web systems built end to end</span></li>
-        <li><b data-count="10">0</b><span>certificates earned</span></li>
-        <li><b data-count="5">0</b><span>Cisco networking courses</span></li>
-        <li><b data-count="6">0</b><span>dev tools I use daily</span></li>
-      </ul>
-
-      <div class="box a3-skills"><p class="box__k">Skills</p><ul class="chips chips--big"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>PHP</li><li>MySQL</li><li>Web development</li><li>Database management</li><li>System testing</li><li>UI/UX design</li></ul>
-        <p class="box__k">Tools</p><ul class="chips chips--big"><li>VS Code</li><li>Laragon</li><li>phpMyAdmin</li><li>Git and GitHub</li><li>Figma</li><li>Canva</li></ul>
-        <p class="box__k">How I work</p><ul class="chips chips--big"><li>Communication</li><li>Problem-solving</li><li>Teamwork</li><li>Time management</li><li>Adaptability</li></ul></div>
-
-      <div class="box a3-log"><p class="box__k">2026 log</p>
-        <ol class="tl">
-          <li><time>Aug 2026</time><b>HTML Essentials</b><span>Cisco Networking Academy and JS Institute</span></li>
-          <li><time>Apr 2026</time><b>Network Technician Career Path</b><span>Five Cisco courses, from Networking Basics to Network Support and Security</span></li>
-          <li><time>Mar 2026</time><b>IT Week 2026</b><span>Robotics, business and technology talks, and the BSIT exposure trip</span></li>
-          <li><time>Projects</time><b>4 systems shipped</b><span>Intel Sportzle, CML Laundry, SALRC and the Academic Helpdesk</span></li>
-        </ol></div>
-
-      <div class="box a3-refs"><p class="box__k">References</p>
-        <div class="ref"><b>Dr. Salem Laylo</b><span>IT Program Chair, La Consolacion College Tanauan</span><a href="tel:+639178898876">0917 889 8876</a></div>
-        <div class="ref"><b>Ms. Regine Lopez</b><span>SHS Teacher, La Consolacion College Tanauan</span><a href="tel:+639677966337">0967 796 6337</a></div></div>
+  <section class="view" id="view-resume" data-title="Resume" hidden>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/resume.pdf</span></header>
+    <div class="view__body resume3">
+      <aside class="r3-side">
+        <p class="kicker">Resume</p>
+        <h2>My resume,<br>on one page.</h2>
+        <p class="vhead__sub">The same A4 resume I send for OJT and internships. Check it here, then print it or save it as a PDF.</p>
+        <div class="r3-actions">
+          <button type="button" class="btn btn--solid" data-open-resume>Print or save as PDF</button>
+          <a class="btn btn--line" href="mailto:liriocher25@gmail.com?subject=OJT%20opportunity">Email me</a>
+        </div>
+        <ul class="r3-meta"><li><span>Format</span><b>A4, 1 page</b></li><li><span>Sections</span><b>Profile, skills, projects, education, certificates</b></li><li><span>References</span><b>2 contacts</b></li></ul>
+      </aside>
+      <div class="r3-paper"><div class="r3-printer"><i></i></div><div class="r3-sheet" id="resumePaper"></div></div>
     </div>
   </section>
 
   <section class="view" id="view-contact" data-title="Contact" hidden>
     <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/contact</span></header>
-    <div class="view__body contact2">
-      <p class="kicker">Contact</p>
-      <h2 class="contact2__big">Let's build<br>something.</h2>
-      <div class="contact2__row"><a class="contact2__mail" href="mailto:liriocher25@gmail.com">liriocher25@gmail.com</a><button type="button" class="btn btn--line" id="copyEmail">Copy email</button></div>
-      <dl class="contact2__more"><div><dt>Phone</dt><dd><a href="tel:+639764332931">0976 433 2931</a></dd></div><div><dt>Address</dt><dd>Balele, Tanauan City, Batangas</dd></div><div><dt>GitHub</dt><dd><a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">lcct-24-13152</a></dd></div></dl>
+    <div class="view__body contact3">
+      <div class="c3-left">
+        <p class="kicker">Contact</p>
+        <h2>Let's build<br><span class="grad">something.</span></h2>
+        <p class="vhead__sub">Open to OJT and internship opportunities. Send a message here and it lands straight in my inbox.</p>
+        <div class="c3-live"><span class="dot"></span><span>Available</span><span class="sep">·</span><span>Tanauan, PH</span><span class="sep">·</span><b id="phTime">--:--</b></div>
+        <div class="ccards">
+          <div class="ccard"><span class="ccard__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><div><span class="ccard__k">Email</span><a href="mailto:liriocher25@gmail.com">liriocher25@gmail.com</a></div><button type="button" class="ccard__act" id="copyEmail">Copy email</button></div>
+          <div class="ccard"><span class="ccard__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span><div><span class="ccard__k">Phone</span><a href="tel:+639764332931">0976 433 2931</a></div><a class="ccard__act" href="tel:+639764332931">Call</a></div>
+          <div class="ccard"><span class="ccard__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><span class="ccard__k">Address</span><span>Balele, Tanauan City, Batangas</span></div><a class="ccard__act" href="https://www.google.com/maps/search/?api=1&query=Balele%2C%20Tanauan%20City%2C%20Batangas" target="_blank" rel="noopener">Map ↗</a></div>
+          <div class="ccard"><span class="ccard__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg></span><div><span class="ccard__k">GitHub</span><a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">lcct-24-13152</a></div><a class="ccard__act" href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">Open ↗</a></div>
+        </div>
+      </div>
+      <form class="mail" id="mailForm" novalidate>
+        <div class="mail__bar"><i></i><i></i><i></i><span>new_message.txt</span></div>
+        <div class="mail__body">
+          <p class="mail__k">What's it about?</p>
+          <div class="topics" role="radiogroup" aria-label="Topic">
+            <label><input type="radio" name="topic" value="OJT opportunity" checked><span>OJT</span></label>
+            <label><input type="radio" name="topic" value="Internship"><span>Internship</span></label>
+            <label><input type="radio" name="topic" value="Project"><span>Project</span></label>
+            <label><input type="radio" name="topic" value="Hello"><span>Just saying hi</span></label>
+          </div>
+          <div class="field2">
+            <label class="field"><span>Your name</span><input name="name" autocomplete="name" placeholder="Juan Dela Cruz" required></label>
+            <label class="field"><span>Your email</span><input name="email" type="email" autocomplete="email" placeholder="you@email.com" required></label>
+          </div>
+          <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <label class="field"><span>Message</span><textarea name="msg" rows="5" placeholder="Hi Micole, …" required></textarea></label>
+          <div class="mail__foot"><span class="mail__hint" id="mailHint">Goes straight to my inbox.</span><button type="submit" class="btn btn--solid send"><span>Send message</span><i aria-hidden="true">➤</i></button></div>
+        </div>
+      </form>
     </div>
   </section>
 
@@ -261,7 +343,7 @@
   <div class="modal" id="resumeModal" role="dialog" aria-modal="true" aria-labelledby="resumeTitle" hidden>
     <div class="modal__card modal__card--resume">
       <header class="modal__bar">
-        <div><p id="resumeTitle" class="modal__title">Resume preview</p><p class="muted small">Check your A4 resume, then print it or choose "Save as PDF".</p></div>
+        <div><p id="resumeTitle" class="modal__title">Print preview</p><p class="muted small">Check your A4 resume, then print it or choose "Save as PDF".</p></div>
         <div class="modal__actions">
           <button type="button" class="btn btn--solid btn--sm" id="printResume">Print or save as PDF</button>
           <button type="button" class="modal__x modal__x--inline" data-close aria-label="Close">×</button>

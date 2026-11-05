@@ -178,7 +178,7 @@ function setupCertificates() {
     grid.innerHTML = list.map((c, i) => `
       <button type="button" class="cert" data-cert="${certificates.indexOf(c)}" style="animation-delay:${i * 45}ms">
         <span class="cert__img"><img src="${CERT_PATH + c.thumb}" alt="" loading="lazy"></span>
-        <span class="cert__body"><span class="cert__date">${escapeHtml(c.date)}</span><span class="cert__title">${escapeHtml(c.title)}</span><span class="cert__issuer">${escapeHtml(c.issuer)}</span></span>
+        <span class="cert__body"><span class="cert__date">${escapeHtml(c.date)}</span><span class="cert__title">${escapeHtml(c.title)}</span><span class="cert__issuer">${escapeHtml(c.issuer)}</span><span class="cert__tag${c.group === 'School and events' ? ' cert__tag--school' : ''}">${c.group === 'School and events' ? 'School event' : 'Cisco'}</span></span>
       </button>`).join('');
   };
   render();
@@ -359,15 +359,10 @@ const Views = (() => {
   const go = async (name, pt, quick) => {
     if (busy) return; busy = true;
     if (!quick) await runPortal(name, pt);
-    if (name === 'resume') {
-      $('[data-open-resume]')?.click();
-      if (!quick) await fadePortal();
-    } else {
-      if (current && current.id !== 'view-' + name) { current.hidden = true; current.classList.remove('is-in'); }
-      show(name);
-      history.replaceState(null, '', '#' + name);
-      if (!quick) await fadePortal();
-    }
+    if (current && current.id !== 'view-' + name) { current.hidden = true; current.classList.remove('is-in'); }
+    show(name);
+    history.replaceState(null, '', '#' + name);
+    if (!quick) await fadePortal();
     busy = false;
   };
   const back = async () => {
@@ -392,8 +387,7 @@ function openFromHash2() {
   if (h === 'screens') { Views.go('projects', null, true).then(() => openProject('laundry', true)); return; }
   if (['sportzle', 'laundry', 'salrc', 'helpdesk'].includes(h)) { Views.go('projects', null, true).then(() => openProject(h)); return; }
   if (h === 'work') { Views.go('projects', null, true); return; }
-  if (['projects', 'certificates', 'about', 'contact'].includes(h)) Views.go(h, null, true);
-  if (h === 'resume') Views.go('resume', null, true);
+  if (['projects', 'certificates', 'about', 'contact', 'resume'].includes(h)) Views.go(h, null, true);
 }
 
 /* ---------- About: count-up stats + a small terminal ---------- */
@@ -403,10 +397,9 @@ function setupAbout() {
     whoami: () => [['k', 'Cher Micole P. Lirio'], ['', 'BSIT student @ La Consolacion College Tanauan'], ['d', 'Balele, Tanauan City, Batangas']],
     stack: () => [['k', 'languages/'], ['', '  HTML  CSS  JavaScript  PHP  MySQL'], ['k', 'tools/'], ['', '  VS Code  Laragon  phpMyAdmin  Git  Figma  Canva']],
     projects: () => [['', 'intel-sportzle/     sports word game'], ['', 'cml-laundry/        laundry shop system'], ['', 'salrc/              learning resource center'], ['', 'academic-helpdesk/  student ticketing system'], ['d', '4 directories']],
-    certs: () => [...certificates.slice(0, 6).map(c => ['', c.date.padEnd(13) + c.title]), ['d', '... ' + certificates.length + ' certificates in total']],
     goal: () => [['k', 'Looking for an OJT or internship'], ['', 'where I can gain experience, improve my skills'], ['', 'and contribute to an organization.']],
   };
-  const LABEL = { whoami: 'whoami', stack: 'ls stack/', projects: 'ls projects/', certs: 'cat certs.log', goal: 'cat goal.txt' };
+  const LABEL = { whoami: 'whoami', stack: 'ls stack/', projects: 'ls projects/', goal: 'cat goal.txt' };
   let busy = false;
   const line = (cls, text) => { const d = document.createElement('div'); if (cls) d.className = cls; d.textContent = text; out.appendChild(d); out.scrollTop = out.scrollHeight; return d; };
   const run = async (key) => {
@@ -435,14 +428,79 @@ function setupAbout() {
   });
 }
 
+/* ---------- Spotlight on cards ---------- */
+function setupSpot() {
+  $$('.spot').forEach(g => g.addEventListener('pointermove', (e) => {
+    const c = [...g.children].find(el => el.contains(e.target)); if (!c) return;
+    const r = c.getBoundingClientRect();
+    c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  }));
+}
+
+/* ---------- Certificates extras: counts + fanned preview ---------- */
+function setupCertExtras() {
+  $$('.tab [data-n]').forEach(b => { const g = b.dataset.n; b.textContent = certificates.filter(c => g === 'all' || c.group === g).length; });
+  const fan = $('#certFan'); if (!fan) return;
+  fan.innerHTML = certificates.slice(0, 3).reverse().map(c => `<img src="${CERT_PATH + c.thumb}" alt="" loading="lazy">`).join('');
+  fan.addEventListener('click', () => { $('.tab[data-filter="all"]').click(); $('#certStrip .cert')?.click(); });
+}
+
+/* ---------- Resume view: the real sheet, print in a modal ---------- */
+function setupResumeView() {
+  const box = $('#resumePaper'), src = $('#resumeSheet'); if (!box || !src) return;
+  const copy = src.cloneNode(true); copy.removeAttribute('id'); copy.style.zoom = '';
+  copy.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+  box.appendChild(copy);
+  const fit = () => { if (!box.clientWidth) return; const z = box.clientWidth / 793.7; copy.style.zoom = z.toFixed(4); };
+  new ResizeObserver(fit).observe(box); fit();
+}
+
+/* ---------- Contact: live PH time + message composer ---------- */
+function setupContactView() {
+  const t = $('#phTime');
+  const tick = () => { if (t) t.textContent = new Intl.DateTimeFormat('en-PH', { hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Manila' }).format(new Date()) + ' PHT'; };
+  tick(); setInterval(tick, 20000);
+  const f = $('#mailForm'); if (!f) return;
+  const hint = $('#mailHint'), btn = $('.send', f), label = $('.send span', f);
+  f.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (f._honey.value) return; // bots fill the hidden field
+    const name = f.name.value.trim(), email = f.email.value.trim(), msg = f.msg.value.trim(), topic = f.topic.value;
+    const okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    $$('.field', f).forEach(el => el.classList.remove('is-bad'));
+    if (!name) f.name.closest('.field').classList.add('is-bad');
+    if (!okEmail) f.email.closest('.field').classList.add('is-bad');
+    if (!msg) f.msg.closest('.field').classList.add('is-bad');
+    if (!name || !okEmail || !msg) { hint.textContent = 'Please add your name, a valid email and a message.'; return; }
+    btn.disabled = true; btn.classList.add('is-flying'); label.textContent = 'Sending…'; hint.textContent = 'Sending your message…';
+    try {
+      const r = await fetch('https://formsubmit.co/ajax/liriocher25@gmail.com', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ name, email, topic, message: msg, _subject: 'Portfolio message: ' + topic + ' from ' + name, _replyto: email, _template: 'table', _captcha: 'false' })
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok || data.success === false || data.success === 'false') throw new Error(data.message || 'failed');
+      f.reset(); f.classList.add('is-sent'); label.textContent = 'Sent'; hint.textContent = 'Message sent! Thank you, ' + name.split(' ')[0] + '. I\'ll reply to ' + email + '.';
+      setTimeout(() => { f.classList.remove('is-sent'); label.textContent = 'Send message'; }, 5000);
+    } catch (err) {
+      label.textContent = 'Send message';
+      hint.innerHTML = 'Couldn\'t send right now. <a href="mailto:liriocher25@gmail.com?subject=' + encodeURIComponent(topic + ' from ' + name) + '&body=' + encodeURIComponent(msg) + '">Email me directly</a> instead.';
+    } finally { btn.disabled = false; btn.classList.remove('is-flying'); }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   setupAbout();
+  setupSpot();
+  setupContactView();
   document.documentElement.classList.add('js');
   setupRig();
   setupProjects();
   Lightbox.init();
   setupCertificates();
   setupResume();
+  setupResumeView();
+  setupCertExtras();
   setupContact();
   $('#heroPhoto').addEventListener('click', () => Modal.open($('#photoModal')));
   openFromHash2();
