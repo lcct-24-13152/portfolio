@@ -234,51 +234,53 @@ function setupReveal() {
 
 
 
-/* ---------- Hero: particle name + visitor console ---------- */
-const NAME = ['CHER MICOLE', 'P. LIRIO'];
-async function setupHero() {
-  const canvas = $('#dots'), out = $('#consoleOut'), input = $('#consoleIn');
-  const scan = $('#heroPhoto');
-  setTimeout(() => { scan.classList.add('is-done'); $('#scanStatus').textContent = 'profile verified · open to OJT'; }, reduceMotion() ? 0 : 3600);
-
-  // where the name sits, as fractions of the canvas
-  const layout = () => innerWidth <= 760 ? { cx: .5, cy: .5, w: .9, h: .8 }
-    : { cx: .43, cy: .44, w: Math.min(.62, 1 - (330 / innerWidth) - .12), h: .42 };
-  let dots = null;
-  try {
-    if (document.fonts && document.fonts.load) await document.fonts.load('700 100px "Space Grotesk"').catch(() => {});
-    const { initParticles } = await import('./particles.js');
-    dots = initParticles(canvas, layout);
-  } catch (e) { dots = null; }
-  if (!dots) document.documentElement.classList.add('no-webgl');
-  else { dots.setText(NAME); new IntersectionObserver(([e]) => e.isIntersecting ? dots.resume() : dots.pause()).observe($('#home')); }
-
-  const say = (html) => { out.innerHTML = html; };
-  const go = (id) => setTimeout(() => $('#' + id).scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth' }), 500);
-  const commands = {
-    help: () => say('<span class="c-hi">commands:</span> hello · globe · wave · projects · resume · hire · reset · <span class="c-dim">or type any word</span>'),
-    hello: () => { dots?.setText(['HELLO', 'VISITOR']); say('<span class="c-ok">Hi! Thanks for visiting.</span> Type your own name to see it in dots.'); },
-    globe: () => { dots?.setGlobe(); say('<span class="c-ok">rendering globe…</span> <span class="c-dim">because I build for the web.</span>'); },
-    wave: () => { dots?.setWave(); say('<span class="c-ok">rendering data wave…</span> <span class="c-dim">every screen starts with a database.</span>'); },
-    reset: () => { dots?.setText(NAME); say('<span class="c-dim">back to</span> CHER MICOLE P. LIRIO'); },
-    projects: () => { dots?.setText(['4 SYSTEMS']); say('<span class="c-ok">cd ~/projects</span> <span class="c-dim">opening…</span>'); go('work'); },
-    resume: () => { say('<span class="c-ok">open resume.pdf</span>'); setTimeout(() => $('[data-open-resume]').click(), 300); },
-    hire: () => { dots?.setText(['HIRE', 'MICOLE']); say('<span class="c-ok">permission granted.</span> <a href="#contact">Send me a message →</a>'); go('contact'); },
-    photo: () => scan.click(),
-    clear: () => say('')
+/* ---------- Hero: the CML machine ---------- */
+function setupRig() {
+  const stage = $('#stage'), rig = $('#rig'), read = $('#padRead span');
+  const fit = () => { // scale the machine to the stage
+    const s = Math.min(stage.clientWidth / (innerWidth <= 600 ? 640 : innerWidth <= 1050 ? 1180 : 960), stage.clientHeight / (innerWidth <= 600 ? 520 : 600), 1.15);
+    rig.style.setProperty('--s', Math.max(.34, s).toFixed(3));
   };
-  const run = (raw) => {
-    const v = raw.trim(); if (!v) return;
-    const cmd = commands[v.toLowerCase()];
-    if (cmd) { cmd(); return; }
-    const word = v.toUpperCase().replace(/[^A-Z0-9Ñ .,!?'-]/g, '').slice(0, 24);
-    if (!word) { say('<span class="c-dim">Try letters or numbers.</span>'); return; }
-    const parts = word.length > 12 && word.includes(' ') ? [word.slice(0, word.lastIndexOf(' ', 12) > 0 ? word.lastIndexOf(' ', 12) : 12).trim(), word.slice(word.lastIndexOf(' ', 12) > 0 ? word.lastIndexOf(' ', 12) : 12).trim()] : [word];
-    dots?.setText(parts);
-    say(`<span class="c-ok">built "${escapeHtml(word)}" from ${innerWidth < 700 ? '4,500' : '9,000'} dots.</span> <span class="c-dim">Type "reset" to go back.</span>`);
+  new ResizeObserver(fit).observe(stage); fit();
+
+  const build = () => {
+    rig.classList.remove('is-built', 'is-ready', 'is-floating');
+    void rig.offsetWidth;
+    requestAnimationFrame(() => rig.classList.add('is-built'));
+    setTimeout(() => rig.classList.add('is-ready'), reduceMotion() ? 0 : 2500);
+    setTimeout(() => rig.classList.add('is-floating'), reduceMotion() ? 0 : 3200);
   };
-  $('#consoleForm').addEventListener('submit', (e) => { e.preventDefault(); run(input.value); input.value = ''; });
-  $$('.console__chips [data-cmd]').forEach(b => b.addEventListener('click', () => run(b.dataset.cmd)));
+  // start when the hero is on screen (always true on load)
+  setTimeout(build, 150);
+
+  // gentle turn toward the pointer
+  if (matchMedia('(hover: hover)').matches && !reduceMotion()) {
+    stage.addEventListener('pointermove', (e) => {
+      const r = stage.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5;
+      rig.style.setProperty('--rz', (-38 + x * 10).toFixed(1) + 'deg');
+    });
+    stage.addEventListener('pointerleave', () => rig.style.setProperty('--rz', '-38deg'));
+  }
+
+  // modules
+  const wires = $$('.wires path');
+  const wireFor = { projects: 0, certificates: 1, about: 2, resume: 3, contact: 4 };
+  $$('.node[data-go]').forEach((n) => {
+    const go = n.dataset.go, key = go.replace('#', '').replace('work', 'projects');
+    n.addEventListener('mouseenter', () => wires[wireFor[key]]?.classList.add('is-hot'));
+    n.addEventListener('mouseleave', () => wires.forEach(w => w.classList.remove('is-hot')));
+    n.addEventListener('click', () => {
+      if (go === 'replay') { build(); return; }
+      if (go === 'resume') { $('[data-open-resume]').click(); return; }
+      const el = $(go); if (el) el.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth' });
+    });
+  });
+
+  // skills keypad
+  $$('.key').forEach(k => k.addEventListener('click', () => {
+    read.textContent = '> ' + k.querySelector('small').textContent + ': ' + k.dataset.info;
+    k.classList.add('is-down'); setTimeout(() => k.classList.remove('is-down'), 160);
+  }));
 }
 
 /* ---------- Work: vertical scroll moves the track sideways ---------- */
@@ -315,7 +317,7 @@ function setupTop() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  setupHero();
+  setupRig();
   setupWork();
   setupTop();
   setupReveal();
