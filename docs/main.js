@@ -353,6 +353,7 @@ const Views = (() => {
     $('.view__body', v).scrollTop = 0;
     document.body.classList.add('in-view'); $('#home').setAttribute('aria-hidden', 'true');
     current = v; $('[data-back]', v).focus({ preventScroll: true });
+    document.dispatchEvent(new CustomEvent('viewopen', { detail: name }));
   };
 
   const go = async (name, pt, quick) => {
@@ -395,7 +396,47 @@ function openFromHash2() {
   if (h === 'resume') Views.go('resume', null, true);
 }
 
+/* ---------- About: count-up stats + a small terminal ---------- */
+function setupAbout() {
+  const out = $('#termOut'); if (!out) return;
+  const CMD = {
+    whoami: () => [['k', 'Cher Micole P. Lirio'], ['', 'BSIT student @ La Consolacion College Tanauan'], ['d', 'Balele, Tanauan City, Batangas']],
+    stack: () => [['k', 'languages/'], ['', '  HTML  CSS  JavaScript  PHP  MySQL'], ['k', 'tools/'], ['', '  VS Code  Laragon  phpMyAdmin  Git  Figma  Canva']],
+    projects: () => [['', 'intel-sportzle/     sports word game'], ['', 'cml-laundry/        laundry shop system'], ['', 'salrc/              learning resource center'], ['', 'academic-helpdesk/  student ticketing system'], ['d', '4 directories']],
+    certs: () => [...certificates.slice(0, 6).map(c => ['', c.date.padEnd(13) + c.title]), ['d', '... ' + certificates.length + ' certificates in total']],
+    goal: () => [['k', 'Looking for an OJT or internship'], ['', 'where I can gain experience, improve my skills'], ['', 'and contribute to an organization.']],
+  };
+  const LABEL = { whoami: 'whoami', stack: 'ls stack/', projects: 'ls projects/', certs: 'cat certs.log', goal: 'cat goal.txt' };
+  let busy = false;
+  const line = (cls, text) => { const d = document.createElement('div'); if (cls) d.className = cls; d.textContent = text; out.appendChild(d); out.scrollTop = out.scrollHeight; return d; };
+  const run = async (key) => {
+    if (busy) return; busy = true;
+    if (key === 'clear') { out.innerHTML = ''; prompt(); busy = false; return; }
+    const cur = out.querySelector('.cur')?.parentElement; cur?.remove();
+    const pl = line('', ''); pl.innerHTML = '<span class="p">micole@portfolio</span>:~$ <span class="t"></span>';
+    const t = pl.querySelector('.t');
+    for (const ch of LABEL[key]) { t.textContent += ch; if (!reduceMotion()) await new Promise(r => setTimeout(r, 28)); }
+    for (const [c, txt] of CMD[key]()) { line(c, txt); if (!reduceMotion()) await new Promise(r => setTimeout(r, 70)); }
+    line('', ''); prompt(); busy = false;
+  };
+  const prompt = () => { const d = line('', ''); d.innerHTML = '<span class="p">micole@portfolio</span>:~$ <span class="cur"></span>'; };
+  $$('[data-cmd]').forEach(b => b.addEventListener('click', () => run(b.dataset.cmd)));
+  prompt();
+
+  let ran = false;
+  document.addEventListener('viewopen', (e) => {
+    if (e.detail !== 'about') return;
+    $$('.stats [data-count]').forEach(el => {
+      const end = +el.dataset.count, t0 = performance.now();
+      const step = (t) => { const k = Math.min(1, (t - t0) / 1100); el.textContent = Math.round(end * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(step); };
+      reduceMotion() ? (el.textContent = end) : requestAnimationFrame(step);
+    });
+    if (!ran) { ran = true; setTimeout(() => run('whoami'), 500); }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  setupAbout();
   document.documentElement.classList.add('js');
   setupRig();
   setupProjects();

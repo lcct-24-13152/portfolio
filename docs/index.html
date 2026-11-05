@@ -148,21 +148,45 @@
 
   <section class="view" id="view-about" data-title="About" hidden>
     <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/about.md</span></header>
-    <div class="view__body about2">
-      <div>
-        <p class="kicker">About</p><h2>Hi, I'm Micole.</h2>
-        <p class="about2__lead">A motivated and responsible IT student with knowledge in web development, databases and system development.</p>
-        <p class="muted">I communicate well, keep my tasks organized and enjoy solving technical problems. I work well alone or with a team, and I'm always willing to learn. I'm looking for a chance to gain experience, improve my skills and contribute to an organization.</p>
-        <dl class="facts"><div><dt>Course</dt><dd>BS Information Technology</dd></div><div><dt>School</dt><dd>La Consolacion College Tanauan</dd></div><div><dt>Since</dt><dd>2017 to present</dd></div><div><dt>Based in</dt><dd>Balele, Tanauan City, Batangas</dd></div></dl>
+    <div class="view__body view__body--wide about3">
+      <div class="a3-intro">
+        <p class="kicker">About</p>
+        <h2 class="a3-title">Hi, I'm <span class="grad">Micole.</span></h2>
+        <p class="a3-lead">A motivated and responsible IT student with knowledge in web development, databases and system development.</p>
+        <p class="a3-text">I communicate well, keep my tasks organized and enjoy solving technical problems. I work well alone or with a team, and I'm always willing to learn. I'm looking for a chance to gain experience, improve my skills and contribute to an organization.</p>
+        <dl class="facts facts--big"><div><dt>Course</dt><dd>BS Information Technology</dd></div><div><dt>School</dt><dd>La Consolacion College Tanauan</dd></div><div><dt>Since</dt><dd>2017 to present</dd></div><div><dt>Based in</dt><dd>Balele, Tanauan City, Batangas</dd></div></dl>
       </div>
-      <div class="about2__side">
-        <div class="box"><p class="box__k">Skills</p><ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>PHP</li><li>MySQL</li><li>Web development</li><li>Database management</li><li>System testing</li><li>UI/UX design</li></ul>
-          <p class="box__k">Tools</p><ul class="chips"><li>VS Code</li><li>Laragon</li><li>phpMyAdmin</li><li>Git and GitHub</li><li>Figma</li><li>Canva</li></ul>
-          <p class="box__k">How I work</p><ul class="chips"><li>Communication</li><li>Problem-solving</li><li>Teamwork</li><li>Time management</li><li>Adaptability</li></ul></div>
-        <div class="box"><p class="box__k">References</p>
-          <div class="ref"><b>Dr. Salem Laylo</b><span>IT Program Chair, La Consolacion College Tanauan</span><a href="tel:+639178898876">0917 889 8876</a></div>
-          <div class="ref"><b>Ms. Regine Lopez</b><span>SHS Teacher, La Consolacion College Tanauan</span><a href="tel:+639677966337">0967 796 6337</a></div></div>
+
+      <div class="term" aria-label="Interactive terminal">
+        <div class="term__bar"><i></i><i></i><i></i><span>micole@portfolio: ~</span></div>
+        <div class="term__out" id="termOut" aria-live="polite"></div>
+        <div class="term__cmds"><span>try a command:</span>
+          <button type="button" data-cmd="whoami">whoami</button><button type="button" data-cmd="stack">ls stack/</button><button type="button" data-cmd="projects">ls projects/</button><button type="button" data-cmd="certs">cat certs.log</button><button type="button" data-cmd="goal">cat goal.txt</button><button type="button" data-cmd="clear">clear</button>
+        </div>
       </div>
+
+      <ul class="stats">
+        <li><b data-count="4">0</b><span>web systems built end to end</span></li>
+        <li><b data-count="10">0</b><span>certificates earned</span></li>
+        <li><b data-count="5">0</b><span>Cisco networking courses</span></li>
+        <li><b data-count="6">0</b><span>dev tools I use daily</span></li>
+      </ul>
+
+      <div class="box a3-skills"><p class="box__k">Skills</p><ul class="chips chips--big"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>PHP</li><li>MySQL</li><li>Web development</li><li>Database management</li><li>System testing</li><li>UI/UX design</li></ul>
+        <p class="box__k">Tools</p><ul class="chips chips--big"><li>VS Code</li><li>Laragon</li><li>phpMyAdmin</li><li>Git and GitHub</li><li>Figma</li><li>Canva</li></ul>
+        <p class="box__k">How I work</p><ul class="chips chips--big"><li>Communication</li><li>Problem-solving</li><li>Teamwork</li><li>Time management</li><li>Adaptability</li></ul></div>
+
+      <div class="box a3-log"><p class="box__k">2026 log</p>
+        <ol class="tl">
+          <li><time>Aug 2026</time><b>HTML Essentials</b><span>Cisco Networking Academy and JS Institute</span></li>
+          <li><time>Apr 2026</time><b>Network Technician Career Path</b><span>Five Cisco courses, from Networking Basics to Network Support and Security</span></li>
+          <li><time>Mar 2026</time><b>IT Week 2026</b><span>Robotics, business and technology talks, and the BSIT exposure trip</span></li>
+          <li><time>Projects</time><b>4 systems shipped</b><span>Intel Sportzle, CML Laundry, SALRC and the Academic Helpdesk</span></li>
+        </ol></div>
+
+      <div class="box a3-refs"><p class="box__k">References</p>
+        <div class="ref"><b>Dr. Salem Laylo</b><span>IT Program Chair, La Consolacion College Tanauan</span><a href="tel:+639178898876">0917 889 8876</a></div>
+        <div class="ref"><b>Ms. Regine Lopez</b><span>SHS Teacher, La Consolacion College Tanauan</span><a href="tel:+639677966337">0967 796 6337</a></div></div>
     </div>
   </section>
 
