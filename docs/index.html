@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cher Micole P. Lirio</title>
   <meta name="description" content="Portfolio of Cher Micole P. Lirio, BS Information Technology student at La Consolacion College Tanauan. Web systems, certificates and a printable resume.">
-  <meta name="theme-color" content="#161618">
+  <meta name="theme-color" content="#0b1426">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -16,40 +16,38 @@
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
+  <!-- ========== HOME (one screen, no scrolling) ========== -->
+  <main class="home" id="home">
+    <div class="bg" aria-hidden="true"><i class="bg__grid"></i><i class="bg__glow"></i><svg class="bg__traces" viewBox="0 0 1200 800" preserveAspectRatio="none"><path d="M0 120 H260 L300 160 H520"/><path d="M1200 640 H930 L890 600 H700"/><path d="M0 700 H180 L220 660 H380"/><path d="M1200 90 H1010 L970 130 H860"/></svg></div>
 
-  <header class="top">
-    <a href="#home" class="top__brand"><img src="favicon.svg" alt="" width="26" height="26"><span>Cher Micole P. Lirio</span></a>
-    <nav class="top__nav" aria-label="Main">
-      <a href="#work">Work</a><a href="#certificates">Certificates</a><a href="#about">About</a><a href="#resume">Resume</a><a href="#contact" class="top__cta">Contact</a>
-    </nav>
-  </header>
+    <header class="home__top">
+      <span class="logo"><img src="favicon.svg" alt="" width="30" height="30"><b>CML</b><i>portfolio.sys</i></span>
+      <span class="home__status"><i></i>open to OJT and internships</span>
+    </header>
 
-  <!-- ========== HERO: CML machine ========== -->
-  <section class="hero" id="home">
-    <div class="stars" aria-hidden="true"></div>
-    <div class="hero__grid">
-      <div class="hero__copy">
-        <p class="hero__kicker"><span class="dot"></span>BS Information Technology · La Consolacion College Tanauan</p>
-        <h1 class="hero__name">CHER MICOLE<br>P. LIRIO</h1>
-        <p class="hero__tag">I build web systems from the database up to the screen people use.</p>
-        <button type="button" class="idcard" id="heroPhoto" aria-label="View my photo larger">
-          <span class="idcard__img"><img src="profile-photo.jpg" alt="Photo of Cher Micole P. Lirio" width="292" height="277"><i class="idcard__scan"></i></span>
-          <span class="idcard__meta"><b>Cher Micole P. Lirio</b><span>BSIT Student</span><em><i></i>open to OJT</em></span>
-        </button>
-        <p class="hero__help">Click a module on the machine to open it. Press the keys to see my skills.</p>
-      </div>
+    <section class="intro">
+      <p class="intro__k">BS Information Technology · La Consolacion College Tanauan</p>
+      <h1 class="intro__name">CHER MICOLE<br>P. LIRIO</h1>
+      <button type="button" class="portrait" id="heroPhoto" aria-label="View my photo larger">
+        <img src="profile-photo.jpg" alt="Photo of Cher Micole P. Lirio" width="292" height="277">
+        <i class="portrait__scan" aria-hidden="true"></i>
+        <i class="pc tl"></i><i class="pc tr"></i><i class="pc bl"></i><i class="pc br"></i>
+        <span class="portrait__chip">ID verified</span>
+      </button>
+      <p class="intro__desc">Motivated IT student who builds web systems with PHP, MySQL and JavaScript, from the database up to the screen people use. I communicate well, stay organized and love solving technical problems.</p>
+    </section>
 
-      <div class="stage" id="stage" aria-label="Interactive CML machine. Each module opens a section of the portfolio.">
+    <section class="stage" id="stage" aria-label="3D device. Drag to rotate. Click a module to open it.">
         <div class="rig" id="rig">
           <div class="glow" aria-hidden="true"></div>
 
           <div class="slab slab--led" style="--w:520px;--d:400px;--h:64px;--z:0px;--i:0" aria-hidden="true">
-            <i class="f top"></i><i class="f front"></i><i class="f right"></i>
+            <i class="f top"></i><i class="f back"></i><i class="f left"></i><i class="f front"></i><i class="f right"></i>
           </div>
 
           <div class="slab slab--metal" style="--w:500px;--d:380px;--h:44px;--z:64px;--i:1" aria-hidden="true">
             <i class="f top"></i>
-            <i class="f front"><span class="vents"></span><span class="leds"><i></i><i></i><i></i><i></i><i></i></span><span class="jack"></span></i>
+            <i class="f back"></i><i class="f left"></i><i class="f front"><span class="vents"></span><span class="leds"><i></i><i></i><i></i><i></i><i></i></span><span class="jack"></span></i>
             <i class="f right"><span class="brand">CML</span><span class="leds leds--r"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></i>
           </div>
 
@@ -97,117 +95,86 @@
               </div>
               <span class="dots3" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
-            <i class="f front"></i><i class="f right"></i>
+            <i class="f back"></i><i class="f left"></i><i class="f front"></i><i class="f right"></i>
           </div>
 
-          <div class="tag" aria-hidden="true"><span>Building portfolio</span><b>⋮</b></div>
+          <div class="tag" aria-hidden="true"><span>micole.sys</span><b>⋮</b></div>
 
           <div class="slab slab--pad" style="--w:250px;--d:190px;--h:16px;--z:150px;--i:3">
             <div class="f top">
               <div class="pad__read" id="padRead"><span>search skills…</span></div>
               <div class="pad__keys"><button type="button" class="key" data-info="Structure for every page I build" aria-label="HTML: Structure for every page I build"><b></></b><small>HTML</small></button><button type="button" class="key" data-info="Layouts, animations and responsive design" aria-label="CSS: Layouts, animations and responsive design"><b>{ }</b><small>CSS</small></button><button type="button" class="key" data-info="Interactions, modals and this machine" aria-label="JS: Interactions, modals and this machine"><b>JS</b><small>JS</small></button><button type="button" class="key" data-info="The backend of Sportzle, Laundry, SALRC and Helpdesk" aria-label="PHP: The backend of Sportzle, Laundry, SALRC and Helpdesk"><b>php</b><small>PHP</small></button><button type="button" class="key" data-info="MySQL databases behind all four systems" aria-label="SQL: MySQL databases behind all four systems"><b>DB</b><small>SQL</small></button><button type="button" class="key" data-info="Version control, hosted on GitHub" aria-label="Git: Version control, hosted on GitHub"><b>git</b><small>Git</small></button><button type="button" class="key" data-info="UI/UX mockups before coding" aria-label="Figma: UI/UX mockups before coding"><b>✎</b><small>Figma</small></button><button type="button" class="key" data-info="Visual Studio Code, my editor" aria-label="VS: Visual Studio Code, my editor"><b>VS</b><small>VS</small></button><button type="button" class="key" data-info="Laragon local server for PHP projects" aria-label="Lrg: Laragon local server for PHP projects"><b>L</b><small>Lrg</small></button><button type="button" class="key" data-info="phpMyAdmin for managing databases" aria-label="PMA: phpMyAdmin for managing databases"><b>pma</b><small>PMA</small></button><button type="button" class="key" data-info="Clean, easy-to-use screens" aria-label="UX: Clean, easy-to-use screens"><b>UX</b><small>UX</small></button><button type="button" class="key" data-info="System development and testing" aria-label="Test: System development and testing"><b>✓</b><small>Test</small></button></div>
             </div>
-            <i class="f front"></i><i class="f right"></i>
+            <i class="f back"></i><i class="f left"></i><i class="f front"></i><i class="f right"></i>
           </div>
         </div>
-      </div>
-    </div>
-    <a href="#work" class="hero__scroll" aria-label="Scroll down"><span></span></a>
-  </section>
 
-  <main>
-    <!-- ========== WORK: horizontal scroll ========== -->
-    <section class="work" id="work">
-      <div class="work__stick">
-        <div class="work__head">
-          <p class="kicker">Selected work</p>
-          <h2>Four systems,<br>built end to end.</h2>
-          <p class="muted">Keep scrolling to move through them.</p>
-          <p class="work__count"><b id="workNow">01</b> / 04</p>
-        </div>
-        <div class="track" id="track">
-          <article class="slide" data-project-open="sportzle" style="--c1:#0c1a2e;--c2:rgba(32,160,180,.55)">
-            <div class="slide__vis"><img src="assets/sportzle-logo.png" alt="" width="220" height="220"></div>
-            <div class="slide__body"><span class="slide__n">01</span><p class="slide__kind">Educational game</p><h3>Intel Sportzle</h3><p>A sports-themed word game for solo and multiplayer, with scoring, difficulty levels and leaderboards.</p><p class="slide__stack">PHP · MySQL · JavaScript</p><span class="slide__go">View project</span></div>
-          </article>
-          <article class="slide" data-project-open="laundry" style="--c1:#1b1433;--c2:rgba(165,139,245,.55)">
-            <div class="slide__vis slide__vis--shot"><img src="assets/laundry/dashboard.jpg" alt="" loading="lazy"></div>
-            <div class="slide__body"><span class="slide__n">02</span><p class="slide__kind">Management system</p><h3>CML Laundry System</h3><p>Runs a laundry shop from drop-off to payment, with inventory alerts, PDF reports and QR tracking on every receipt.</p><p class="slide__stack">PHP · MySQL · PHPMailer · Dompdf</p><span class="slide__go">View project</span></div>
-          </article>
-          <article class="slide" data-project-open="salrc" style="--c1:#0f1a30;--c2:rgba(245,184,61,.45)">
-            <div class="slide__vis"><img src="assets/salrc-logo.svg" alt="" width="200" height="200"></div>
-            <div class="slide__body"><span class="slide__n">03</span><p class="slide__kind">Library system</p><h3>SALRC</h3><p>The St. Augustine Learning Resource Center online, so students and staff can find books, files and materials in one place.</p><p class="slide__stack">PHP · MySQL · JavaScript</p><span class="slide__go">View project</span></div>
-          </article>
-          <article class="slide" data-project-open="helpdesk" style="--c1:#161028;--c2:rgba(61,220,151,.4)">
-            <div class="slide__vis"><img src="assets/helpdesk-logo.svg" alt="" width="200" height="200"></div>
-            <div class="slide__body"><span class="slide__n">04</span><p class="slide__kind">Ticketing system</p><h3>Academic Helpdesk</h3><p>Students send academic concerns as tickets, and the school tracks each one from open to resolved.</p><p class="slide__stack">PHP · MySQL · JavaScript</p><span class="slide__go">View project</span></div>
-          </article>
-        </div>
       </div>
-    </section>
-
-    <!-- ========== CERTIFICATES ========== -->
-    <section class="sec" id="certificates">
-      <div class="wrap">
-        <div class="sec__head rv"><p class="kicker">Certificates</p><h2><span id="certTotal">10</span> proofs of learning.</h2><p class="muted">Cisco Networking Academy courses, IT Week seminars and school activities. Tap a card to read it.</p></div>
-        <div class="tabs rv" role="tablist" aria-label="Filter certificates">
-          <button class="tab is-active" role="tab" aria-selected="true" data-filter="all">All</button>
-          <button class="tab" role="tab" aria-selected="false" data-filter="Cisco Networking Academy">Cisco</button>
-          <button class="tab" role="tab" aria-selected="false" data-filter="School and events">School and events</button>
-        </div>
-        <div class="cgrid" id="certStrip"></div>
-      </div>
-    </section>
-
-    <!-- ========== ABOUT ========== -->
-    <section class="sec" id="about">
-      <div class="wrap about">
-        <button type="button" class="about__photo rv" id="heroPhoto" aria-label="View my photo larger">
-          <img src="profile-photo.jpg" alt="Cher Micole P. Lirio" width="292" height="277">
-          <span class="about__zoom">Tap to enlarge</span>
-        </button>
-        <div class="about__text rv">
-          <p class="kicker">About</p>
-          <h2>Hi, I'm Micole.</h2>
-          <p class="about__lead">A motivated and responsible IT student with knowledge in web development, databases and system development.</p>
-          <p class="muted">I communicate well, keep my tasks organized and enjoy solving technical problems. I work well alone or with a team, and I'm always willing to learn something new.</p>
-          <dl class="facts">
-            <div><dt>Course</dt><dd>BS Information Technology</dd></div>
-            <div><dt>School</dt><dd>La Consolacion College Tanauan</dd></div>
-            <div><dt>Since</dt><dd>2017 to present</dd></div>
-            <div><dt>Based in</dt><dd>Balele, Tanauan City</dd></div>
-          </dl>
-        </div>
-        <div class="about__side rv">
-          <div class="box"><p class="box__k">Skills</p><ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>PHP</li><li>MySQL</li><li>Web development</li><li>Database management</li><li>System testing</li><li>UI/UX design</li></ul>
-            <p class="box__k">Tools</p><ul class="chips"><li>VS Code</li><li>Laragon</li><li>phpMyAdmin</li><li>Git and GitHub</li><li>Figma</li><li>Canva</li></ul></div>
-          <div class="box"><p class="box__k">References</p>
-            <div class="ref"><b>Dr. Salem Laylo</b><span>IT Program Chair, LCCT</span><a href="tel:+639178898876">0917 889 8876</a></div>
-            <div class="ref"><b>Ms. Regine Lopez</b><span>SHS Teacher, LCCT</span><a href="tel:+639677966337">0967 796 6337</a></div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========== RESUME ========== -->
-    <section class="sec" id="resume">
-      <div class="wrap res rv">
-        <div><p class="kicker">Resume</p><h2>One page.<br>Ready to print.</h2><p class="muted">Education, skills, projects, certificates and references on a single A4 sheet. Printing gives you only the resume.</p><button type="button" class="btn btn--solid" data-open-resume>Preview and print</button></div>
-        <button type="button" class="res__paper" data-open-resume aria-label="Open resume preview"><span class="mini-sheet" id="miniSheet"></span></button>
-      </div>
-    </section>
-
-    <!-- ========== CONTACT ========== -->
-    <section class="sec contact" id="contact">
-      <div class="wrap">
-        <p class="kicker rv">Contact</p>
-        <h2 class="contact__big rv">Let's build<br>something.</h2>
-        <div class="contact__row rv"><a class="contact__mail" href="mailto:liriocher25@gmail.com">liriocher25@gmail.com</a><button type="button" class="btn btn--line" id="copyEmail">Copy email</button></div>
-        <dl class="contact__more rv"><div><dt>Phone</dt><dd><a href="tel:+639764332931">0976 433 2931</a></dd></div><div><dt>Address</dt><dd>Balele, Tanauan City, Batangas</dd></div><div><dt>GitHub</dt><dd><a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">lcct-24-13152</a></dd></div></dl>
-      </div>
+      <p class="stage__hint"><b>Drag</b> to rotate 360° · <b>Click a module</b> to open it</p>
+      <div class="pad-read" id="padReadOut" aria-live="polite"></div>
     </section>
   </main>
 
-  <footer class="foot"><span>© <span id="year"></span> Cher Micole P. Lirio</span><a href="#home">Back to top</a></footer>
+  <!-- ========== PORTAL (transition when a module opens) ========== -->
+  <button type="button" data-open-resume hidden></button>
+  <div class="portal" id="portal" aria-hidden="true"><div class="portal__inner"><p class="portal__cmd" id="portalCmd"></p><div class="portal__bar"><i></i></div></div></div>
+
+  <!-- ========== VIEWS ========== -->
+  <section class="view" id="view-projects" data-title="Projects" hidden>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/projects</span></header>
+    <div class="view__body">
+      <p class="kicker">Projects</p><h2>Four systems, built end to end.</h2>
+      <div class="pgrid">
+        <button type="button" class="pcard" data-project-open="sportzle" style="--c1:#0c1a2e;--c2:rgba(32,160,180,.55);--i:0"><span class="pcard__vis"><img src="assets/sportzle-logo.png" alt="" width="180" height="180"></span><span class="pcard__body"><span class="pcard__kind">01 · Educational game</span><b>Intel Sportzle</b><span>Sports word game for solo and multiplayer, with scoring and leaderboards.</span><em>PHP · MySQL · JavaScript</em></span></button>
+        <button type="button" class="pcard" data-project-open="laundry" style="--c1:#1b1433;--c2:rgba(165,139,245,.55);--i:1"><span class="pcard__vis pcard__vis--shot"><img src="assets/laundry/dashboard.jpg" alt="" loading="lazy"></span><span class="pcard__body"><span class="pcard__kind">02 · Management system</span><b>CML Laundry System</b><span>Laundry shop from drop-off to payment, with inventory alerts and QR tracking.</span><em>PHP · MySQL · PHPMailer · Dompdf</em></span></button>
+        <button type="button" class="pcard" data-project-open="salrc" style="--c1:#0f1a30;--c2:rgba(245,184,61,.45);--i:2"><span class="pcard__vis"><img src="assets/salrc-logo.svg" alt="" width="170" height="170"></span><span class="pcard__body"><span class="pcard__kind">03 · Library system</span><b>SALRC</b><span>St. Augustine Learning Resource Center online: books, files and materials.</span><em>PHP · MySQL · JavaScript</em></span></button>
+        <button type="button" class="pcard" data-project-open="helpdesk" style="--c1:#161028;--c2:rgba(61,220,151,.4);--i:3"><span class="pcard__vis"><img src="assets/helpdesk-logo.svg" alt="" width="170" height="170"></span><span class="pcard__body"><span class="pcard__kind">04 · Ticketing system</span><b>Academic Helpdesk</b><span>Students send concerns as tickets; the school tracks each one to resolved.</span><em>PHP · MySQL · JavaScript</em></span></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-certificates" data-title="Certificates" hidden>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/certificates</span></header>
+    <div class="view__body">
+      <p class="kicker">Certificates</p><h2><span id="certTotal">10</span> proofs of learning.</h2>
+      <div class="tabs" role="tablist" aria-label="Filter certificates">
+        <button class="tab is-active" role="tab" aria-selected="true" data-filter="all">All</button>
+        <button class="tab" role="tab" aria-selected="false" data-filter="Cisco Networking Academy">Cisco</button>
+        <button class="tab" role="tab" aria-selected="false" data-filter="School and events">School and events</button>
+      </div>
+      <div class="cgrid" id="certStrip"></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-about" data-title="About" hidden>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/about.md</span></header>
+    <div class="view__body about2">
+      <div>
+        <p class="kicker">About</p><h2>Hi, I'm Micole.</h2>
+        <p class="about2__lead">A motivated and responsible IT student with knowledge in web development, databases and system development.</p>
+        <p class="muted">I communicate well, keep my tasks organized and enjoy solving technical problems. I work well alone or with a team, and I'm always willing to learn. I'm looking for a chance to gain experience, improve my skills and contribute to an organization.</p>
+        <dl class="facts"><div><dt>Course</dt><dd>BS Information Technology</dd></div><div><dt>School</dt><dd>La Consolacion College Tanauan</dd></div><div><dt>Since</dt><dd>2017 to present</dd></div><div><dt>Based in</dt><dd>Balele, Tanauan City, Batangas</dd></div></dl>
+      </div>
+      <div class="about2__side">
+        <div class="box"><p class="box__k">Skills</p><ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>PHP</li><li>MySQL</li><li>Web development</li><li>Database management</li><li>System testing</li><li>UI/UX design</li></ul>
+          <p class="box__k">Tools</p><ul class="chips"><li>VS Code</li><li>Laragon</li><li>phpMyAdmin</li><li>Git and GitHub</li><li>Figma</li><li>Canva</li></ul>
+          <p class="box__k">How I work</p><ul class="chips"><li>Communication</li><li>Problem-solving</li><li>Teamwork</li><li>Time management</li><li>Adaptability</li></ul></div>
+        <div class="box"><p class="box__k">References</p>
+          <div class="ref"><b>Dr. Salem Laylo</b><span>IT Program Chair, La Consolacion College Tanauan</span><a href="tel:+639178898876">0917 889 8876</a></div>
+          <div class="ref"><b>Ms. Regine Lopez</b><span>SHS Teacher, La Consolacion College Tanauan</span><a href="tel:+639677966337">0967 796 6337</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-contact" data-title="Contact" hidden>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/contact</span></header>
+    <div class="view__body contact2">
+      <p class="kicker">Contact</p>
+      <h2 class="contact2__big">Let's build<br>something.</h2>
+      <div class="contact2__row"><a class="contact2__mail" href="mailto:liriocher25@gmail.com">liriocher25@gmail.com</a><button type="button" class="btn btn--line" id="copyEmail">Copy email</button></div>
+      <dl class="contact2__more"><div><dt>Phone</dt><dd><a href="tel:+639764332931">0976 433 2931</a></dd></div><div><dt>Address</dt><dd>Balele, Tanauan City, Batangas</dd></div><div><dt>GitHub</dt><dd><a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">lcct-24-13152</a></dd></div></dl>
+    </div>
+  </section>
 
   <!-- ========== PROJECT DETAILS (shown in the modal) ========== -->
   <template id="tpl-sportzle">
@@ -422,6 +389,6 @@
 
   <div id="printArea" aria-hidden="true"></div>
 
-  <script type="module" src="main.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>

@@ -234,102 +234,175 @@ function setupReveal() {
 
 
 
-/* ---------- Hero: the CML machine ---------- */
+/* ---------- Home: the CML device (drag to spin 360°) ---------- */
+const Rig = { build() {} };
 function setupRig() {
-  const stage = $('#stage'), rig = $('#rig'), read = $('#padRead span');
-  const fit = () => { // scale the machine to the stage
-    const s = Math.min(stage.clientWidth / (innerWidth <= 600 ? 640 : innerWidth <= 1050 ? 1180 : 960), stage.clientHeight / (innerWidth <= 600 ? 520 : 600), 1.15);
-    rig.style.setProperty('--s', Math.max(.34, s).toFixed(3));
+  const stage = $('#stage'), rig = $('#rig'), read = $('#padRead span'), out = $('#padReadOut');
+  const fit = () => {
+    const phone = innerWidth <= 600, mid = innerWidth <= 1000;
+    const s = Math.min(stage.clientWidth / (phone ? 600 : mid ? 1000 : 860), stage.clientHeight / (phone ? 470 : 560), 1.3);
+    rig.style.setProperty('--s', Math.max(.36, s).toFixed(3));
   };
   new ResizeObserver(fit).observe(stage); fit();
 
   const build = () => {
-    rig.classList.remove('is-built', 'is-ready', 'is-floating');
+    rig.classList.remove('is-built', 'is-ready');
     void rig.offsetWidth;
     requestAnimationFrame(() => rig.classList.add('is-built'));
     setTimeout(() => rig.classList.add('is-ready'), reduceMotion() ? 0 : 2500);
-    setTimeout(() => rig.classList.add('is-floating'), reduceMotion() ? 0 : 3200);
   };
-  // start when the hero is on screen (always true on load)
+  Rig.build = build;
   setTimeout(build, 150);
 
-  // gentle turn toward the pointer
-  if (matchMedia('(hover: hover)').matches && !reduceMotion()) {
-    stage.addEventListener('pointermove', (e) => {
-      const r = stage.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5;
-      rig.style.setProperty('--rz', (-38 + x * 10).toFixed(1) + 'deg');
-    });
-    stage.addEventListener('pointerleave', () => rig.style.setProperty('--rz', '-38deg'));
-  }
+  // rotation state: rz spins freely, rx tilts within limits so the bottom never shows
+  let rz = -38, rx = 56, vz = 0, vx = 0, dragging = false, moved = 0, lastX = 0, lastY = 0, lastT = 0, idleAt = performance.now() + 4000;
+  const apply = () => { rig.style.setProperty('--rz', rz.toFixed(2) + 'deg'); rig.style.setProperty('--rx', rx.toFixed(2) + 'deg'); };
+  const clampX = (v) => Math.max(18, Math.min(82, v));
+  stage.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    dragging = true; moved = 0; lastX = e.clientX; lastY = e.clientY; lastT = performance.now(); vz = vx = 0;
+  });
+  addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY, now = performance.now(), dt = Math.max(1, now - lastT);
+    moved += Math.abs(dx) + Math.abs(dy);
+    if (moved > 6 && !stage.classList.contains('is-dragging')) { stage.classList.add('is-dragging'); try { stage.setPointerCapture(e.pointerId); } catch (_) {} }
+    if (moved <= 6) return;
+    rz -= dx * .45; rx = clampX(rx - dy * .3);
+    vz = -dx * .45 / dt * 16; vx = -dy * .3 / dt * 16;
+    lastX = e.clientX; lastY = e.clientY; lastT = now; apply();
+  });
+  const end = () => {
+    if (!dragging) return;
+    dragging = false; idleAt = performance.now() + 3500;
+    if (stage.classList.contains('is-dragging')) {
+      stage.classList.remove('is-dragging');
+      stage._dragged = true; setTimeout(() => { stage._dragged = false; }, 0);
+    }
+  };
+  addEventListener('pointerup', end); addEventListener('pointercancel', end);
+  // a click that ends a drag must not open a module
+  stage.addEventListener('click', (e) => { if (stage._dragged) { e.stopPropagation(); e.preventDefault(); } }, true);
 
-  // modules
+  const loop = (t) => {
+    if (!dragging) {
+      if (Math.abs(vz) > .01 || Math.abs(vx) > .01) { rz += vz; rx = clampX(rx + vx); vz *= .94; vx *= .94; apply(); }
+      else if (t > idleAt && !reduceMotion() && !document.body.classList.contains('in-view')) { // slow idle sway
+        rz += .06; rx += (56 + Math.sin(t / 2400) * 4 - rx) * .02; apply();
+      }
+    }
+    requestAnimationFrame(loop);
+  };
+  apply(); requestAnimationFrame(loop);
+  window.__spin = (z, x) => { rz = z; if (x) rx = x; vz = vx = 0; idleAt = Infinity; apply(); };
+
+  // hover: light up the wire of a module
   const wires = $$('.wires path');
-  const wireFor = { projects: 0, certificates: 1, about: 2, resume: 3, contact: 4 };
+  const wireFor = { '#work': 0, '#certificates': 1, '#about': 2, resume: 3, '#contact': 4 };
   $$('.node[data-go]').forEach((n) => {
-    const go = n.dataset.go, key = go.replace('#', '').replace('work', 'projects');
-    n.addEventListener('mouseenter', () => wires[wireFor[key]]?.classList.add('is-hot'));
-    n.addEventListener('mouseleave', () => wires.forEach(w => w.classList.remove('is-hot')));
-    n.addEventListener('click', () => {
+    const go = n.dataset.go;
+    n.addEventListener('pointerenter', () => wires[wireFor[go]]?.classList.add('is-hot'));
+    n.addEventListener('pointerleave', () => wires.forEach(w => w.classList.remove('is-hot')));
+    n.addEventListener('click', (e) => {
       if (go === 'replay') { build(); return; }
-      if (go === 'resume') { $('[data-open-resume]').click(); return; }
-      const el = $(go); if (el) el.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth' });
+      const r = n.getBoundingClientRect();
+      const pt = e.clientX || e.clientY ? { x: e.clientX, y: e.clientY } : { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+      Views.go(go === 'resume' ? 'resume' : go.slice(1).replace('work', 'projects'), pt);
     });
   });
 
   // skills keypad
+  let outT;
   $$('.key').forEach(k => k.addEventListener('click', () => {
-    read.textContent = '> ' + k.querySelector('small').textContent + ': ' + k.dataset.info;
+    const msg = '> ' + k.querySelector('small').textContent + ': ' + k.dataset.info;
+    read.textContent = msg; out.textContent = msg; out.classList.add('is-on');
+    clearTimeout(outT); outT = setTimeout(() => out.classList.remove('is-on'), 2600);
     k.classList.add('is-down'); setTimeout(() => k.classList.remove('is-down'), 160);
   }));
 }
 
-/* ---------- Work: vertical scroll moves the track sideways ---------- */
-function setupWork() {
-  const sec = $('#work'), track = $('#track'), now = $('#workNow');
-  const slides = $$('.slide', track);
-  const onScroll = () => {
-    if (innerWidth <= 760) return;
-    const max = sec.offsetHeight - innerHeight;
-    const p = Math.max(0, Math.min(1, -sec.getBoundingClientRect().top / max));
-    const dist = track.scrollWidth - innerWidth + 60;
-    track.style.transform = `translateX(${-p * dist}px)`;
-    now.textContent = '0' + Math.min(slides.length, Math.floor(p * slides.length) + 1);
+/* ---------- Views: open only from the device, with a portal transition ---------- */
+const Views = (() => {
+  const portal = $('#portal'), cmd = $('#portalCmd');
+  const CMDS = { projects: 'cd ~/projects && ls', certificates: 'open ~/certificates', about: 'cat ~/about.md', contact: 'ping cher.lirio', resume: 'print ~/resume.pdf' };
+  let current = null, busy = false;
+
+  const wait = (ms) => new Promise(r => setTimeout(r, reduceMotion() ? 0 : ms));
+  const type = async (text) => {
+    cmd.innerHTML = '<b>micole@portfolio</b>:~$ ';
+    const span = document.createElement('span'); cmd.appendChild(span);
+    if (reduceMotion()) { span.textContent = text; return; }
+    for (const ch of text) { span.textContent += ch; await wait(22); }
   };
-  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onScroll); onScroll();
-}
+  const runPortal = async (name, pt) => {
+    portal.style.setProperty('--px', (pt ? pt.x : innerWidth / 2) + 'px');
+    portal.style.setProperty('--py', (pt ? pt.y : innerHeight / 2) + 'px');
+    portal.classList.remove('is-fade', 'is-open'); void portal.offsetWidth;
+    portal.classList.add('is-open');
+    type(CMDS[name] || name);
+    await wait(1150);
+  };
+  const fadePortal = async () => {
+    portal.classList.add('is-fade');
+    await wait(450);
+    portal.classList.remove('is-open', 'is-fade');
+  };
+  const show = (name) => {
+    const v = $('#view-' + name); if (!v) return;
+    v.hidden = false; v.classList.remove('is-out'); void v.offsetWidth; v.classList.add('is-in');
+    $('.view__body', v).scrollTop = 0;
+    document.body.classList.add('in-view'); $('#home').setAttribute('aria-hidden', 'true');
+    current = v; $('[data-back]', v).focus({ preventScroll: true });
+  };
 
-/* ---------- Certificate cards tilt toward the pointer ---------- */
-function setupTilt() {
-  if (!matchMedia('(hover: hover)').matches || reduceMotion()) return;
-  $('#certStrip').addEventListener('pointermove', (e) => {
-    const card = e.target.closest('.cert'); if (!card) return;
-    const r = card.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-    card.style.transform = `rotateY(${x * 12}deg) rotateX(${-y * 12}deg) translateZ(10px)`;
-  });
-  $('#certStrip').addEventListener('pointerout', (e) => { const c = e.target.closest('.cert'); if (c && !c.contains(e.relatedTarget)) c.style.transform = ''; });
-}
+  const go = async (name, pt, quick) => {
+    if (busy) return; busy = true;
+    if (!quick) await runPortal(name, pt);
+    if (name === 'resume') {
+      $('[data-open-resume]')?.click();
+      if (!quick) await fadePortal();
+    } else {
+      if (current && current.id !== 'view-' + name) { current.hidden = true; current.classList.remove('is-in'); }
+      show(name);
+      history.replaceState(null, '', '#' + name);
+      if (!quick) await fadePortal();
+    }
+    busy = false;
+  };
+  const back = async () => {
+    if (!current || busy) return; busy = true;
+    const v = current; current = null;
+    v.classList.remove('is-in'); v.classList.add('is-out');
+    await wait(340);
+    v.hidden = true; v.classList.remove('is-out');
+    document.body.classList.remove('in-view'); $('#home').removeAttribute('aria-hidden');
+    history.replaceState(null, '', location.pathname + location.search);
+    busy = false;
+  };
+  $$('[data-back]').forEach(b => b.addEventListener('click', back));
+  // Esc closes the open view, but only when no modal is on top
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && current && !Modal.top()) back(); }, true);
+  return { go, back, get current() { return current; } };
+})();
 
-function setupTop() {
-  const top = $('.top');
-  const f = () => top.classList.toggle('is-solid', scrollY > 40);
-  addEventListener('scroll', f, { passive: true }); f();
+function openFromHash2() {
+  const h = location.hash.slice(1);
+  if (!h) return;
+  if (h === 'screens') { Views.go('projects', null, true).then(() => openProject('laundry', true)); return; }
+  if (['sportzle', 'laundry', 'salrc', 'helpdesk'].includes(h)) { Views.go('projects', null, true).then(() => openProject(h)); return; }
+  if (h === 'work') { Views.go('projects', null, true); return; }
+  if (['projects', 'certificates', 'about', 'contact'].includes(h)) Views.go(h, null, true);
+  if (h === 'resume') Views.go('resume', null, true);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  document.documentElement.classList.add('js');
   setupRig();
-  setupWork();
-  setupTop();
-  setupReveal();
   setupProjects();
   Lightbox.init();
   setupCertificates();
-  setupTilt();
   setupResume();
-  setupMiniSheet();
   setupContact();
   $('#heroPhoto').addEventListener('click', () => Modal.open($('#photoModal')));
-  $('#year').textContent = new Date().getFullYear();
-  openFromHash();
-  window.addEventListener('hashchange', openFromHash);
+  openFromHash2();
 });
