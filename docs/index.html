@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="js">
+<html lang="en" class="js" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,23 +11,58 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Unbounded:wght@600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script>try{var t=localStorage.getItem("cml-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
   <!-- ========== HOME (one screen, no scrolling) ========== -->
+  <div class="boot" id="boot" role="dialog" aria-label="Loading screen">
+    <div class="boot__grid" aria-hidden="true"></div>
+    <div class="boot__power" id="bootPower">
+      <span class="boot__logo"><img src="favicon.svg" alt="" width="54" height="54"></span>
+      <p class="boot__k">CML.sys · portfolio v4</p>
+      <p class="boot__title">Cher Micole P. Lirio</p>
+      <button type="button" class="boot__btn" id="bootSound"><span class="boot__ring"></span><span>⏻</span></button>
+      <p class="boot__hint">Press the power button to start <br><small>Sound is on. <button type="button" id="bootMuted">Start muted</button></small></p>
+    </div>
+    <div class="robo" id="robo" aria-hidden="true">
+      <div class="robo__stage">
+        <i class="rp r-ant"><b></b></i>
+        <i class="rp r-head"><span class="r-visor"><b class="r-eye"></b><b class="r-eye"></b></span><span class="r-mouth"></span><span class="r-ear l"></span><span class="r-ear r"></span></i>
+        <i class="rp r-neck"></i>
+        <i class="rp r-body"><span class="r-chest"><b>CML</b></span><span class="r-bolts"></span></i>
+        <i class="rp r-arm l"><span class="r-hand"></span></i>
+        <i class="rp r-arm r"><span class="r-hand"></span></i>
+        <i class="rp r-leg l"><span class="r-foot"></span></i>
+        <i class="rp r-leg r"><span class="r-foot"></span></i>
+        <i class="r-weld"></i>
+        <i class="r-shadow"></i>
+      </div>
+      <p class="robo__log" id="roboLog">&gt; booting…</p>
+      <div class="robo__bar"><i id="roboBar"></i></div>
+      <p class="robo__pct" id="roboPct">0%</p>
+    </div>
+    <button type="button" class="boot__skip" id="bootSkip">Skip intro →</button>
+  </div>
   <main class="home" id="home">
     <div class="bg" aria-hidden="true"><i class="bg__grid"></i><i class="bg__glow"></i><svg class="bg__traces" viewBox="0 0 1200 800" preserveAspectRatio="none"><path d="M0 120 H260 L300 160 H520"/><path d="M1200 640 H930 L890 600 H700"/><path d="M0 700 H180 L220 660 H380"/><path d="M1200 90 H1010 L970 130 H860"/></svg></div>
 
     <header class="home__top">
       <span class="logo"><img src="favicon.svg" alt="" width="30" height="30"><b>CML</b><i>portfolio.sys</i></span>
-      <span class="home__status"><i></i>open to OJT and internships</span>
+      <div class="home__right"><span class="home__status"><i></i>open to OJT and internships</span>
+      <div class="ctrls" role="toolbar" aria-label="Site settings">
+        <a class="ctrl" href="https://www.linkedin.com/in/cher-micole-lirio-094a3a19b" target="_blank" rel="noopener" aria-label="LinkedIn profile" title="LinkedIn"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.7-2.79-1.7 0-1.96 1.33-1.96 2.7V21h-4z"/></svg></a>
+        <button type="button" class="ctrl" data-music aria-pressed="false" aria-label="Music on or off" title="Music"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><i class="eq"><b></b><b></b><b></b></i></button>
+        <button type="button" class="ctrl" data-mute aria-pressed="false" aria-label="Mute or unmute sound" title="Sound"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/><path class="w" d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/><path class="x" d="m16 9 6 6M22 9l-6 6"/></svg></button>
+        <button type="button" class="ctrl" data-theme-toggle aria-label="Switch light or dark mode" title="Light / dark mode"><span class="i-sun"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span><span class="i-moon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span></button>
+      </div></div>
     </header>
 
     <section class="intro">
       <p class="intro__k">BS Information Technology · La Consolacion College Tanauan</p>
-      <h1 class="intro__name">CHER MICOLE<br>P. LIRIO</h1>
+      <h1 class="intro__name"><span>CHER MICOLE</span><span>P. LIRIO</span></h1>
       <button type="button" class="portrait" id="heroPhoto" aria-label="View my photo larger">
         <img src="profile-photo.jpg" alt="Photo of Cher Micole P. Lirio" width="292" height="277">
         <i class="portrait__scan" aria-hidden="true"></i>
@@ -57,40 +92,40 @@
                 <div class="panel__grid" aria-hidden="true"></div>
                 <div class="loader" id="rigLoader" aria-hidden="true"><span class="loader__label">Loading modules</span><span class="loader__bar"><i></i></span></div>
                 <svg class="wires" viewBox="0 0 426 306" aria-hidden="true">
-                  <path d="M213 153 H140 V50" /><path d="M213 153 H286 V50" /><path d="M213 153 H140 V228" /><path d="M213 153 H286 V228" /><path d="M213 188 V238" />
+                  <path d="M213 153 H140 V50" /><path d="M213 153 H286 V50" /><path d="M213 153 H286 V228" /><path d="M213 188 V238" /><path d="M213 153 H140 V228" />
                 </svg>
                 <button type="button" class="node node--core" style="--x:163px;--y:118px;--i:5" data-go="replay" aria-label="Replay the machine animation">
                   <span class="core__logo">CML</span><span class="core__sub">micole.portfolio</span>
                 </button>
-                <button type="button" class="node" style="--x:20px;--y:22px;--i:0" data-go="#work" aria-label="Open Projects">
-                  <span class="node__head"><b>Projects</b><i></i></span>
-                  <span class="node__rows"><span></span><span class="s"></span></span>
-                  <span class="node__sub">4 systems</span>
-                  <i class="port port--l"></i><i class="port port--r"></i>
-                </button>
-                <button type="button" class="node" style="--x:286px;--y:22px;--i:1" data-go="#certificates" aria-label="Open Certificates">
-                  <span class="node__head"><b>Certificates</b><i></i></span>
-                  <span class="node__rows"><span></span><span class="s"></span></span>
-                  <span class="node__sub">10 earned</span>
-                  <i class="port port--l"></i><i class="port port--r"></i>
-                </button>
-                <button type="button" class="node" style="--x:20px;--y:200px;--i:2" data-go="#about" aria-label="Open About">
-                  <span class="node__head"><b>About</b><i></i></span>
+                <button type="button" class="node" style="--x:20px;--y:22px;--i:0" data-go="#about" data-wire="0" aria-label="Open About">
+                  <span class="node__head"><b><em>01</em> About</b><i></i></span>
                   <span class="node__rows"><span></span><span class="s"></span></span>
                   <span class="node__sub">who I am</span>
-                  <i class="port port--l"></i><i class="port port--r"></i>
+                  <span class="port port--l"></span><span class="port port--r"></span>
                 </button>
-                <button type="button" class="node" style="--x:286px;--y:200px;--i:3" data-go="resume" aria-label="Open Resume">
-                  <span class="node__head"><b>Resume</b><i></i></span>
+                <button type="button" class="node" style="--x:286px;--y:22px;--i:1" data-go="#work" data-wire="1" aria-label="Open Projects">
+                  <span class="node__head"><b><em>02</em> Projects</b><i></i></span>
+                  <span class="node__rows"><span></span><span class="s"></span></span>
+                  <span class="node__sub">4 systems</span>
+                  <span class="port port--l"></span><span class="port port--r"></span>
+                </button>
+                <button type="button" class="node" style="--x:286px;--y:200px;--i:2" data-go="#certificates" data-wire="2" aria-label="Open Certificates">
+                  <span class="node__head"><b><em>03</em> Certificates</b><i></i></span>
+                  <span class="node__rows"><span></span><span class="s"></span></span>
+                  <span class="node__sub">10 earned</span>
+                  <span class="port port--l"></span><span class="port port--r"></span>
+                </button>
+                <button type="button" class="node" style="--x:153px;--y:238px;--i:3" data-go="resume" data-wire="3" aria-label="Open Resume">
+                  <span class="node__head"><b><em>04</em> Resume</b><i></i></span>
                   <span class="node__rows"><span></span><span class="s"></span></span>
                   <span class="node__sub">A4 · print</span>
-                  <i class="port port--l"></i><i class="port port--r"></i>
+                  <span class="port port--l"></span><span class="port port--r"></span>
                 </button>
-                <button type="button" class="node" style="--x:153px;--y:238px;--i:4" data-go="#contact" aria-label="Open Contact">
-                  <span class="node__head"><b>Contact</b><i></i></span>
+                <button type="button" class="node" style="--x:20px;--y:200px;--i:4" data-go="#contact" data-wire="4" aria-label="Open Contact">
+                  <span class="node__head"><b><em>05</em> Contact</b><i></i></span>
                   <span class="node__rows"><span></span><span class="s"></span></span>
                   <span class="node__sub">say hello</span>
-                  <i class="port port--l"></i><i class="port port--r"></i>
+                  <span class="port port--l"></span><span class="port port--r"></span>
                 </button>
               </div>
               <span class="dots3" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -110,6 +145,7 @@
         </div>
 
       </div>
+      <div class="dock" id="dock" aria-label="Minimized windows"></div>
       <p class="stage__hint"><b>Drag</b> to rotate 360° · <b>Click a module</b> to open it</p>
       <div class="pad-read" id="padReadOut" aria-live="polite"></div>
     </section>
@@ -120,7 +156,7 @@
 
   <!-- ========== VIEWS ========== -->
   <section class="view" id="view-projects" data-title="Projects" hidden>
-    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/projects</span></header>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/projects</span><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
     <div class="view__body">
       <div class="vhead">
         <div><p class="kicker">Projects</p><h2>Four systems,<br>built end to end.</h2><p class="vhead__sub">Each one has a database, an admin side and a real user flow. Open a card to see the details and screenshots.</p></div>
@@ -173,11 +209,12 @@
           </div>
         </article>
       </div>
+    <nav class="vnext" aria-label="Next section"><span class="vnext__step">02 / 05 · Projects</span><button type="button" class="vnext__go" data-next="certificates">Next: Certificates <span aria-hidden="true">→</span></button></nav>
     </div>
   </section>
 
   <section class="view" id="view-certificates" data-title="Certificates" hidden>
-    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/certificates</span></header>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/certificates</span><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
     <div class="view__body">
       <div class="vhead">
         <div><p class="kicker">Certificates</p><h2><span id="certTotal">10</span> proofs<br>of learning.</h2><p class="vhead__sub">Courses from Cisco Networking Academy, plus school and IT Week events. Tap any certificate to view it full size.</p></div>
@@ -189,11 +226,12 @@
         <button class="tab" role="tab" aria-selected="false" data-filter="School and events">School and events <b data-n="School and events"></b></button>
       </div>
       <div class="cgrid spot" id="certStrip"></div>
+    <nav class="vnext" aria-label="Next section"><span class="vnext__step">03 / 05 · Certificates</span><button type="button" class="vnext__go" data-next="resume">Next: Resume <span aria-hidden="true">→</span></button></nav>
     </div>
   </section>
 
   <section class="view" id="view-about" data-title="About" hidden>
-    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/about.md</span></header>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/about.md</span><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
     <div class="view__body about4">
       <div class="vhead vhead--about">
         <div>
@@ -202,10 +240,34 @@
           <p class="a4-lead">A motivated and responsible IT student with knowledge in web development, databases and system development.</p>
           <p class="vhead__sub">I communicate well, keep my tasks organized and enjoy solving technical problems. I work well alone or with a team, and I'm always willing to learn. I'm looking for a chance to gain experience, improve my skills and contribute to an organization.</p>
         </div>
-        <div class="term" aria-label="Interactive terminal">
-          <div class="term__bar"><i></i><i></i><i></i><span>micole@portfolio: ~</span></div>
-          <div class="term__out" id="termOut" aria-live="polite"></div>
-          <div class="term__cmds"><span>run:</span><button type="button" data-cmd="whoami">whoami</button><button type="button" data-cmd="stack">ls stack/</button><button type="button" data-cmd="projects">ls projects/</button><button type="button" data-cmd="goal">cat goal.txt</button><button type="button" data-cmd="clear">clear</button></div>
+        <div class="badge-zone" id="badgeZone">
+          <div class="swing" id="swing">
+            <div class="strap"><span>CML · DEV · CML · DEV · CML</span></div>
+            <div class="clip"></div>
+            <button type="button" class="badge" id="badge" aria-label="My developer ID card. Click to flip.">
+              <span class="badge__in">
+                <span class="badge__face badge__front">
+                  <span class="badge__hole"></span>
+                  <span class="badge__top"><b>CML</b><em>DEV ID · 2026</em></span>
+                  <span class="badge__photo"><img src="profile-photo.jpg" alt="" width="292" height="277"></span>
+                  <span class="badge__name">Cher Micole<br>P. Lirio</span>
+                  <span class="badge__role">BS Information Technology</span>
+                  <span class="badge__chips"><i>Web dev</i><i>Databases</i><i>UI/UX</i></span>
+                  <span class="badge__bar"></span>
+                </span>
+                <span class="badge__face badge__back">
+                  <span class="badge__hole"></span>
+                  <span class="badge__k">If found, please hire</span>
+                  <span class="badge__row"><small>Focus</small>Web systems with PHP and MySQL</span>
+                  <span class="badge__row"><small>Open to</small>OJT and internships</span>
+                  <span class="badge__row"><small>School</small>La Consolacion College Tanauan</span>
+                  <span class="badge__row"><small>Email</small>liriocher25@gmail.com</span>
+                  <span class="badge__stamp">ACCESS<br>GRANTED</span>
+                </span>
+              </span>
+            </button>
+          </div>
+          <p class="badge-hint">drag the card to swing it · click to flip</p>
         </div>
       </div>
       <dl class="info">
@@ -225,11 +287,12 @@
         <div class="refc"><span class="refc__av">SL</span><div><b>Dr. Salem Laylo</b><span>IT Program Chair, La Consolacion College Tanauan</span><a href="tel:+639178898876">0917 889 8876</a></div></div>
         <div class="refc"><span class="refc__av">RL</span><div><b>Ms. Regine Lopez</b><span>SHS Teacher, La Consolacion College Tanauan</span><a href="tel:+639677966337">0967 796 6337</a></div></div>
       </div>
+    <nav class="vnext" aria-label="Next section"><span class="vnext__step">01 / 05 · About</span><button type="button" class="vnext__go" data-next="projects">Next: Projects <span aria-hidden="true">→</span></button></nav>
     </div>
   </section>
 
   <section class="view" id="view-resume" data-title="Resume" hidden>
-    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/resume.pdf</span></header>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/resume.pdf</span><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
     <div class="view__body resume3">
       <aside class="r3-side">
         <p class="kicker">Resume</p>
@@ -242,11 +305,12 @@
         <ul class="r3-meta"><li><span>Format</span><b>A4, 1 page</b></li><li><span>Sections</span><b>Profile, skills, projects, education, certificates</b></li><li><span>References</span><b>2 contacts</b></li></ul>
       </aside>
       <div class="r3-paper"><div class="r3-printer"><i></i></div><div class="r3-sheet" id="resumePaper"></div></div>
+    <nav class="vnext" aria-label="Next section"><span class="vnext__step">04 / 05 · Resume</span><button type="button" class="vnext__go" data-next="contact">Next: Contact <span aria-hidden="true">→</span></button></nav>
     </div>
   </section>
 
   <section class="view" id="view-contact" data-title="Contact" hidden>
-    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/contact</span></header>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/contact</span><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
     <div class="view__body contact3">
       <div class="c3-left">
         <p class="kicker">Contact</p>
@@ -255,6 +319,7 @@
         <div class="c3-live"><span class="dot"></span><span>Available</span><span class="sep">·</span><span>Tanauan, PH</span><span class="sep">·</span><b id="phTime">--:--</b></div>
         <div class="ccards">
           <div class="ccard"><span class="ccard__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><div><span class="ccard__k">Email</span><a href="mailto:liriocher25@gmail.com">liriocher25@gmail.com</a></div><button type="button" class="ccard__act" id="copyEmail">Copy email</button></div>
+          <div class="ccard"><span class="ccard__ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.7-2.79-1.7 0-1.96 1.33-1.96 2.7V21h-4z"/></svg></span><div><span class="ccard__k">LinkedIn</span><a href="https://www.linkedin.com/in/cher-micole-lirio-094a3a19b" target="_blank" rel="noopener">Cher Micole Lirio</a></div><a class="ccard__act" href="https://www.linkedin.com/in/cher-micole-lirio-094a3a19b" target="_blank" rel="noopener">View ↗</a></div>
           <div class="ccard"><span class="ccard__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span><div><span class="ccard__k">Phone</span><a href="tel:+639764332931">0976 433 2931</a></div><a class="ccard__act" href="tel:+639764332931">Call</a></div>
           <div class="ccard"><span class="ccard__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><span class="ccard__k">Address</span><span>Balele, Tanauan City, Batangas</span></div><a class="ccard__act" href="https://www.google.com/maps/search/?api=1&query=Balele%2C%20Tanauan%20City%2C%20Batangas" target="_blank" rel="noopener">Map ↗</a></div>
           <div class="ccard"><span class="ccard__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg></span><div><span class="ccard__k">GitHub</span><a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">lcct-24-13152</a></div><a class="ccard__act" href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">Open ↗</a></div>
@@ -279,6 +344,7 @@
           <div class="mail__foot"><span class="mail__hint" id="mailHint">Goes straight to my inbox.</span><button type="submit" class="btn btn--solid send"><span>Send message</span><i aria-hidden="true">➤</i></button></div>
         </div>
       </form>
+    <nav class="vnext" aria-label="Next section"><span class="vnext__step">05 / 05 · Contact</span><button type="button" class="vnext__go" data-next="about">Next: About <span aria-hidden="true">→</span></button></nav>
     </div>
   </section>
 
