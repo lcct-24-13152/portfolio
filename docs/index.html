@@ -85,6 +85,7 @@
     </section>
 
     <section class="stage" id="stage" aria-label="3D device. Drag to rotate. Click a module to open it.">
+      <h2 class="sr-only">Interactive 3D device</h2>
         <div class="rig" id="rig">
           <div class="glow" aria-hidden="true"></div>
 
@@ -150,12 +151,12 @@
           <div class="slab slab--pad" style="--w:250px;--d:190px;--h:16px;--z:150px;--i:3">
             <div class="f top">
               <div class="pad__read" id="padRead"><span>search skills…</span></div>
-              <div class="pad__keys"><button type="button" class="key" data-info="Structure for every page I build" aria-label="HTML: Structure for every page I build"><b></></b><small>HTML</small></button><button type="button" class="key" data-info="Layouts, animations and responsive design" aria-label="CSS: Layouts, animations and responsive design"><b>{ }</b><small>CSS</small></button><button type="button" class="key" data-info="Interactions, modals and this machine" aria-label="JS: Interactions, modals and this machine"><b>JS</b><small>JS</small></button><button type="button" class="key" data-info="The backend of Sportzle, Laundry, SALRC and Helpdesk" aria-label="PHP: The backend of Sportzle, Laundry, SALRC and Helpdesk"><b>php</b><small>PHP</small></button><button type="button" class="key" data-info="MySQL databases behind all four systems" aria-label="SQL: MySQL databases behind all four systems"><b>DB</b><small>SQL</small></button><button type="button" class="key" data-info="Version control, hosted on GitHub" aria-label="Git: Version control, hosted on GitHub"><b>git</b><small>Git</small></button><button type="button" class="key" data-info="UI/UX mockups before coding" aria-label="Figma: UI/UX mockups before coding"><b>✎</b><small>Figma</small></button><button type="button" class="key" data-info="Visual Studio Code, my editor" aria-label="VS: Visual Studio Code, my editor"><b>VS</b><small>VS</small></button><button type="button" class="key" data-info="Laragon local server for PHP projects" aria-label="Lrg: Laragon local server for PHP projects"><b>L</b><small>Lrg</small></button><button type="button" class="key" data-info="phpMyAdmin for managing databases" aria-label="PMA: phpMyAdmin for managing databases"><b>pma</b><small>PMA</small></button><button type="button" class="key" data-info="Clean, easy-to-use screens" aria-label="UX: Clean, easy-to-use screens"><b>UX</b><small>UX</small></button><button type="button" class="key" data-info="System development and testing" aria-label="Test: System development and testing"><b>✓</b><small>Test</small></button></div>
+              <div class="pad__keys"><button type="button" class="key" data-info="Structure for every page I build" aria-label="HTML: Structure for every page I build"><b>&lt;/&gt;</b><small>HTML</small></button><button type="button" class="key" data-info="Layouts, animations and responsive design" aria-label="CSS: Layouts, animations and responsive design"><b>{ }</b><small>CSS</small></button><button type="button" class="key" data-info="Interactions, modals and this machine" aria-label="JS: Interactions, modals and this machine"><b>JS</b><small>JS</small></button><button type="button" class="key" data-info="The backend of Sportzle, Laundry, SALRC and Helpdesk" aria-label="PHP: The backend of Sportzle, Laundry, SALRC and Helpdesk"><b>php</b><small>PHP</small></button><button type="button" class="key" data-info="MySQL databases behind all four systems" aria-label="SQL: MySQL databases behind all four systems"><b>DB</b><small>SQL</small></button><button type="button" class="key" data-info="Version control, hosted on GitHub" aria-label="Git: Version control, hosted on GitHub"><b>git</b><small>Git</small></button><button type="button" class="key" data-info="UI/UX mockups before coding" aria-label="Figma: UI/UX mockups before coding"><b>✎</b><small>Figma</small></button><button type="button" class="key" data-info="Visual Studio Code, my editor" aria-label="VS: Visual Studio Code, my editor"><b>VS</b><small>VS</small></button><button type="button" class="key" data-info="Laragon local server for PHP projects" aria-label="Lrg: Laragon local server for PHP projects"><b>L</b><small>Lrg</small></button><button type="button" class="key" data-info="phpMyAdmin for managing databases" aria-label="PMA: phpMyAdmin for managing databases"><b>pma</b><small>PMA</small></button><button type="button" class="key" data-info="Clean, easy-to-use screens" aria-label="UX: Clean, easy-to-use screens"><b>UX</b><small>UX</small></button><button type="button" class="key" data-info="System development and testing" aria-label="Test: System development and testing"><b>✓</b><small>Test</small></button></div>
             </div>
             <i class="f back"></i><i class="f left"></i><i class="f front"></i><i class="f right"></i>
           </div>
         </div>
-      <div class="dock" id="dock" aria-label="Minimized windows"></div>
+      <div class="dock" id="dock" role="group" aria-label="Minimized windows"></div>
       <p class="stage__hint"><b>Drag</b> to rotate 360° · <b>Click a module</b> to open it</p>
       <div class="pad-read" id="padReadOut" aria-live="polite"></div>
     </section>
@@ -266,7 +267,7 @@
                   <span class="badge__name">Cher Micole<br>P. Lirio</span>
                   <span class="badge__role">BS Information Technology</span>
                   <span class="badge__chips"><i>Web dev</i><i>Databases</i><i>UI/UX</i></span>
-                  <span class="badge__code" aria-label="every bug taught me something. while dreaming: learn, build, grow."><i>// every bug taught me something</i><span><b>while</b> (dreaming) {</span><span>&nbsp;&nbsp;learn(); build(); grow();</span><span>}</span></span>
+                  <span class="badge__code"><i>// every bug taught me something</i><span><b>while</b> (dreaming) {</span><span>&nbsp;&nbsp;learn(); build(); grow();</span><span>}</span></span>
                 </span>
                 <span class="badge__face badge__back">
                   <span class="badge__hole"></span>
@@ -571,7 +572,7 @@
         <div><p class="modal__title" id="certTitle"></p><p class="muted small" id="certMeta"></p></div>
         <button type="button" class="modal__x modal__x--inline" data-close aria-label="Close">×</button>
       </header>
-      <div class="cert-view"><img id="certImg" alt="Certificate"></div>
+      <div class="cert-view"><img id="certImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Certificate"></div>
       <footer class="modal__foot">
         <button type="button" class="btn btn--line btn--sm" id="certPrev">Previous</button>
         <span class="muted small" id="certCount"></span>
@@ -584,7 +585,7 @@
     <button class="lb__btn lb__close" id="lbClose" aria-label="Close">×</button>
     <button class="lb__btn lb__prev" id="lbPrev" aria-label="Previous screenshot">‹</button>
     <button class="lb__btn lb__next" id="lbNext" aria-label="Next screenshot">›</button>
-    <figure><img id="lbImg" alt="Project screenshot"><figcaption id="lbCap"></figcaption></figure>
+    <figure><img id="lbImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Project screenshot"><figcaption id="lbCap"></figcaption></figure>
   </div>
 
   <div class="modal" id="photoModal" role="dialog" aria-modal="true" aria-label="Photo of Cher Micole P. Lirio" hidden>
