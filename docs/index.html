@@ -3,16 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cher Micole P. Lirio</title>
+  <title>Cher Micole P. Lirio | BSIT Web Developer Portfolio</title>
   <meta name="description" content="Portfolio of Cher Micole P. Lirio, BS Information Technology student at La Consolacion College Tanauan. Web systems, certificates and a printable resume.">
+  <meta name="author" content="Cher Micole P. Lirio">
+  <meta name="keywords" content="Cher Micole Lirio, BSIT, web developer, portfolio, PHP, MySQL, La Consolacion College Tanauan">
   <meta name="theme-color" content="#0b1426">
+  <link rel="canonical" href="https://lcct-24-13152.github.io/portfolio/">
+  <!-- Link preview card (Messenger, LinkedIn, Facebook) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cher Micole P. Lirio | BSIT Web Developer Portfolio">
+  <meta property="og:description" content="BS Information Technology student building web systems with PHP and MySQL. Projects, certificates, resume and contact.">
+  <meta property="og:url" content="https://lcct-24-13152.github.io/portfolio/">
+  <meta property="og:image" content="https://lcct-24-13152.github.io/portfolio/images/og-card.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Unbounded:wght@600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
   <script>try{var t=localStorage.getItem("cml-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -21,7 +33,7 @@
   <div class="boot" id="boot" role="dialog" aria-label="Loading screen">
     <div class="boot__grid" aria-hidden="true"></div>
     <div class="boot__power" id="bootPower">
-      <span class="boot__logo"><img src="favicon.svg" alt="" width="54" height="54"></span>
+      <span class="boot__logo"><img src="favicon.svg" alt="CML logo" width="54" height="54"></span>
       <p class="boot__k">CML.sys · portfolio v4</p>
       <p class="boot__title">Cher Micole P. Lirio</p>
       <button type="button" class="boot__btn" id="bootSound"><span class="boot__ring"></span><span>⏻</span></button>
@@ -50,7 +62,7 @@
     <div class="bg" aria-hidden="true"><i class="bg__grid"></i><i class="bg__glow"></i><svg class="bg__traces" viewBox="0 0 1200 800" preserveAspectRatio="none"><path d="M0 120 H260 L300 160 H520"/><path d="M1200 640 H930 L890 600 H700"/><path d="M0 700 H180 L220 660 H380"/><path d="M1200 90 H1010 L970 130 H860"/></svg></div>
 
     <header class="home__top">
-      <span class="logo"><img src="favicon.svg" alt="" width="30" height="30"><b>CML</b><i>portfolio.sys</i></span>
+      <span class="logo"><img src="favicon.svg" alt="CML logo" width="30" height="30"><b>CML</b><i>portfolio.sys</i></span>
       <div class="home__right"><span class="home__status"><i></i>open to OJT and internships</span>
       <div class="ctrls" role="toolbar" aria-label="Site settings">
         <a class="ctrl" href="https://www.linkedin.com/in/cher-micole-lirio-094a3a19b" target="_blank" rel="noopener" aria-label="LinkedIn profile" title="LinkedIn"><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.79-1.7-2.79-1.7 0-1.96 1.33-1.96 2.7V21h-4z"/></svg></a>
@@ -64,7 +76,7 @@
       <p class="intro__k">BS Information Technology · La Consolacion College Tanauan</p>
       <h1 class="intro__name"><span>CHER MICOLE</span><span>P. LIRIO</span></h1>
       <button type="button" class="portrait" id="heroPhoto" aria-label="View my photo larger">
-        <img src="profile-photo.jpg" alt="Photo of Cher Micole P. Lirio" width="292" height="277">
+        <img src="images/profile-photo.jpg" alt="Photo of Cher Micole P. Lirio" width="292" height="277">
         <i class="portrait__scan" aria-hidden="true"></i>
         <i class="pc tl"></i><i class="pc tr"></i><i class="pc bl"></i><i class="pc br"></i>
         <span class="portrait__chip">ID verified</span>
@@ -88,7 +100,7 @@
 
           <div class="slab slab--screen" style="--w:470px;--d:350px;--h:14px;--z:108px;--i:2">
             <div class="f top">
-              <div class="panel">
+              <nav class="panel" aria-label="Main sections">
                 <div class="panel__grid" aria-hidden="true"></div>
                 <div class="loader" id="rigLoader" aria-hidden="true"><span class="loader__label">Loading modules</span><span class="loader__bar"><i></i></span></div>
                 <svg class="wires" viewBox="0 0 426 306" aria-hidden="true">
@@ -127,7 +139,7 @@
                   <span class="node__sub">say hello</span>
                   <span class="port port--l"></span><span class="port port--r"></span>
                 </button>
-              </div>
+              </nav>
               <span class="dots3" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
             <i class="f back"></i><i class="f left"></i><i class="f front"></i><i class="f right"></i>
@@ -143,12 +155,11 @@
             <i class="f back"></i><i class="f left"></i><i class="f front"></i><i class="f right"></i>
           </div>
         </div>
-
-      </div>
       <div class="dock" id="dock" aria-label="Minimized windows"></div>
       <p class="stage__hint"><b>Drag</b> to rotate 360° · <b>Click a module</b> to open it</p>
       <div class="pad-read" id="padReadOut" aria-live="polite"></div>
     </section>
+    <footer class="home__foot">© 2026 Cher Micole P. Lirio · BSIT, La Consolacion College Tanauan</footer>
   </main>
 
   <!-- ========== PORTAL (transition when a module opens) ========== -->
@@ -156,7 +167,7 @@
 
   <!-- ========== VIEWS ========== -->
   <section class="view" id="view-projects" data-title="Projects" hidden>
-    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/projects</span><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/projects</span><nav class="vtabs" aria-label="Sections"><button type="button" class="vtab" data-next="about"><em>01</em>About</button><button type="button" class="vtab is-on" data-next="projects" aria-current="page"><em>02</em>Projects</button><button type="button" class="vtab" data-next="certificates"><em>03</em>Certificates</button><button type="button" class="vtab" data-next="resume"><em>04</em>Resume</button><button type="button" class="vtab" data-next="contact"><em>05</em>Contact</button></nav><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
     <div class="view__body">
       <div class="vhead">
         <div><p class="kicker">Projects</p><h2>Four systems,<br>built end to end.</h2><p class="vhead__sub">Each one has a database, an admin side and a real user flow. Open a card to see the details and screenshots.</p></div>
@@ -169,7 +180,7 @@
       </div>
       <div class="pgrid spot">
         <article class="pcard" style="--c1:#0c1a2e;--c2:rgba(32,160,180,.55);--i:0">
-          <div class="pcard__vis"><img src="assets/sportzle-logo.png" alt="" width="180" height="180"><span class="pcard__num">01</span></div>
+          <div class="pcard__vis"><img src="images/sportzle-logo.png" alt="Intel Sportzle logo" width="180" height="180"><span class="pcard__num">01</span></div>
           <div class="pcard__body">
             <span class="pcard__kind">Educational game</span>
             <h3>Intel Sportzle</h3>
@@ -179,7 +190,7 @@
           </div>
         </article>
         <article class="pcard" style="--c1:#1b1433;--c2:rgba(165,139,245,.55);--i:1">
-          <div class="pcard__vis"><img class="shot" src="assets/laundry/dashboard.jpg" alt="" loading="lazy"><span class="pcard__num">02</span></div>
+          <div class="pcard__vis"><img class="shot" src="images/laundry/dashboard.jpg" alt="CML Laundry System dashboard" loading="lazy"><span class="pcard__num">02</span></div>
           <div class="pcard__body">
             <span class="pcard__kind">Management system</span>
             <h3>CML Laundry System</h3>
@@ -189,7 +200,7 @@
           </div>
         </article>
         <article class="pcard" style="--c1:#0f1a30;--c2:rgba(245,184,61,.45);--i:2">
-          <div class="pcard__vis"><img src="assets/salrc-logo.svg" alt="" width="170" height="170"><span class="pcard__num">03</span></div>
+          <div class="pcard__vis"><img src="images/salrc-logo.svg" alt="SALRC logo" width="170" height="170"><span class="pcard__num">03</span></div>
           <div class="pcard__body">
             <span class="pcard__kind">Library system</span>
             <h3>SALRC</h3>
@@ -199,7 +210,7 @@
           </div>
         </article>
         <article class="pcard" style="--c1:#161028;--c2:rgba(61,220,151,.4);--i:3">
-          <div class="pcard__vis"><img src="assets/helpdesk-logo.svg" alt="" width="170" height="170"><span class="pcard__num">04</span></div>
+          <div class="pcard__vis"><img src="images/helpdesk-logo.svg" alt="Academic Helpdesk logo" width="170" height="170"><span class="pcard__num">04</span></div>
           <div class="pcard__body">
             <span class="pcard__kind">Ticketing system</span>
             <h3>Academic Helpdesk</h3>
@@ -211,10 +222,11 @@
       </div>
     <nav class="vnext" aria-label="Next section"><span class="vnext__step">02 / 05 · Projects</span><button type="button" class="vnext__go" data-next="certificates">Next: Certificates <span aria-hidden="true">→</span></button></nav>
     </div>
+    <footer class="vfoot"><p>© 2026 Cher Micole P. Lirio · Built with HTML, CSS and JavaScript · <a href="https://www.linkedin.com/in/cher-micole-lirio-094a3a19b" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">GitHub</a></p></footer>
   </section>
 
   <section class="view" id="view-certificates" data-title="Certificates" hidden>
-    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/certificates</span><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/certificates</span><nav class="vtabs" aria-label="Sections"><button type="button" class="vtab" data-next="about"><em>01</em>About</button><button type="button" class="vtab" data-next="projects"><em>02</em>Projects</button><button type="button" class="vtab is-on" data-next="certificates" aria-current="page"><em>03</em>Certificates</button><button type="button" class="vtab" data-next="resume"><em>04</em>Resume</button><button type="button" class="vtab" data-next="contact"><em>05</em>Contact</button></nav><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
     <div class="view__body">
       <div class="vhead">
         <div><p class="kicker">Certificates</p><h2><span id="certTotal">10</span> proofs<br>of learning.</h2><p class="vhead__sub">Courses from Cisco Networking Academy, plus school and IT Week events. Tap any certificate to view it full size.</p></div>
@@ -228,10 +240,11 @@
       <div class="cgrid spot" id="certStrip"></div>
     <nav class="vnext" aria-label="Next section"><span class="vnext__step">03 / 05 · Certificates</span><button type="button" class="vnext__go" data-next="resume">Next: Resume <span aria-hidden="true">→</span></button></nav>
     </div>
+    <footer class="vfoot"><p>© 2026 Cher Micole P. Lirio · Built with HTML, CSS and JavaScript · <a href="https://www.linkedin.com/in/cher-micole-lirio-094a3a19b" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">GitHub</a></p></footer>
   </section>
 
   <section class="view" id="view-about" data-title="About" hidden>
-    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/about.md</span><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/about.md</span><nav class="vtabs" aria-label="Sections"><button type="button" class="vtab is-on" data-next="about" aria-current="page"><em>01</em>About</button><button type="button" class="vtab" data-next="projects"><em>02</em>Projects</button><button type="button" class="vtab" data-next="certificates"><em>03</em>Certificates</button><button type="button" class="vtab" data-next="resume"><em>04</em>Resume</button><button type="button" class="vtab" data-next="contact"><em>05</em>Contact</button></nav><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
     <div class="view__body about4">
       <div class="vhead vhead--about">
         <div>
@@ -249,7 +262,7 @@
                 <span class="badge__face badge__front">
                   <span class="badge__hole"></span>
                   <span class="badge__top"><b>CML</b><em>DEV ID · 2026</em></span>
-                  <span class="badge__photo"><img src="profile-photo.jpg" alt="" width="292" height="277"></span>
+                  <span class="badge__photo"><img src="images/profile-photo.jpg" alt="ID photo of Cher Micole P. Lirio" width="292" height="277"></span>
                   <span class="badge__name">Cher Micole<br>P. Lirio</span>
                   <span class="badge__role">BS Information Technology</span>
                   <span class="badge__chips"><i>Web dev</i><i>Databases</i><i>UI/UX</i></span>
@@ -276,7 +289,22 @@
         <div><dt>Since</dt><dd>2017 to present</dd></div>
         <div><dt>Based in</dt><dd>Balele, Tanauan City, Batangas</dd></div>
       </dl>
-      <div class="sec-k">What I work with</div>
+      <h3 class="sec-k" id="education">Education and experience</h3>
+      <div class="table-wrap">
+        <table class="edu">
+          <caption class="sr-only">Education, projects and training of Cher Micole P. Lirio</caption>
+          <thead><tr><th scope="col">Type</th><th scope="col">Details</th><th scope="col">Where</th><th scope="col">When</th></tr></thead>
+          <tbody>
+            <tr><td><span class="edu__tag">Education</span></td><td><b>Bachelor of Science in Information Technology</b></td><td>La Consolacion College Tanauan</td><td>2017 to present</td></tr>
+            <tr><td><span class="edu__tag edu__tag--proj">Project</span></td><td><b>Intel Sportzle Educational Game System</b><span>Solo and multiplayer modes, scoring, leaderboards</span></td><td>School project</td><td><a href="https://intelsportzle.infinityfreeapp.com/?i=1" target="_blank" rel="noopener">View live site</a></td></tr>
+            <tr><td><span class="edu__tag edu__tag--proj">Project</span></td><td><b>CML Laundry Management System</b><span>Orders, payments, inventory alerts, QR tracking</span></td><td>School project</td><td><a href="https://github.com/lcct-24-13152/laundry-system" target="_blank" rel="noopener">View source code</a></td></tr>
+            <tr><td><span class="edu__tag edu__tag--proj">Project</span></td><td><b>St. Augustine Learning Resource Center (SALRC)</b><span>Online library of books, files and materials</span></td><td>School project</td><td><a href="https://salrc-lcctanauan.infinityfree.io/" target="_blank" rel="noopener">View live site</a></td></tr>
+            <tr><td><span class="edu__tag edu__tag--proj">Project</span></td><td><b>LCCT Academic Helpdesk</b><span>Student concern tickets tracked until resolved</span></td><td>School project</td><td><a href="https://lcct-academic-helpdesk.infinityfree.io/?i=1" target="_blank" rel="noopener">View live site</a></td></tr>
+            <tr><td><span class="edu__tag edu__tag--train">Training</span></td><td><b>Cisco Networking Academy courses</b><span>Network Technician Career Path and HTML Essentials</span></td><td>Cisco Networking Academy</td><td>2026</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="sec-k" id="skills">Skills and tools</h3>
       <div class="skillset" id="skillset">
         <div class="trio" id="skillGroups"></div>
         <div class="inspect" id="inspect" aria-live="polite">
@@ -287,17 +315,18 @@
         </div>
         <p class="skill-hint">Tap any skill to see where I used it</p>
       </div>
-      <div class="sec-k">References</div>
+      <h3 class="sec-k">References</h3>
       <div class="refs">
         <div class="refc"><span class="refc__av">SL</span><div><b>Dr. Salem Laylo</b><span>IT Program Chair, La Consolacion College Tanauan</span><a href="tel:+639178898876">0917 889 8876</a></div></div>
         <div class="refc"><span class="refc__av">RL</span><div><b>Ms. Regine Lopez</b><span>SHS Teacher, La Consolacion College Tanauan</span><a href="tel:+639677966337">0967 796 6337</a></div></div>
       </div>
     <nav class="vnext" aria-label="Next section"><span class="vnext__step">01 / 05 · About</span><button type="button" class="vnext__go" data-next="projects">Next: Projects <span aria-hidden="true">→</span></button></nav>
     </div>
+    <footer class="vfoot"><p>© 2026 Cher Micole P. Lirio · Built with HTML, CSS and JavaScript · <a href="https://www.linkedin.com/in/cher-micole-lirio-094a3a19b" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">GitHub</a></p></footer>
   </section>
 
   <section class="view" id="view-resume" data-title="Resume" hidden>
-    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/resume.pdf</span><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/resume.pdf</span><nav class="vtabs" aria-label="Sections"><button type="button" class="vtab" data-next="about"><em>01</em>About</button><button type="button" class="vtab" data-next="projects"><em>02</em>Projects</button><button type="button" class="vtab" data-next="certificates"><em>03</em>Certificates</button><button type="button" class="vtab is-on" data-next="resume" aria-current="page"><em>04</em>Resume</button><button type="button" class="vtab" data-next="contact"><em>05</em>Contact</button></nav><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
     <div class="view__body resume3">
       <aside class="r3-side">
         <p class="kicker">Resume</p>
@@ -312,10 +341,11 @@
       <div class="r3-paper"><div class="r3-printer"><i></i></div><div class="r3-sheet" id="resumePaper"></div></div>
     <nav class="vnext" aria-label="Next section"><span class="vnext__step">04 / 05 · Resume</span><button type="button" class="vnext__go" data-next="contact">Next: Contact <span aria-hidden="true">→</span></button></nav>
     </div>
+    <footer class="vfoot"><p>© 2026 Cher Micole P. Lirio · Built with HTML, CSS and JavaScript · <a href="https://www.linkedin.com/in/cher-micole-lirio-094a3a19b" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">GitHub</a></p></footer>
   </section>
 
   <section class="view" id="view-contact" data-title="Contact" hidden>
-    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/contact</span><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
+    <header class="view__bar"><button type="button" class="back" data-back>← Back to device</button><span class="view__path">~/contact</span><nav class="vtabs" aria-label="Sections"><button type="button" class="vtab" data-next="about"><em>01</em>About</button><button type="button" class="vtab" data-next="projects"><em>02</em>Projects</button><button type="button" class="vtab" data-next="certificates"><em>03</em>Certificates</button><button type="button" class="vtab" data-next="resume"><em>04</em>Resume</button><button type="button" class="vtab is-on" data-next="contact" aria-current="page"><em>05</em>Contact</button></nav><div class="win"><button type="button" class="win__b win__min" data-min aria-label="Minimize window" title="Minimize"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><button type="button" class="win__b win__max" data-max aria-label="Maximize window" title="Maximize"><span class="i-max"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg></span><span class="i-res"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="8" width="12" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-3"/></svg></span></button><button type="button" class="win__b win__x" data-back aria-label="Close window" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div></header>
     <div class="view__body contact3">
       <div class="c3-left">
         <p class="kicker">Contact</p>
@@ -351,11 +381,12 @@
       </form>
     <nav class="vnext" aria-label="Next section"><span class="vnext__step">05 / 05 · Contact</span><button type="button" class="vnext__go" data-next="about">Next: About <span aria-hidden="true">→</span></button></nav>
     </div>
+    <footer class="vfoot"><p>© 2026 Cher Micole P. Lirio · Built with HTML, CSS and JavaScript · <a href="https://www.linkedin.com/in/cher-micole-lirio-094a3a19b" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/lcct-24-13152" target="_blank" rel="noopener">GitHub</a></p></footer>
   </section>
 
   <!-- ========== PROJECT DETAILS (shown in the modal) ========== -->
   <template id="tpl-sportzle">
-    <div class="pd__hero pd--sportzle"><img src="assets/sportzle-logo.png" alt="Intel Sportzle logo" width="180" height="180"></div>
+    <div class="pd__hero pd--sportzle"><img src="images/sportzle-logo.png" alt="Intel Sportzle logo" width="180" height="180"></div>
     <div class="pd__body">
       <p class="label">Educational game system</p>
       <h2>Intel Sportzle</h2>
@@ -367,7 +398,7 @@
   </template>
 
   <template id="tpl-laundry">
-    <div class="pd__hero pd--laundry"><img class="pd__shot" src="assets/laundry/dashboard.jpg" alt="CML Laundry dashboard"><a class="qr-chip" href="#screens" data-jump-screens><img src="assets/laundry-qr.svg" alt="" width="52" height="52"><span>Scan or tap to<br>see all screens</span></a></div>
+    <div class="pd__hero pd--laundry"><img class="pd__shot" src="images/laundry/dashboard.jpg" alt="CML Laundry dashboard"><a class="qr-chip" href="#screens" data-jump-screens><img src="images/laundry-qr.svg" alt="" width="52" height="52"><span>Scan or tap to<br>see all screens</span></a></div>
     <div class="pd__body">
       <p class="label">Management system</p>
       <h2>CML Laundry Management System</h2>
@@ -380,7 +411,7 @@
   </template>
 
   <template id="tpl-salrc">
-    <div class="pd__hero pd--salrc"><img src="assets/salrc-logo.svg" alt="SALRC logo" width="170" height="170"></div>
+    <div class="pd__hero pd--salrc"><img src="images/salrc-logo.svg" alt="SALRC logo" width="170" height="170"></div>
     <div class="pd__body">
       <p class="label">Library resource system</p>
       <h2>SALRC: St. Augustine Learning Resource Center</h2>
@@ -392,7 +423,7 @@
   </template>
 
   <template id="tpl-helpdesk">
-    <div class="pd__hero pd--helpdesk"><img src="assets/helpdesk-logo.svg" alt="LCCT Academic Helpdesk logo" width="170" height="170"></div>
+    <div class="pd__hero pd--helpdesk"><img src="images/helpdesk-logo.svg" alt="LCCT Academic Helpdesk logo" width="170" height="170"></div>
     <div class="pd__body">
       <p class="label">Ticketing system</p>
       <h2>LCCT Academic Helpdesk</h2>
@@ -423,9 +454,9 @@
       <div class="pdf" id="pdfView">
         <article class="sheet" id="resumeSheet">
         <header class="sheet__head">
-          <img class="sheet__photo" src="profile-photo.jpg" alt="Cher Micole P. Lirio">
+          <img class="sheet__photo" src="images/profile-photo.jpg" alt="Cher Micole P. Lirio">
           <div>
-            <h1 class="sheet__name">Cher Micole Plete Lirio</h1>
+            <h2 class="sheet__name">Cher Micole Plete Lirio</h2>
             <p class="sheet__title">BS Information Technology Student</p>
             <p class="sheet__contact">
               <span>0976 433 2931</span><span>liriocher25@gmail.com</span><span>Balele, Tanauan City, Batangas</span>
@@ -540,7 +571,7 @@
         <div><p class="modal__title" id="certTitle"></p><p class="muted small" id="certMeta"></p></div>
         <button type="button" class="modal__x modal__x--inline" data-close aria-label="Close">×</button>
       </header>
-      <div class="cert-view"><img id="certImg" alt=""></div>
+      <div class="cert-view"><img id="certImg" alt="Certificate"></div>
       <footer class="modal__foot">
         <button type="button" class="btn btn--line btn--sm" id="certPrev">Previous</button>
         <span class="muted small" id="certCount"></span>
@@ -553,19 +584,23 @@
     <button class="lb__btn lb__close" id="lbClose" aria-label="Close">×</button>
     <button class="lb__btn lb__prev" id="lbPrev" aria-label="Previous screenshot">‹</button>
     <button class="lb__btn lb__next" id="lbNext" aria-label="Next screenshot">›</button>
-    <figure><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure>
+    <figure><img id="lbImg" alt="Project screenshot"><figcaption id="lbCap"></figcaption></figure>
   </div>
 
   <div class="modal" id="photoModal" role="dialog" aria-modal="true" aria-label="Photo of Cher Micole P. Lirio" hidden>
     <figure class="photo-view">
       <button type="button" class="modal__x" data-close aria-label="Close">×</button>
-      <img src="profile-photo.jpg" alt="Cher Micole P. Lirio">
+      <img src="images/profile-photo.jpg" alt="Cher Micole P. Lirio">
       <figcaption><b>Cher Micole P. Lirio</b><span>BS Information Technology, La Consolacion College Tanauan</span></figcaption>
     </figure>
   </div>
 
   <div id="printArea" aria-hidden="true"></div>
 
-  <script src="main.js"></script>
+  <!-- Scripts, in load order -->
+  <script src="js/data.js"></script>
+  <script src="js/home.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/skills.js"></script>
 </body>
 </html>

@@ -1,3 +1,6 @@
+/* ==========================================================
+   data.js — content data (projects, certificates) and shared UI helpers: modal, lightbox, project details, certificates, resume printing
+   ========================================================== */
 /* Cher Micole P. Lirio — page logic */
 const LAUNDRY_SHOTS = [
   { name: 'login',       caption: 'Admin login' },
@@ -8,9 +11,9 @@ const LAUNDRY_SHOTS = [
   { name: 'supplies',    caption: 'Supplies with low and critical stock alerts' },
   { name: 'types',       caption: 'Laundry types and pricing per load' },
   { name: 'loyalty',     caption: 'Loyalty discounts and customer points' }
-].map(s => ({ ...s, file: `assets/laundry/${s.name}.jpg`, thumb: `assets/laundry/${s.name}-thumb.jpg` }));
+].map(s => ({ ...s, file: `images/laundry/${s.name}.jpg`, thumb: `images/laundry/${s.name}-thumb.jpg` }));
 
-const CERT_PATH = 'assets/certificates/';
+const CERT_PATH = 'images/certificates/';
 
 const certificates = [
   { group: 'Cisco Networking Academy', title: 'HTML Essentials', issuer: 'DICT-ITU DTC Initiative through Cisco Networking Academy', date: 'Aug 11, 2026', image: 'html-essentials-certificate.jpg', thumb: 'html-essentials-certificate-thumb.jpg' },
@@ -65,33 +68,6 @@ function swipe(el, fn) {
     const dx = e.changedTouches[0].clientX - x0; x0 = null;
     if (Math.abs(dx) > 50) fn(dx < 0 ? 1 : -1);
   });
-}
-
-function setupThemeUnused() {
-  $('#themeToggle').addEventListener('click', () => {
-    const root = document.documentElement;
-    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('theme', next); } catch (e) {}
-  });
-}
-
-/* ---------- Clock + role typer ---------- */
-function setupClock() {
-  const el = $('#clock');
-  const tick = () => { el.textContent = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Manila' }) + ' PHT'; };
-  tick(); setInterval(tick, 15000);
-}
-function setupRole() {
-  const el = $('#roleText');
-  if (!el || reduceMotion()) return;
-  const roles = ['Web Developer', 'System Developer', 'Database Designer', 'UI/UX Enthusiast', 'Future IT Professional'];
-  let r = 0, i = roles[0].length, del = true;
-  const tick = () => {
-    if (del) { i--; el.textContent = roles[r].slice(0, i); if (i === 0) { del = false; r = (r + 1) % roles.length; } setTimeout(tick, 45); }
-    else { i++; el.textContent = roles[r].slice(0, i); if (i === roles[r].length) { del = true; setTimeout(tick, 1900); return; } setTimeout(tick, 85); }
-  };
-  setTimeout(tick, 2200);
 }
 
 /* ---------- Projects ---------- */
@@ -186,12 +162,6 @@ function setupContact() {
   });
 }
 
-/* ---------- Links like #screens (QR code) and #resume ---------- */
-function openFromHash() {
-  const h = location.hash.slice(1);
-  if (h === 'screens') openProject('laundry', true);
-  else if (['sportzle', 'laundry', 'salrc', 'helpdesk'].includes(h)) openProject(h);
-}
 
 
 /* ---------- Certificates grid + viewer ---------- */
@@ -204,7 +174,7 @@ function setupCertificates() {
     grid.innerHTML = list.map((c, i) => `
       <button type="button" class="cert" data-cert="${certificates.indexOf(c)}" style="animation-delay:${i * 45}ms">
         <span class="cert__img"><img src="${CERT_PATH + c.thumb}" alt="" loading="lazy"></span>
-        <span class="cert__body"><span class="cert__date">${escapeHtml(c.date)}</span><span class="cert__title">${escapeHtml(c.title)}</span><span class="cert__issuer">${escapeHtml(c.issuer)}</span></span>
+        <span class="cert__body"><span class="cert__date">${escapeHtml(c.date)}</span><span class="cert__title">${escapeHtml(c.title)}</span><span class="cert__issuer">${escapeHtml(c.issuer)}</span><span class="cert__tag${c.group === 'School and events' ? ' cert__tag--school' : ''}">${c.group === 'School and events' ? 'School event' : 'Cisco'}</span></span>
       </button>`).join('');
   };
   render();
@@ -239,57 +209,6 @@ function setupCertificates() {
   swipe(modal, d => show(cur + d));
 }
 
-/* ---------- Mini resume preview in the Resume section ---------- */
-function setupMiniSheet() {
-  const holder = $('#miniSheet'), sheet = $('#resumeSheet');
-  const copy = sheet.cloneNode(true);
-  copy.removeAttribute('id'); copy.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
-  copy.setAttribute('aria-hidden', 'true');
-  holder.appendChild(copy);
-  const fit = () => { copy.style.transform = `scale(${holder.clientWidth / 793.7})`; };
-  new ResizeObserver(fit).observe(holder); fit();
-}
-
-/* ---------- Sidebar nav: highlight the section in view ---------- */
-function setupNav() {
-  const links = $$('.profile__nav a');
-  const secs = links.map(a => $(a.getAttribute('href')));
-  const onScroll = () => {
-    let cur = secs[0] && secs[0].id;
-    secs.forEach(s => { if (s && scrollY + 160 >= s.offsetTop) cur = s.id; });
-    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) cur = 'contact';
-    links.forEach(a => a.classList.toggle('is-active', a.getAttribute('href') === '#' + cur));
-  };
-  addEventListener('scroll', onScroll, { passive: true }); onScroll();
-}
-
-/* ---------- Skill bars fill when visible ---------- */
-function setupBars() {
-  const box = $('.bars'); if (!box) return;
-  if (!('IntersectionObserver' in window)) { box.classList.add('is-in'); return; }
-  new IntersectionObserver(([e], o) => { if (e.isIntersecting) { box.classList.add('is-in'); o.disconnect(); } }, { threshold: .4 }).observe(box);
-}
-
-/* ---------- Reveal on scroll ---------- */
-function setupReveal() {
-  const els = $$('.rv');
-  if (reduceMotion() || !('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('is-in')); return; }
-  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }), { threshold: .15 });
-  els.forEach(e => io.observe(e));
-}
 
 
-document.addEventListener('DOMContentLoaded', () => {
-  setupNav();
-  setupBars();
-  setupReveal();
-  setupProjects();
-  Lightbox.init();
-  setupCertificates();
-  setupResume();
-  setupContact();
-  $('#heroPhoto').addEventListener('click', () => Modal.open($('#photoModal')));
-  $('#year').textContent = new Date().getFullYear();
-  openFromHash();
-  window.addEventListener('hashchange', openFromHash);
-});
+
