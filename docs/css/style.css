@@ -4617,38 +4617,6 @@ h3.sec-k {
   font-weight: 400;
 }
 
-.edu__tag {
-  display: inline-block;
-  padding: .2rem .6rem;
-  border-radius: 6px;
-  font-family: var(--mono);
-  font-size: .72rem;
-  background: rgba(52,211,153,.14);
-  color: #6ee7b7;
-}
-
-.edu__tag--proj {
-  background: rgba(34,211,238,.12);
-  color: #67e8f9;
-}
-
-.edu__tag--train {
-  background: rgba(167,139,250,.15);
-  color: #c4b5fd;
-}
-
-[data-theme="light"] .edu__tag {
-  color: #047857;
-}
-
-[data-theme="light"] .edu__tag--proj {
-  color: #0e7490;
-}
-
-[data-theme="light"] .edu__tag--train {
-  color: #6d28d9;
-}
-
 .vfoot {
   flex: none;
   padding: .55rem clamp(20px, 4vw, 64px);
