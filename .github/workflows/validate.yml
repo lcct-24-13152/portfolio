@@ -1,0 +1,20 @@
+name: Validate HTML and CSS
+on:
+  push:
+    paths: ['docs/**', '.github/workflows/validate.yml']
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - name: Nu HTML Checker (HTML + CSS)
+        run: |
+          npm i -g vnu-jar@24.10.17
+          VNU=$(npm root -g)/vnu-jar/build/dist/vnu.jar
+          java -jar "$VNU" --format gnu --also-check-css docs/index.html docs/css/style.css 2> report.txt || true
+          cat report.txt
+          while IFS= read -r line; do echo "::warning::$line"; done < report.txt
+          echo "issues=$(wc -l < report.txt)"
