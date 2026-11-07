@@ -3421,6 +3421,10 @@ body.in-view .home {
 
 .boot__btn {
   position: relative;
+  padding: 0;
+  margin: 0 auto;
+  -webkit-appearance: none;
+  appearance: none;
   width: 104px;
   height: 104px;
   border-radius: 50%;
@@ -3432,6 +3436,12 @@ body.in-view .home {
   place-items: center;
   box-shadow: 0 0 40px rgba(34,211,238,.45), inset 0 0 20px rgba(34,211,238,.3);
   transition: transform .2s, box-shadow .2s;
+}
+
+.boot__icon {
+  display: block;
+  grid-area: 1 / 1;
+  filter: drop-shadow(0 0 8px rgba(34,211,238,.7));
 }
 
 .boot__btn:hover {
